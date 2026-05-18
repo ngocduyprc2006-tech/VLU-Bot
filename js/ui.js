@@ -53,9 +53,33 @@ function handleAction(text, mode = 'default') {
 function initSidebar() {
     const sidebar = document.querySelector('aside');
     const toggle = get('toggleSidebar');
-    if (toggle && sidebar) {
-        toggle.onclick = () => sidebar.classList.toggle('closed');
+
+    // Tạo thêm lớp nền mờ (Overlay) cho Mobile nếu chưa có
+    let overlay = document.querySelector('.sidebar-overlay');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.className = 'sidebar-overlay';
+        document.body.appendChild(overlay);
     }
+
+    if (toggle && sidebar) {
+        toggle.onclick = (e) => {
+            e.stopPropagation();
+            // Chạy song song cả cơ chế co giãn trên Desktop lẫn cơ chế trượt active trên Mobile
+            sidebar.classList.toggle('closed');
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        };
+    }
+
+    // Click vào vùng nền mờ thì tự đóng khép Sidebar lại trên điện thoại
+    overlay.onclick = () => {
+        if (sidebar) {
+            sidebar.classList.remove('active');
+            sidebar.classList.add('closed');
+        }
+        overlay.classList.remove('active');
+    };
 
     const featureMap = {
         'btn-roadmap': { m: 'roadmap', t: 'Lộ trình học tập' },
@@ -70,6 +94,14 @@ function initSidebar() {
             const btn = e.target.closest('button');
             if (btn && featureMap[btn.id]) {
                 handleAction(featureMap[btn.id].t, featureMap[btn.id].m);
+                // Đóng Sidebar luôn sau khi bấm chọn tính năng trên Mobile
+                if (window.innerWidth <= 768) {
+                    if (sidebar) {
+                        sidebar.classList.remove('active');
+                        sidebar.classList.add('closed');
+                    }
+                    overlay.classList.remove('active');
+                }
             }
         };
     }

@@ -1707,3 +1707,99 @@ body.dark-mode .bot-message .content i {
     color: #dc3545;
     /* Rê chuột vào chữ Đăng xuất sẽ đổi sang màu đỏ kèm nền hồng nhẹ */
 }
+
+
+/* ==========================================================================
+   Mã CSS RESPONSIVE CHO GIAO DIỆN MOBILE (CHATGPT & GEMINI STYLE)
+   ========================================================================== */
+
+@media screen and (max-width: 768px) {
+    /* 1. Ép container chính chia lại không gian */
+    .gemini-container {
+        position: relative;
+        overflow: hidden;
+        display: block;
+        /* Chuyển từ flex sang block để dễ quản lý */
+        height: 100vh;
+    }
+    /* 2. Ẩn Sidebar sang bên trái màn hình mặc định */
+    .gemini-sidebar {
+        position: absolute;
+        top: 0;
+        left: -100%;
+        /* Đẩy hẳn ra ngoài màn hình */
+        width: 280px;
+        height: 100%;
+        z-index: 9999;
+        transition: left 0.3s ease;
+        /* Hiệu ứng trượt mượt mà */
+        box-shadow: 5px 0 15px rgba(0, 0, 0, 0.2);
+    }
+    /* Lớp kích hoạt khi bấm nút Menu (Bars) để trượt Sidebar ra ngoài */
+    .gemini-sidebar.active {
+        left: 0;
+    }
+    /* 3. Khung nội dung chính (Main Content) chiếm trọn màn hình điện thoại */
+    .main-content {
+        width: 100% !important;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+    /* 4. Căn chỉnh lại Header trên Mobile */
+    .top-header {
+        padding: 10px;
+        justify-content: space-between;
+    }
+    /* Nút Đăng nhập góc phải thu nhỏ lại hoặc chuyển sang dạng icon tròn cho gọn */
+    .top-auth-area {
+        position: static;
+        margin-left: auto;
+        margin-right: 10px;
+    }
+    .guest-toggle-btn {
+        padding: 6px 12px;
+        font-size: 13px;
+    }
+    /* 5. Khung hiển thị tin nhắn (Chatbox) co giãn theo thiết bị */
+    .chat-display {
+        padding: 10px;
+        flex: 1;
+    }
+    /* Bong bóng tin nhắn chiếm chiều ngang rộng hơn trên màn hình hẹp */
+    .message {
+        max-width: 85% !important;
+    }
+    /* 6. Thanh nhập liệu (Input Wrapper) bo sát đáy màn hình điện thoại */
+    .bottom-container {
+        padding: 10px;
+        width: 100% !important;
+    }
+    .input-wrapper {
+        max-width: 100% !important;
+        border-radius: 20px;
+        /* Bo tròn góc nhìn cho giống Gemini mobile */
+        padding: 8px 12px;
+    }
+    /* Cho phép Textarea co giãn nhẹ và các nút công cụ ôm khít */
+    .input-row {
+        gap: 6px;
+    }
+    #userInput {
+        font-size: 14px;
+    }
+    /* 7. Tạo một lớp nền mờ (Overlay) khi mở Sidebar trên điện thoại */
+    .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 9998;
+        display: none;
+    }
+    .sidebar-overlay.active {
+        display: block;
+    }
+}
