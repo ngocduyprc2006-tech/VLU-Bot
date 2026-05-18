@@ -49,6 +49,16 @@
                 <input type="password" id="regPassConfirm" placeholder="Nhập lại mật khẩu" required>
                 <p id="registerError" class="error-text" style="display: none;"></p>
                 <button type="submit" class="auth-submit vlu-red-btn">Tạo tài khoản mới</button>
+
+                <div class="social-login-separator"><span>Hoặc đăng ký bằng</span></div>
+                <div class="social-login-buttons">
+                    <button type="button" class="social-btn google-btn" onclick="window.vluAuthActions.loginWithGoogle()">
+            <i class="fab fa-google"></i> Google
+        </button>
+                    <button type="button" class="social-btn facebook-btn" onclick="window.vluAuthActions.loginWithFacebook()">
+            <i class="fab fa-facebook-f"></i> Facebook
+        </button>
+                </div>
             </form>
         </div>
     </div>
@@ -89,7 +99,7 @@
                     </button>
 
                     <div id="adminModule" style="display: none; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
-                        <a href="admin.html" class="icon-link sidebar-feature-btn" style="color: #ffb86c !important; text-decoration: none; display: block;">
+                        <a href="admin/admin.html" class="icon-link sidebar-feature-btn" style="color: #ffb86c !important; text-decoration: none; display: block;">
                             <i class="fas fa-user-shield"></i> Quản lý hệ thống
                         </a>
                     </div>
@@ -107,7 +117,7 @@
                 <button class="icon-link" id="helpBtn" title="Hướng dẫn sử dụng hệ thống">
                     <i class="fas fa-question-circle"></i> Trợ giúp
                 </button>
-                <button class="icon-link"><i class="fas fa-cog"></i> Cài đặt</button>
+                <button class="icon-link" id="settingBtn"><i class="fas fa-cog"></i> Cài đặt</button>
             </div>
         </aside>
 
@@ -175,7 +185,7 @@
                             </button>
 
                             <div class="attach-menu" id="attachMenu" style="display: none;">
-                                <div class="menu-item" onclick="document.getElementById('hiddenFileInput').click()"><i class="fas fa-image"></i> Thêm ảnh và tệp</div>
+                                <div class="menu-item"><i class="fas fa-image"></i> Thêm ảnh và tệp</div>
                                 <div class="menu-item"><i class="fas fa-wand-magic-sparkles"></i> Tạo hình ảnh</div>
                                 <div class="menu-item"><i class="fas fa-lightbulb"></i> Đang suy nghĩ</div>
                                 <div class="menu-item"><i class="fas fa-microscope"></i> Nghiên cứu chuyên sâu</div>
@@ -229,9 +239,30 @@
     </script>
 
     <script src="js/config.js"></script>
-    <script src="js/auth.js"></script>
+
+    <script src="js/auth/authutils.js"></script>
+    <script src="js/auth/login.js"></script>
+    <script src="js/auth/register.js"></script>
+    <script src="js/auth/state.js"></script>
+
     <script src="js/ui.js"></script>
     <script src="js/upload.js"></script>
+
+    <script src="js/features/career.js"></script>
+    <script src="js/features/gpa.js"></script>
+    <script src="js/features/graduation.js"></script>
+    <script src="js/features/help.js"></script>
+    <script src="js/features/image-gen.js"></script>
+    <script src="js/features/learning.js"></script>
+    <script src="js/features/menu.js"></script>
+    <script src="js/features/reasoning.js"></script>
+    <script src="js/features/roadmap.js"></script>
+    <script src="js/features/search.js"></script>
+    <script src="js/features/setting.js"></script>
+    <script src="js/features/theme.js"></script>
+    <script src="js/features/vision.js"></script>
+    <script src="js/features/writing.js"></script>
+
     <script src="js/chat.js"></script>
     <script src="js/main.js"></script>
 </body>

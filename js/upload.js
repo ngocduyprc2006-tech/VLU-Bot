@@ -1,97 +1,51 @@
 /** * FILE: js/upload.js
- * CHỨC NĂNG: Xử lý Menu thông minh, Kéo thả & Đọc đa định dạng (Ảnh + Tài liệu)
+ * CHỨC NĂNG: Quản lý kéo thả tệp và trích xuất nội dung văn bản thô
  */
 
-const ui = {
-    plusBtn: document.getElementById('plusBtn'),
-    attachMenu: document.getElementById('attachMenu'),
-    hiddenFileInput: document.getElementById('hiddenFileInput'),
-    previewContainer: document.getElementById('imagePreviewContainer'),
-    imagePreview: document.getElementById('imagePreview'),
-    closePreview: document.getElementById('closePreview'),
-    submenu: document.querySelector('.submenu'),
-    chatBox: document.getElementById('chatbox') // Để xử lý kéo thả vào đây
-};
+window.lastUploadedDocContent = "";
 
-// --- 1. ĐIỀU KHIỂN MENU (+) ---
-function initAttachMenu() {
-    if (!ui.plusBtn || !ui.attachMenu) return;
-
-    ui.plusBtn.onclick = (e) => {
-        e.stopPropagation();
-        const isOpen = ui.attachMenu.classList.toggle('active');
-        ui.attachMenu.style.display = isOpen ? 'block' : 'none';
-        if (!isOpen && ui.submenu) ui.submenu.style.display = 'none';
-    };
-
-    ui.attachMenu.querySelectorAll('.menu-item').forEach(item => {
-        item.onclick = function(e) {
-            e.stopPropagation();
-            const action = this.innerText.trim();
-
-            if (action.includes("ảnh và tệp")) ui.hiddenFileInput.click();
-            else if (action.includes("Tạo hình ảnh")) {
-                const input = document.getElementById('userInput');
-                input.value = "/imagine ";
-                input.focus();
-            }
-            // Đóng menu sau khi chọn
-            closeAllMenus();
-        };
-    });
-
-    document.addEventListener('click', (e) => {
-        if (!ui.attachMenu.contains(e.target) && e.target !== ui.plusBtn) closeAllMenus();
-    });
-}
-
-function closeAllMenus() {
-    ui.attachMenu.style.display = 'none';
-    ui.attachMenu.classList.remove('active');
-    if (ui.submenu) ui.submenu.style.display = 'none';
-}
-
-// --- 2. XỬ LÝ FILE (ẢNH & TÀI LIỆU) ---
+// --- XỬ LÝ FILE (ẢNH & TÀI LIỆU) ---
 async function processFile(file) {
     if (!file) return;
+
+    const previewContainer = document.getElementById('imagePreviewContainer');
+    const imagePreview = document.getElementById('imagePreview');
 
     // A. Xử lý Hình ảnh
     if (file.type.startsWith('image/')) {
         const reader = new FileReader();
         reader.onload = (e) => {
-            ui.imagePreview.src = e.target.result;
-            ui.previewContainer.style.display = 'block';
-            // Tạo hiệu ứng highlight cho khung preview
-            ui.previewContainer.classList.add('bounce-in');
+            if (imagePreview) imagePreview.src = e.target.result;
+            if (previewContainer) {
+                previewContainer.style.display = 'block';
+                previewContainer.classList.add('bounce-in');
+            }
         };
         reader.readAsDataURL(file);
     }
-    // B. Xử lý Tài liệu (TXT, PDF, Word...)
+    // B. Xử lý Tài liệu (TXT)
     else {
         const extension = file.name.split('.').pop().toLowerCase();
 
-        // Đọc nội dung nếu là file text đơn giản
         if (file.type === "text/plain" || extension === "txt") {
             window.lastUploadedDocContent = await file.text();
-            showFileStatus(file.name, "Đã trích xuất nội dung chữ");
-        }
-        // Với PDF/Word cần thư viện (Duy có thể nâng cấp sau), hiện tại báo nhận file
-        else {
-            showFileStatus(file.name, "Đã nhận file (Cần thư viện để đọc nội dung)");
+            showFileStatus(file.name, "Đã trích xuất nội dung chữ thành công");
+        } else {
+            showFileStatus(file.name, "Đã nhận file (Cần thư viện bổ trợ để đọc định dạng này)");
         }
     }
 }
 
-// Hàm hiển thị trạng thái file nhỏ dưới thanh chat (như Gemini)
 function showFileStatus(fileName, status) {
-    if (typeof renderBotMessage === 'function') {
-        renderBotMessage(`📁 **File đính kèm:** \`${fileName}\`\n*${status}*`);
+    if (typeof window.renderBotMessage === 'function') {
+        window.renderBotMessage(`📁 **File đính kèm:** \`${fileName}\`\n*${status}*`);
     }
 }
 
-// --- 3. KÉO THẢ FILE (TREND HIỆN ĐẠI) ---
+// --- KÉO THẢ FILE TOÀN CỤC ---
 function initDragAndDrop() {
-    const dropZone = document.body; // Kéo vào đâu cũng nhận
+    const dropZone = document.body;
+    if (!dropZone) return;
 
     ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(name => {
         dropZone.addEventListener(name, e => e.preventDefault());
@@ -104,19 +58,28 @@ function initDragAndDrop() {
 }
 
 function initFilePreview() {
-    if (ui.hiddenFileInput) {
-        ui.hiddenFileInput.onchange = (e) => processFile(e.target.files[0]);
+    const hiddenFileInput = document.getElementById('hiddenFileInput');
+    const closePreview = document.getElementById('closePreview');
+    const previewContainer = document.getElementById('imagePreviewContainer');
+    const imagePreview = document.getElementById('imagePreview');
+
+    if (hiddenFileInput) {
+        hiddenFileInput.onchange = (e) => processFile(e.target.files[0]);
     }
 
-    if (ui.closePreview) {
-        ui.closePreview.onclick = (e) => {
+    if (closePreview) {
+        closePreview.onclick = (e) => {
             e.stopPropagation();
-            ui.previewContainer.style.display = 'none';
-            ui.imagePreview.src = '';
-            window.lastUploadedDocContent = ""; // Xóa dữ liệu cũ
+            if (previewContainer) previewContainer.style.display = 'none';
+            if (imagePreview) imagePreview.src = '';
+            window.lastUploadedDocContent = "";
         };
     }
 }
 
-// Xuất module
-window.upload = { initAttachMenu, initFilePreview, initDragAndDrop };
+// Xuất module lõi ra ngoài hệ thống
+window.upload = {
+    initFilePreview,
+    initDragAndDrop,
+    processExternalFile: processFile
+};

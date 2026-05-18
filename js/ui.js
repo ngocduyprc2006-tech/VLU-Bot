@@ -1,21 +1,17 @@
 /** * FILE: js/ui.js
- * CHỨC NĂNG: Darkmode, Sidebar, Lịch sử chat (Đồng bộ Session chống trùng), Lời chúc và Hiệu ứng UI
+ * CHỨC NĂNG: Sidebar, Lịch sử chat (Đồng bộ Session), Lời chúc và Hiệu ứng UI lõi
  */
 
-// Chỉ khai báo 1 lần duy nhất để tránh lỗi redeclaration
 if (typeof get !== 'function') {
     window.get = (id) => document.getElementById(id);
 }
 
-// --- 1. HÀM VẼ LỊCH SỬ CHAT (SỬA LỖI CLICK THÙNG RÁC TRIỆT ĐỂ) ---
+// --- 1. HÀM VẼ LỊCH SỬ CHAT ---
 function renderHistory() {
     const list = document.getElementById('chatHistoryList');
     if (!list) return;
 
-    // Đọc dữ liệu từ bộ lưu trữ vlu_chat_sessions chuẩn
     const allChats = JSON.parse(localStorage.getItem('vlu_chat_sessions')) || {};
-
-    // Giữ lại tiêu đề "Gần đây"
     list.innerHTML = '<p class="history-label">Gần đây</p>';
 
     Object.keys(allChats).reverse().forEach(id => {
@@ -24,7 +20,6 @@ function renderHistory() {
         div.className = 'history-item';
         if (id === window.currentChatId) div.classList.add('active');
 
-        // Cấu trúc phân tách không gian rõ ràng bằng thuộc tính CSS nội dòng hỗ trợ an toàn
         div.innerHTML = `
             <div class="history-info" style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0;">
                 <i class="far fa-comment-alt"></i> 
@@ -35,7 +30,6 @@ function renderHistory() {
             </div>
         `;
 
-        // 🔹 SỬA LỖI CHỐNG TRÙNG SỰ KIỆN: Chỉ gán lệnh mở lại chat vào vùng chữ bên trái
         const infoPart = div.querySelector('.history-info');
         infoPart.onclick = (e) => {
             e.preventDefault();
@@ -44,23 +38,25 @@ function renderHistory() {
             }
         };
 
-        // 🔹 SỬA LỖI CHỐNG BUBBLING: Cô lập hoàn toàn cú click chuột của cụm thùng rác
         const actionsPart = div.querySelector('.history-actions');
         actionsPart.onclick = (e) => {
             e.preventDefault();
-            e.stopPropagation(); // 🔴 NGĂN CHẶN TUYỆT ĐỐI sự kiện bị nhảy ngược lên thẻ cha .history-item
+            e.stopPropagation();
 
             if (typeof window.deleteSpecificChat === 'function') {
                 window.deleteSpecificChat(e, id);
             }
         };
 
-        // Hiệu ứng hover đổi màu thùng rác mượt mà của riêng bạn
         const deleteBtn = div.querySelector('.delete-item-btn');
-        actionsPart.onmouseover = () => { deleteBtn.style.opacity = "1";
-            deleteBtn.style.color = "#d9534f"; };
-        actionsPart.onmouseout = () => { deleteBtn.style.opacity = "0.6";
-            deleteBtn.style.color = ""; };
+        actionsPart.onmouseover = () => {
+            deleteBtn.style.opacity = "1";
+            deleteBtn.style.color = "#d9534f";
+        };
+        actionsPart.onmouseout = () => {
+            deleteBtn.style.opacity = "0.6";
+            deleteBtn.style.color = "";
+        };
 
         list.appendChild(div);
     });
@@ -71,7 +67,7 @@ function handleAction(text, mode = 'default') {
     if (typeof window.setMode === 'function') window.setMode(mode);
 
     const welcome = get('welcomeScreen');
-    if (welcome) welcome.classList.add('hidden'); // Sử dụng class hidden đồng bộ với index.html
+    if (welcome) welcome.classList.add('hidden');
 
     const container = get('messagesContainer');
     if (container) container.innerHTML = '';
@@ -85,12 +81,11 @@ function handleAction(text, mode = 'default') {
     }
 }
 
-// --- 3. QUẢN LÝ SIDEBAR (GIỮ NGUYÊN HOÀN TOÀN CƠ CHẾ OVERLAY MOBILE) ---
+// --- 3. QUẢN LÝ SIDEBAR ---
 function initSidebar() {
     const sidebar = document.querySelector('aside');
     const toggle = get('toggleSidebar');
 
-    // Tạo thêm lớp nền mờ (Overlay) cho Mobile nếu chưa có
     let overlay = document.querySelector('.sidebar-overlay');
     if (!overlay) {
         overlay = document.createElement('div');
@@ -101,14 +96,12 @@ function initSidebar() {
     if (toggle && sidebar) {
         toggle.onclick = (e) => {
             e.stopPropagation();
-            // Chạy song song cả cơ chế co giãn trên Desktop lẫn cơ chế trượt active trên Mobile
             sidebar.classList.toggle('closed');
             sidebar.classList.toggle('active');
             overlay.classList.toggle('active');
         };
     }
 
-    // Click vào vùng nền mờ thì tự đóng khép Sidebar lại trên điện thoại
     overlay.onclick = () => {
         if (sidebar) {
             sidebar.classList.remove('active');
@@ -117,32 +110,6 @@ function initSidebar() {
         overlay.classList.remove('active');
     };
 
-    const featureMap = {
-        'btn-roadmap': { m: 'roadmap', t: 'Lộ trình học tập' },
-        'btn-results': { m: 'results', t: 'Kết quả học tập' },
-        'btn-graduation': { m: 'graduation', t: 'Dự báo tốt nghiệp' },
-        'btn-future': { m: 'future', t: 'Định hướng tương lai' }
-    };
-
-    const sidebarElem = document.querySelector('.gemini-sidebar') || document.querySelector('aside');
-    if (sidebarElem) {
-        sidebarElem.onclick = function(e) {
-            const btn = e.target.closest('button');
-            if (btn && featureMap[btn.id]) {
-                handleAction(featureMap[btn.id].t, featureMap[btn.id].m);
-                // Đóng Sidebar luôn sau khi bấm chọn tính năng trên Mobile
-                if (window.innerWidth <= 768) {
-                    if (sidebar) {
-                        sidebar.classList.remove('active');
-                        sidebar.classList.add('closed');
-                    }
-                    overlay.classList.remove('active');
-                }
-            }
-        };
-    }
-
-    // Tối ưu nút Tạo đoạn chat mới chạy đồng bộ không gây tải lại toàn bộ trang
     const newChatBtn = get('newChatBtn');
     if (newChatBtn) {
         newChatBtn.onclick = () => {
@@ -165,29 +132,7 @@ function initSidebar() {
     }
 }
 
-// --- 4. NÚT SÁNG TỐI (DARK MODE) ---
-function initDarkMode() {
-    const btn = get('darkModeBtn');
-    if (!btn) return;
-
-    // Load theme cũ
-    if (localStorage.getItem('theme') === 'dark') {
-        document.body.classList.add('dark-mode');
-        const icon = btn.querySelector('i');
-        if (icon) icon.className = 'fas fa-sun';
-    }
-
-    btn.onclick = () => {
-        const isDark = document.body.classList.toggle('dark-mode');
-        localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        const icon = btn.querySelector('i');
-        if (icon) {
-            icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
-        }
-    };
-}
-
-// --- 5. LỜI CHÚC & SCROLL ---
+// --- 4. LỜI CHÚC & SCROLL ---
 function updateDynamicGreeting() {
     const g = get('dynamicGreeting');
     if (!g) return;
@@ -271,7 +216,6 @@ function showToast(message) {
 
 // --- XUẤT RA GLOBAL (GỘP TẤT CẢ) ---
 window.ui = {
-    initDarkMode,
     initSidebar,
     updateDynamicGreeting,
     initScrollToBottom,
@@ -280,5 +224,5 @@ window.ui = {
     copyCode,
     showToast,
     useSuggestion: handleAction,
-    updateHistorySidebar: renderHistory // Định nghĩa alias kết nối hệ thống cho chat.js/main.js
+    updateHistorySidebar: renderHistory
 };

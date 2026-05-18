@@ -1,37 +1,13 @@
 /** * FILE: js/chat.js
- * CHỨC NĂNG: Xử lý Vision (Ảnh + Chữ) & Nén ảnh tự động & Lưu/Xóa lịch sử đồng bộ Session
- * PHIÊN BẢN: Đơn giản hóa, sửa lỗi triệt để tính năng xóa
+ * CHỨC NĂNG: Xử lý đóng gói payload Chat, gửi nhận API Groq & Quản lý vòng đời Session
  */
 
 const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
 
-// Biến quản lý phiên toàn cục kết nối hệ thống
 window.currentChatId = null;
 
 function getApiKey() {
     return (typeof window.CONFIG !== "undefined" && window.CONFIG.GROQ_API_KEY) ? window.CONFIG.GROQ_API_KEY : "";
-}
-
-// --- HÀM NÉN ẢNH (BÍ KÍP ĐỂ KHÔNG LỖI KẾT NỐI) ---
-async function compressImage(base64Str, maxWidth = 800) {
-    return new Promise((resolve) => {
-        const img = new Image();
-        img.src = base64Str;
-        img.onload = () => {
-            const canvas = document.createElement('canvas');
-            let width = img.width;
-            let height = img.height;
-            if (width > maxWidth) {
-                height = (maxWidth / width) * height;
-                width = maxWidth;
-            }
-            canvas.width = width;
-            canvas.height = height;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, width, height);
-            resolve(canvas.toDataURL('image/jpeg', 0.6));
-        };
-    });
 }
 
 // --- HÀM GỬI TIN NHẮN CHÍNH ---
@@ -58,9 +34,13 @@ async function sendMessage() {
     // --- 1. XỬ LÝ HIỂN THỊ TIN NHẮN NGƯỜI DÙNG ---
     let imageData = null;
     if (hasImage && ui.preImg) {
-        imageData = await compressImage(ui.preImg.src);
+        // Gọi hàm nén ảnh từ module vision độc lập vừa bóc tách
+        if (window.featureVision && typeof window.featureVision.compressImage === 'function') {
+            imageData = await window.featureVision.compressImage(ui.preImg.src);
+        } else {
+            imageData = ui.preImg.src; // Fallback nếu chưa load kịp file
+        }
         renderUserImageMessage(imageData);
-        // Lưu lịch sử dạng text đại diện nếu cuộc chat có ảnh
         saveChatToLocal('user', text ? `[Hình ảnh] ${text}` : "[Hình ảnh]");
         ui.preContainer.style.display = 'none';
     } else if (text || docContent) {
@@ -171,12 +151,10 @@ function renderBotMessage(text) {
 
     let htmlContent = (typeof marked !== 'undefined') ? marked.parse(text) : text;
 
-    // SỬA LỖI TRIỆT ĐỂ: Thay const bằng var để tránh xung đột redeclaration trên scope toàn cục
     var tempDiv = document.createElement('div');
     tempDiv.innerHTML = htmlContent;
 
     tempDiv.querySelectorAll('pre').forEach(pre => {
-        // SỬA LỖI TRIỆT ĐỂ: Thay const bằng let để an toàn trong block-scope của vòng lặp
         let wrapper = document.createElement('div');
         wrapper.className = 'code-block-wrapper';
 
@@ -211,6 +189,10 @@ function renderBotMessage(text) {
     scrollToBottom();
 }
 
+// Xuất các hàm kết xuất ra global cho các file chuyên môn khác dùng chung
+window.renderBotMessage = renderBotMessage;
+window.renderUserMessage = renderUserMessage;
+
 function showTypingIndicator() {
     const c = document.getElementById('messagesContainer');
     if (!c) return null;
@@ -233,7 +215,6 @@ function saveChatToLocal(role, text) {
     }
     let allChats = JSON.parse(localStorage.getItem('vlu_chat_sessions')) || {};
     if (!allChats[window.currentChatId]) {
-        // Tạo tiêu đề thu gọn cho thanh sidebar bằng câu hỏi đầu tiên
         let titleText = text.replace(/\[Hình ảnh\]\s*/g, "");
         allChats[window.currentChatId] = {
             title: titleText.substring(0, 25) + (titleText.length > 25 ? '...' : ''),
@@ -249,7 +230,6 @@ function saveChatToLocal(role, text) {
     }
 }
 
-// Hàm kết nối đổ dữ liệu cũ của phiên chat lên màn hình hiển thị
 function renderSession(id) {
     const container = document.getElementById('messagesContainer');
     const welcomeScreen = document.getElementById('welcomeScreen');
@@ -271,7 +251,6 @@ function renderSession(id) {
     }
 }
 
-// --- ĐĂNG KÝ HÀM TOÀN CỤC HỆ THỐNG (GLOBAL) KẾT NỐI UI VÀ MAIN ---
 window.sendMessage = sendMessage;
 
 window.loadSession = function(id) {
@@ -280,16 +259,14 @@ window.loadSession = function(id) {
     if (window.ui && typeof window.ui.renderHistory === 'function') window.ui.renderHistory();
 };
 
-// --- FIX TRIỆT ĐỂ: HÀM XÓA PHIÊN CHAT CỤ THỂ KHÔNG LỖI RE-RENDER ---
 window.deleteSpecificChat = function(event, id) {
-    if (event) event.stopPropagation(); // Ngăn chặn bong bóng sự kiện click chuột
+    if (event) event.stopPropagation();
 
     if (confirm('Bạn có muốn xóa cuộc trò chuyện này không?')) {
         let allChats = JSON.parse(localStorage.getItem('vlu_chat_sessions')) || {};
-        delete allChats[id]; // Loại bỏ hoàn toàn bản ghi khỏi mảng
+        delete allChats[id];
         localStorage.setItem('vlu_chat_sessions', JSON.stringify(allChats));
 
-        // Nếu phiên bị xóa trùng với phiên đang mở, reset ngay giao diện chat về rỗng
         if (id === window.currentChatId) {
             window.currentChatId = null;
             const container = document.getElementById('messagesContainer');
@@ -298,7 +275,6 @@ window.deleteSpecificChat = function(event, id) {
             if (welcomeScreen) welcomeScreen.classList.remove('hidden');
         }
 
-        // Gọi lại module UI vẽ lại danh sách sidebar lập tức
         if (window.ui && typeof window.ui.renderHistory === 'function') {
             window.ui.renderHistory();
         }
