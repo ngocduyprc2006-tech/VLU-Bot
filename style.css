@@ -38,14 +38,31 @@ body {
     flex-direction: column;
     justify-content: space-between;
     padding: 15px;
+    z-index: 100;
 }
+
+
+/* --- [MỚI CHÈN] STYLE CHO NÚT LOGO TRANG CHỦ --- */
+
+#goHomeBtn {
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    transition: transform 0.2s;
+}
+
+#goHomeBtn:hover {
+    transform: scale(1.03);
+}
+
+
+/* ------------------------------------------- */
 
 
 /* CSS CHO SIDEBAR LOGO */
 
 .sidebar-logo {
     width: 140px;
-    /* Điều chỉnh độ rộng logo sidebar */
     height: auto;
     margin-bottom: 25px;
     display: block;
@@ -57,6 +74,9 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    flex: 1;
+    overflow: hidden;
+    width: 100%;
 }
 
 .new-chat-btn {
@@ -100,7 +120,6 @@ body {
 
 .header-logo {
     width: 30px;
-    /* Kích thước logo nhỏ trên header */
     height: 30px;
     object-fit: contain;
 }
@@ -126,14 +145,69 @@ body {
 }
 
 .gemini-welcome {
-    margin-top: 15vh;
+    margin-top: 10vh;
     text-align: center;
+    width: 100%;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .sub-welcome {
     font-size: 28px;
     color: #666;
     margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+
+/* Suggestion Container & Cards */
+
+.suggestion-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin-top: 40px;
+    padding: 0 10px;
+}
+
+.suggestion-card {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 20px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 120px;
+    justify-content: space-between;
+}
+
+.suggestion-card:hover {
+    background: #fcfcfc;
+    border-color: var(--vlu-red);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.suggestion-card i {
+    font-size: 24px;
+    color: var(--vlu-red);
+}
+
+.suggestion-card p {
+    font-size: 15px;
+    font-weight: 500;
+    color: #444;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.hidden {
+    display: none !important;
 }
 
 
@@ -202,12 +276,8 @@ textarea {
     display: flex;
     align-items: center;
     gap: 10px;
-    /* Chỉnh lại khoảng cách cho gọn */
     flex-shrink: 0;
 }
-
-
-/* Nâng cấp nút Micro và Gửi cho đẹp */
 
 .mic-btn,
 .send-btn {
@@ -231,7 +301,6 @@ textarea {
 
 .send-btn {
     background-color: #222;
-    /* Màu đen sang trọng cho nút gửi */
     color: white;
 }
 
@@ -530,6 +599,24 @@ textarea {
 }
 
 
+/* Hiệu ứng mờ dần cho tin nhắn mới */
+
+.fade-in {
+    animation: fadeIn 0.4s ease forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
 /* Mặc định nút gửi hơi mờ khi chưa có chữ */
 
 #sendBtn {
@@ -538,44 +625,12 @@ textarea {
 }
 
 .clear-btn {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    border: none;
-    background: transparent;
-    color: #999;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: 0.3s;
-    font-size: 14px;
-}
-
-.clear-btn:hover {
-    background: #eee;
-    color: #ed1c24;
-    /* Đổi sang đỏ khi muốn xóa */
-}
-
-
-/* Đảm bảo khoảng cách nút gửi và x hợp lý */
-
-.input-tools-right {
-    gap: 8px !important;
-}
-
-
-/* Làm hiện nút dấu X xóa lịch sử */
-
-.clear-btn {
     width: 35px;
     height: 35px;
     border-radius: 50%;
     border: none;
     background: transparent;
     color: #999;
-    /* Màu xám mờ mờ cho sang */
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -587,11 +642,7 @@ textarea {
 .clear-btn:hover {
     background: #eeeeee;
     color: #ed1c24;
-    /* Di chuột vào thì hiện màu đỏ Văn Lang */
 }
-
-
-/* Đảm bảo cụm nút bên phải không bị dính chùm */
 
 .input-tools-right {
     display: flex;
@@ -615,7 +666,6 @@ textarea {
     border: 1px solid #ddd;
     color: #666;
     display: none;
-    /* Mặc định ẩn */
     align-items: center;
     justify-content: center;
     cursor: pointer;
@@ -632,44 +682,13 @@ textarea {
 
 /* --- PHẦN BỔ SUNG: LỊCH SỬ CHAT BÊN SIDEBAR --- */
 
-
-/* Căn chỉnh lại sidebar-top để có thể chứa danh sách cuộn */
-
-.sidebar-top {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex: 1;
-    overflow: hidden;
-    width: 100%;
-}
-
-
-/* Khối danh sách lịch sử chat */
-
 .chat-history-list {
     margin-top: 15px;
     width: 100%;
     overflow-y: auto;
-    /* Hiện thanh cuộn nếu danh sách quá dài */
     max-height: 55vh;
     padding-right: 5px;
 }
-
-
-/* Nhãn "Gần đây" hoặc "Lịch sử" */
-
-.history-label {
-    font-size: 11px;
-    font-weight: 700;
-    color: #999;
-    margin: 15px 0 8px 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-
-/* Từng dòng tiêu đề lịch sử */
 
 .history-item {
     padding: 10px 12px;
@@ -679,10 +698,10 @@ textarea {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    /* Hiện dấu ... nếu tiêu đề dài */
     transition: 0.2s;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 10px;
     color: #555;
     margin-bottom: 2px;
@@ -693,13 +712,58 @@ textarea {
     color: var(--vlu-red);
 }
 
-.history-item i {
-    font-size: 14px;
+.history-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    overflow: hidden;
+}
+
+.history-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.history-actions {
+    display: flex;
+    align-items: center;
+}
+
+.delete-btn {
     opacity: 0.6;
+    transition: 0.3s;
+    cursor: pointer;
+    display: none;
+}
+
+.history-item:hover .delete-btn {
+    display: block;
+}
+
+.delete-btn:hover {
+    color: var(--vlu-red);
+    opacity: 1;
+}
+
+.history-item.active {
+    background: rgba(0, 0, 0, 0.05);
 }
 
 
-/* Làm thanh cuộn của lịch sử chat mỏng và đẹp hơn */
+/* Dark Mode Support for Menu */
+
+body.dark-mode .dropdown-item {
+    color: #ececec;
+}
+
+body.dark-mode .dropdown-item:hover {
+    background: #3a3a3a;
+}
+
+
+/* Làm thanh cuộn mỏng */
 
 .chat-history-list::-webkit-scrollbar {
     width: 4px;
@@ -709,9 +773,6 @@ textarea {
     background: #e0e0e0;
     border-radius: 10px;
 }
-
-
-/* Đưa nút Xóa lịch sử vào Sidebar thay vì thanh chat */
 
 #clearChatBtn {
     width: 100%;
@@ -736,19 +797,7 @@ textarea {
 }
 
 
-/* Ẩn nút X cũ ở thanh chat nếu bạn muốn */
-
-.input-tools-right #clearChatBtn {
-    display: none;
-}
-
-.clear-history-btn:hover {
-    color: var(--vlu-red) !important;
-    background-color: #fff0f0 !important;
-}
-
-
-/* --- [MỚI] CHẾ ĐỘ TỐI (DARK MODE) --- */
+/* --- CHẾ ĐỘ TỐI (DARK MODE) --- */
 
 body.dark-mode {
     --bg-main: #171717;
@@ -757,9 +806,6 @@ body.dark-mode {
     --text-main: #ececec;
     --border-color: #333;
 }
-
-
-/* Điều chỉnh các phần tử khi ở Dark Mode */
 
 body.dark-mode .new-chat-btn {
     background: #333;
@@ -795,15 +841,30 @@ body.dark-mode .auth-form input {
     border-color: #444;
 }
 
+body.dark-mode .suggestion-card {
+    background: #2a2a2a;
+    border-color: #444;
+}
 
-/* Hiệu ứng chuyển màu mượt mà cho toàn body */
+body.dark-mode .suggestion-card:hover {
+    background: #333;
+    border-color: var(--vlu-red);
+}
+
+body.dark-mode .suggestion-card p {
+    color: #ececec;
+}
+
+body.dark-mode .sub-welcome {
+    color: #aaa;
+}
 
 body {
     transition: background 0.3s, color 0.3s;
 }
 
 
-/* --- [MỚI] HIỆU ỨNG MƯA LOGO VLU --- */
+/* --- HIỆU ỨNG MƯA LOGO VLU --- */
 
 .rain-logo {
     position: fixed;
@@ -811,12 +872,17 @@ body {
     width: 30px;
     z-index: 9999;
     pointer-events: none;
-    animation: fall linear forwards;
+    animation: rainFall linear forwards;
 }
 
-@keyframes fall {
-    to {
-        transform: translateY(110vh) rotate(360deg);
+@keyframes rainFall {
+    0% {
+        transform: translateY(-50px) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
     }
 }
 
@@ -830,7 +896,6 @@ body {
     cursor: pointer;
     font-size: 18px;
     margin-left: 15px;
-    /* Tạo khoảng cách với chữ VLU Chatbot */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -838,63 +903,6 @@ body {
     width: 35px;
     height: 35px;
     border-radius: 50%;
-}
-
-.mode-toggle-top:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-    color: var(--vlu-red);
-}
-
-
-/* Khi ở chế độ tối, đổi màu hover trên header */
-
-body.dark-mode .mode-toggle-top {
-    color: #ccc;
-}
-
-body.dark-mode .mode-toggle-top:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #ffcc00;
-    /* Màu vàng mặt trời cho nổi trên nền tối */
-}
-
-
-/* --- HIỆU ỨNG PHÁT SÁNG (GLOW) KHI BOT SUY NGHĨ --- */
-
-@keyframes redGlow {
-    0% {
-        box-shadow: 0 0 5px rgba(237, 28, 36, 0.2);
-    }
-    50% {
-        box-shadow: 0 0 20px rgba(237, 28, 36, 0.6);
-    }
-    100% {
-        box-shadow: 0 0 5px rgba(237, 28, 36, 0.2);
-    }
-}
-
-.typing-indicator .bot-icon {
-    animation: redGlow 1.5s infinite;
-    border: 1px solid var(--vlu-red);
-}
-
-
-/* CSS cho nút Dark Mode trên Header ) */
-
-.mode-toggle-top {
-    background: transparent;
-    border: none;
-    color: #666;
-    cursor: pointer;
-    font-size: 18px;
-    margin-left: 15px;
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: 0.3s;
 }
 
 .mode-toggle-top:hover {
@@ -906,8 +914,13 @@ body.dark-mode .mode-toggle-top {
     color: #ccc;
 }
 
+body.dark-mode .mode-toggle-top:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffcc00;
+}
 
-/* --- HIỆU ỨNG GLOW CHO BOT --- */
+
+/* --- HIỆU ỨNG PHÁT SÁNG (GLOW) --- */
 
 @keyframes redGlow {
     0% {
@@ -953,130 +966,34 @@ body.dark-mode .mode-toggle-top {
 }
 
 
-/* --- NÚT DARK MODE TRÊN HEADER --- */
+/* Làm đẹp nội dung bong bóng chat Bot */
 
-.mode-toggle-top {
-    background: transparent;
-    border: none;
-    color: #666;
-    cursor: pointer;
-    font-size: 18px;
-    margin-left: 15px;
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: 0.3s;
-}
-
-.mode-toggle-top:hover {
-    background-color: rgba(237, 28, 36, 0.1);
-    color: var(--vlu-red);
-}
-
-body.dark-mode .mode-toggle-top {
-    color: #ccc;
-}
-/* Làm đẹp nội dung bên trong bong bóng chat của Bot */
 .bot-message .content {
     line-height: 1.6;
     font-size: 15px;
 }
 
-.bot-message .content h1, .bot-message .content h2, .bot-message .content h3 {
+.bot-message .content h1,
+.bot-message .content h2 {
     margin-top: 10px;
     margin-bottom: 5px;
-    color: #c0392b; /* Màu đỏ đặc trưng VLU */
-}
-
-.bot-message .content ul, .bot-message .content ol {
-    padding-left: 20px;
-    margin: 10px 0;
+    color: #c0392b;
 }
 
 .bot-message .content code {
     background: #f0f0f0;
     padding: 2px 5px;
     border-radius: 4px;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: 'Courier New', monospace;
 }
 
-/* Hiệu ứng hiện hình mượt mà */
-.fade-in {
-    animation: fadeIn 0.5s ease-in;
-}
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-@keyframes rainFall {
-    0% {
-        transform: translateY(-50px) rotate(0deg);
-        opacity: 1;
-    }
-    100% {
-        transform: translateY(100vh) rotate(360deg);
-        opacity: 0;
-    }
-}
-.has-submenu { position: relative; }
-.submenu { display: none; position: absolute; left: 100%; bottom: 0; }
-.has-submenu:hover .submenu { display: block; }
-/* Container của Menu đính kèm */
-.attach-menu {
-    display: none; 
-    position: absolute;
-    bottom: 60px; 
-    left: 10px;
-    background: var(--attach-bg); /* Sử dụng biến màu nền */
-    color: var(--attach-text);    /* Sử dụng biến màu chữ */
-    border-radius: 12px;
-    padding: 8px;
-    min-width: 220px;
-    box-shadow: 0 8px 20px var(--attach-shadow); /* Đổ bóng theo chế độ */
-    z-index: 1000;
-    border: 1px solid rgba(128, 128, 128, 0.2); /* Viền mảnh để tách biệt nền */
-    transition: background 0.3s, color 0.3s;    /* Hiệu ứng chuyển màu mượt */
-}
+/* Sidebar Toggle */
 
-.attach-menu.active {
-    display: block;
-    animation: fadeInUp 0.2s ease-out;
-}
-
-/* Style cho các mục trong menu */
-.menu-item {
-    display: flex;
-    align-items: center;
-    padding: 10px 12px;
-    cursor: pointer;
-    color: inherit; /* Tự động lấy màu từ thẻ cha .attach-menu */
-    border-radius: 8px;
-    font-size: 14px;
-    transition: background 0.2s;
-}
-
-.menu-item:hover {
-    background: var(--attach-hover); /* Sử dụng biến màu hover */
-}
-
-.menu-item i {
-    width: 20px;
-    margin-right: 12px;
-    text-align: center;
-    opacity: 0.9;
-}
-/* Sidebar mặc định */
 aside {
     transition: all 0.3s ease;
-    width: 260px; /* Độ rộng cũ của bạn */
-    overflow: hidden;
 }
 
-/* Khi Sidebar bị đóng */
 aside.closed {
     width: 0;
     padding: 0;
@@ -1084,15 +1001,709 @@ aside.closed {
     opacity: 0;
 }
 
-/* Nút bấm đóng mở */
 .toggle-btn {
-    
-    left: 10px;
-    top: 10px;
-    z-index: 1000;
     background: transparent;
     border: none;
-    color: var(--text-color); /* Hoặc màu bạn thích */
+    color: var(--text-color);
     cursor: pointer;
     font-size: 20px;
+}
+
+
+/* Menu đính kèm */
+
+.attach-menu.active {
+    display: block;
+    animation: fadeInUp 0.2s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* Biến màu sắc cho Menu (Thêm vào :root và body.dark-mode đã có của bạn) */
+
+:root {
+    --menu-bg: #ffffff;
+    --menu-text: #2d2d2d;
+    --menu-hover: #f0f0f0;
+    --menu-shadow: rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode {
+    --menu-bg: #212121;
+    --menu-text: #ececec;
+    --menu-hover: #333333;
+    --menu-shadow: rgba(0, 0, 0, 0.5);
+}
+
+
+/* Biến màu sắc riêng cho Menu đính kèm */
+
+:root {
+    --attach-bg: #ffffff;
+    --attach-text: #2d2d2d;
+    --attach-hover: #f0f0f0;
+    --attach-border: #e5e5e5;
+    --attach-shadow: rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode {
+    --attach-bg: #212121;
+    --attach-text: #ececec;
+    --attach-hover: #333333;
+    --attach-border: #444444;
+    --attach-shadow: rgba(0, 0, 0, 0.5);
+}
+
+.attach-menu {
+    display: none;
+    /* Mặc định ẩn */
+    position: absolute;
+    bottom: 60px;
+    left: 0;
+    width: 220px;
+    background: var(--attach-bg);
+    color: var(--attach-text);
+    border-radius: 12px;
+    padding: 8px;
+    z-index: 1000;
+    box-shadow: 0 10px 30px var(--attach-shadow);
+    border: 1px solid var(--attach-border);
+}
+
+.submenu {
+    display: none;
+    /* Chuyển sang điều khiển bằng JS */
+    position: absolute;
+    left: 215px;
+    bottom: 0;
+    width: 180px;
+    background: var(--attach-bg);
+    color: var(--attach-text);
+    border-radius: 12px;
+    padding: 8px;
+    box-shadow: 0 10px 30px var(--attach-shadow);
+    border: 1px solid var(--attach-border);
+}
+
+.menu-item {
+    padding: 10px;
+    color: var(--attach-text) !important;
+    /* Ép màu chữ theo biến */
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: background 0.2s;
+}
+
+.menu-item:hover {
+    background: var(--attach-hover);
+}
+
+.menu-item i {
+    color: var(--attach-text);
+    opacity: 0.8;
+}
+
+.user-message .content img {
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.user-message .content img:hover {
+    opacity: 0.9;
+}
+
+.mic-btn.recording {
+    color: red;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+
+/* Hiệu ứng khi đang gõ - Giống Gemini */
+
+.input-wrapper:focus-within {
+    border-color: var(--vlu-red);
+    box-shadow: 0 0 0 2px rgba(191, 30, 46, 0.1);
+    background: var(--bg-secondary);
+}
+
+
+/* Hiệu ứng nhấp nháy cho Mic khi đang ghi âm */
+
+.mic-btn.recording {
+    color: #ef4444;
+    animation: pulse-red 1.5s infinite;
+}
+
+@keyframes pulse-red {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+        box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+/* Hiện menu đính kèm mượt mà hơn */
+
+.attach-menu {
+    display: none;
+    animation: fadeInScale 0.2s ease-out;
+    transform-origin: bottom left;
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+
+/* Làm ảnh người dùng gửi nhỏ gọn lại */
+
+.user-message img {
+    max-width: 250px;
+    /* Duy chỉnh con số này tùy ý nhé */
+    height: auto;
+    border-radius: 12px;
+    margin-top: 8px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Hiệu ứng mượt khi hiện tin nhắn */
+
+.fade-in {
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* --- DARK MODE CONFIG --- */
+
+:root {
+    --vlu-red: #bf1e2e;
+    --bg-primary: #ffffff;
+    --bg-secondary: #f0f2f5;
+    --text-main: #1f1f1f;
+    --sidebar-bg: #f8f9fa;
+    --input-bg: #ffffff;
+    --message-bot: #f1f3f4;
+}
+
+body.dark-mode {
+    --bg-primary: #131314;
+    /* Màu nền tối của Gemini */
+    --bg-secondary: #1e1f20;
+    --text-main: #e3e3e3;
+    --sidebar-bg: #1e1f20;
+    --input-bg: #2b2c2f;
+    --message-bot: #2b2c2f;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-main);
+    transition: background 0.3s, color 0.3s;
+}
+
+.gemini-sidebar {
+    background-color: var(--sidebar-bg);
+}
+
+.main-content {
+    background-color: var(--bg-primary);
+}
+
+.message.bot-message .content {
+    background-color: var(--message-bot);
+}
+
+.input-wrapper {
+    background-color: var(--input-bg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#userInput {
+    color: var(--text-main);
+}
+
+
+/* Hiệu ứng cho nút Dark Mode */
+
+#darkModeBtn {
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+#darkModeBtn:active {
+    transform: scale(0.9);
+}
+
+
+/* Thêm vào style.css */
+
+.history-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    margin: 5px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text-main);
+    transition: all 0.2s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.history-item:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+body.dark-mode .history-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.history-item i {
+    font-size: 13px;
+    opacity: 0.6;
+}
+
+
+/* Bong bóng chat của Bot */
+
+.bot-message .content {
+    background-color: #f1f3f4;
+    color: #1f1f1f;
+    padding: 12px 16px;
+    border-radius: 4px 18px 18px 18px;
+    max-width: 85%;
+    /* Cho phép khung chat rộng hơn để chứa code */
+    font-size: 15px;
+    line-height: 1.5;
+    overflow-wrap: break-word;
+}
+
+
+/* ĐỊNH DẠNG KHỐI CODE (DỨT ĐIỂM LỖI LẠ) */
+
+.bot-message .content pre {
+    background-color: #1e1e1e;
+    /* Màu nền tối cho code */
+    color: #d4d4d4;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto;
+    /* Tạo thanh cuộn ngang nếu code quá dài */
+    margin: 10px 0;
+    font-family: 'Consolas', 'Monaco', monospace;
+    border: 1px solid #333;
+}
+
+.bot-message .content code {
+    font-family: 'Consolas', monospace;
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 2px 4px;
+    border-radius: 4px;
+}
+
+
+/* Khử màu nền code trong inline */
+
+pre code {
+    background-color: transparent !important;
+    padding: 0 !important;
+}
+
+
+/* Dark Mode cho Code */
+
+body.dark-mode .bot-message .content {
+    background-color: #2b2c2f;
+}
+
+
+/* --- BỘ MÀU CODE "XINH XINH" CHO DARK MODE --- */
+
+
+/* Nền khối code: Màu xám đen sâu thẳm */
+
+body.dark-mode pre[class*="language-"] {
+    background: #1e1e1e !important;
+    border: 1px solid #3c3c3c !important;
+    border-radius: 12px !important;
+    padding: 1.2rem !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+
+/* Màu các từ khóa chính: Hồng neon dễ thương (public, class, static, void) */
+
+body.dark-mode .token.keyword,
+body.dark-mode .token.selector,
+body.dark-mode .token.important,
+body.dark-mode .token.atrule {
+    color: #ff79c6 !important;
+}
+
+
+/* Màu chuỗi chữ: Vàng nắng ("Xin chào", "SV01") */
+
+body.dark-mode .token.string,
+body.dark-mode .token.char,
+body.dark-mode .token.attr-value {
+    color: #f1fa8c !important;
+}
+
+
+/* Màu tên hàm: Xanh lá mầm (println, main, inDanhSach) */
+
+body.dark-mode .token.function,
+body.dark-mode .token.attr-name {
+    color: #50fa7b !important;
+}
+
+
+/* Màu tên Class và Kiểu dữ liệu: Cam đào (String, SinhVien, int) */
+
+body.dark-mode .token.class-name,
+body.dark-mode .token.constant,
+body.dark-mode .token.boolean {
+    color: #ffb86c !important;
+}
+
+
+/* Màu biến và số: Tím mộng mơ (8, 9, danhSach) */
+
+body.dark-mode .token.variable,
+body.dark-mode .token.number {
+    color: #bd93f9 !important;
+}
+
+
+/* Màu comment: Xám lowkey // */
+
+body.dark-mode .token.comment,
+body.dark-mode .token.prolog,
+body.dark-mode .token.doctype,
+body.dark-mode .token.cdata {
+    color: #6272a4 !important;
+    font-style: italic;
+}
+
+
+/* Màu các toán tử: Xanh cyan (+, -, =, <) */
+
+body.dark-mode .token.operator,
+body.dark-mode .token.punctuation {
+    color: #8be9fd !important;
+}
+
+
+/* --- FIX SIDEBAR DARK MODE --- */
+
+
+/* Ép màu cho tiêu đề nhóm (Lộ trình & Tư vấn) */
+
+body.dark-mode .sidebar-label,
+body.dark-mode .nav-group-title {
+    color: #ffffff !important;
+    opacity: 1 !important;
+}
+
+
+/* Ép màu cho các nút tính năng và icon đi kèm */
+
+body.dark-mode .sidebar-feature-btn,
+body.dark-mode aside button,
+body.dark-mode aside a {
+    color: #e3e3e3 !important;
+    background-color: transparent;
+}
+
+
+/* Quan trọng: Ép màu cho cả icon FontAwesome và chữ bên trong nút */
+
+body.dark-mode aside button i,
+body.dark-mode aside button span,
+body.dark-mode aside a i,
+body.dark-mode aside a span {
+    color: #e3e3e3 !important;
+    opacity: 1 !important;
+}
+
+
+/* Hiệu ứng hover cho nút trong bản tối để nhìn cho xịn */
+
+body.dark-mode aside button:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+
+/* Nút "Đoạn chat mới" đang ổn nhưng ép thêm cho chắc */
+
+body.dark-mode #newChatBtn {
+    color: #ffffff !important;
+    background-color: #2b2c2f !important;
+}
+
+
+/* --- FIX DỨT ĐIỂM CHỮ BỊ DÌM TRONG DARK MODE --- */
+
+
+/* 1. Ép màu nền và màu chữ cơ bản cho bong bóng chat Bot */
+
+body.dark-mode .bot-message .content {
+    background-color: #2b2c2f !important;
+    color: #e3e3e3 !important;
+    /* Màu chữ sáng */
+}
+
+
+/* 2. Ép tất cả văn bản (đoạn văn, danh sách) phải sáng lên */
+
+body.dark-mode .bot-message .content p,
+body.dark-mode .bot-message .content li,
+body.dark-mode .bot-message .content div,
+body.dark-mode .bot-message .content span:not([class*="token"]) {
+    color: #e3e3e3 !important;
+    opacity: 1 !important;
+}
+
+
+/* 3. Tiêu đề và chữ đậm phải sáng nhất */
+
+body.dark-mode .bot-message .content strong,
+body.dark-mode .bot-message .content b,
+body.dark-mode .bot-message .content h1,
+body.dark-mode .bot-message .content h2,
+body.dark-mode .bot-message .content h3 {
+    color: #ffffff !important;
+}
+
+
+/* 4. KHÔNG ĐƯỢC CHẠM VÀO MÀU CỦA CODE (Giữ bộ màu xinh xinh) */
+
+body.dark-mode .bot-message .content pre *,
+body.dark-mode .bot-message .content code * {
+    /* Không dùng !important ở đây để Prism tự đổ màu */
+}
+
+
+/* 5. Trả lại độ sáng cho các icon trong nội dung chat nếu có */
+
+body.dark-mode .bot-message .content i {
+    color: #e3e3e3 !important;
+}
+
+
+/* Thanh Header chứa icon và chữ JAVA */
+
+.code-header {
+    background-color: #2f2f2f;
+    color: #d1d1d1;
+    padding: 6px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #3c3c3c;
+}
+
+
+/* Căn chỉnh icon và chữ JAVA */
+
+.code-lang {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+
+/* NÚT COPY: Xóa sạch viền và khung thừa */
+
+.copy-btn {
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    color: #9ca3af;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+    box-shadow: none !important;
+    /* Xóa bóng đổ nếu có */
+}
+
+.copy-btn:hover {
+    color: #ffffff;
+}
+
+
+/* Icon bên trong nút */
+
+.copy-btn i {
+    font-size: 15px;
+}
+
+
+/* Khung bao bọc toàn bộ khối code */
+
+.code-block-wrapper {
+    margin: 1rem 0;
+    border-radius: 8px;
+    /* Bo góc tổng thể */
+    overflow: hidden;
+    /* Ép các thành phần con phải bo theo góc này */
+    border: 1px solid #3c3c3c;
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* Thanh Header nằm sát trên cùng */
+
+.code-header {
+    background-color: #2f2f2f;
+    color: #d1d1d1;
+    padding: 8px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* Không cho bo góc riêng để nó dính vào khung cha */
+}
+
+
+/* Khối code nằm ngay dưới header, không có khoảng cách */
+
+.code-block-wrapper pre {
+    margin: 0 !important;
+    /* Xóa sạch khoảng cách mặc định */
+    border-radius: 0 !important;
+    /* Xóa bo góc của pre để dính khít header */
+    background-color: #1e1e1e !important;
+}
+
+
+/* Tinh chỉnh icon cho xinh */
+
+.code-lang {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.modal-content {
+    position: relative;
+    /* Tạo điểm neo cho nút đóng */
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 20px;
+    color: #888;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.close-modal:hover {
+    color: #ed1c24;
+    /* Rê chuột vào sẽ đổi sang màu đỏ thương hiệu VLU cực đẹp */
+}
+
+.user-dropdown-container {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 110%;
+    right: 0;
+    background-color: #ffffff;
+    min-width: 150px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    z-index: 1000;
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+}
+
+.dropdown-item {
+    color: #333;
+    padding: 12px 16px;
+    text-align: left;
+    background: none;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s;
+}
+
+.dropdown-item:hover {
+    background-color: #f8d7da;
+    color: #dc3545;
+    /* Rê chuột vào chữ Đăng xuất sẽ đổi sang màu đỏ kèm nền hồng nhẹ */
 }

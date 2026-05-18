@@ -9,31 +9,33 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 
-    
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
 </head>
 
 <body>
     <div id="authModal" class="modal">
         <div class="modal-content">
-            <span class="close-modal">&times;</span>
+            <span class="close-modal"><i class="fas fa-times"></i></span>
             <div class="auth-tabs">
                 <button class="tab-btn active" id="loginTabBtn">Đăng nhập</button>
                 <button class="tab-btn" id="registerTabBtn">Đăng ký</button>
             </div>
 
             <form id="loginForm" class="auth-form">
-                <input type="text" id="loginUser" placeholder="Email trường hoặc MSSV" required>
-                <input type="password" placeholder="Mật khẩu" required>
-                <button type="submit" class="auth-submit vlu-red-btn">Đăng nhập vào VLU Chatbot</button>
+                <input type="text" id="loginUser" placeholder="Nhập email" required>
+                <input type="password" id="loginPass" placeholder="Mật khẩu" required>
+                <button type="submit" class="auth-submit vlu-red-btn">Đăng nhập</button>
                 <div class="social-login-separator"><span>Hoặc</span></div>
                 <div class="social-login-buttons">
-                    <button type="button" class="social-btn google-btn" onclick="handleSocial('Google')">
+                    <button type="button" class="social-btn google-btn" onclick="window.vluAuthActions.loginWithGoogle()">
                         <i class="fab fa-google"></i> Google
                     </button>
-                    <button type="button" class="social-btn facebook-btn" onclick="handleSocial('Facebook')">
+                    <button type="button" class="social-btn facebook-btn" onclick="window.vluAuthActions.loginWithFacebook()">
                         <i class="fab fa-facebook-f"></i> Facebook
                     </button>
                 </div>
@@ -41,8 +43,8 @@
 
             <form id="registerForm" class="auth-form" style="display: none;">
                 <input type="text" placeholder="Họ và tên sinh viên" required>
-                <input type="text" id="regMssvOrEmail" placeholder="MSSV hoặc Email trường" required>
-                <input type="password" id="regPass" placeholder="Mật khẩu (không dấu cách)" required>
+                <input type="text" id="regEmail" placeholder="Nhập email" required>
+                <input type="password" id="regPass" placeholder="Mật khẩu" required>
                 <input type="password" id="regPassConfirm" placeholder="Nhập lại mật khẩu" required>
                 <p id="registerError" class="error-text" style="display: none;"></p>
                 <button type="submit" class="auth-submit vlu-red-btn">Tạo tài khoản mới</button>
@@ -51,20 +53,25 @@
     </div>
 
     <div class="top-auth-area">
-        <button id="guestBtn" class="guest-toggle-btn">
-            <i class="fas fa-user-circle"></i> Đăng nhập
-        </button>
+        <div class="user-dropdown-container">
+            <button id="guestBtn" class="guest-toggle-btn">
+                <i class="fas fa-user-circle"></i> Đăng nhập
+            </button>
+            <div id="userDropdown" class="dropdown-menu" style="display: none;">
+                <button id="logoutBtn" class="dropdown-item">
+                    <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                </button>
+            </div>
+        </div>
     </div>
 
     <div class="gemini-container">
         <aside class="gemini-sidebar">
             <div class="sidebar-top">
-                <img src="img/logovanlang.png" alt="Logo VLU" class="sidebar-logo">
-                <div class="sidebar-menu">
-    <div class="menu-item" id="goHomeBtn">
-        <i class="fas fa-home"></i> Trang chủ
-    </div>
-    </div>
+                <a href="#" id="goHomeBtn" style="text-decoration: none; display: block; text-align: center;">
+                    <img src="img/logovanlang.png" alt="Logo VLU" class="sidebar-logo" style="cursor: pointer;">
+                </a>
+
                 <div class="personalization-group" style="margin-top: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
                     <p class="history-label">Lộ trình & Tư vấn</p>
                     <button id="btn-roadmap" class="icon-link sidebar-feature-btn" title="Lộ trình học tập cá nhân">
@@ -79,25 +86,26 @@
                     <button id="btn-future" class="icon-link sidebar-feature-btn" title="Định hướng nghề nghiệp">
                         <i class="fas fa-compass"></i> Định hướng tương lai
                     </button>
+
+                    <div id="adminModule" style="display: none; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
+                        <a href="admin.html" class="icon-link sidebar-feature-btn" style="color: #ffb86c !important; text-decoration: none; display: block;">
+                            <i class="fas fa-user-shield"></i> Quản lý hệ thống
+                        </a>
+                    </div>
                 </div>
 
                 <button class="new-chat-btn" id="newChatBtn">
                     <i class="fas fa-plus"></i> Đoạn chat mới
-                </button>
-                
+        </button>
 
                 <div class="chat-history-list" id="chatHistoryList">
                     <p class="history-label">Gần đây</p>
                 </div>
             </div>
-            
-
             <div class="sidebar-bottom">
-                <button id="clearChatBtn" class="icon-link clear-history-btn" title="Xóa toàn bộ lịch sử">
-                    <i class="fas fa-trash-alt"></i> Xóa lịch sử chat
-                </button>
-                <button class="icon-link"><i class="fas fa-question-circle"></i> Trợ giúp</button>
-                <button class="icon-link"><i class="fas fa-cog"></i> Cài đặt</button>
+                <button class="icon-link" id="clearHistoryBtn" title="Xóa lịch sử">
+                    <i class="fas fa-trash-alt"></i> Xóa lịch sử
+                </button><button class="icon-link"><i class="fas fa-cog"></i> Cài đặt</button>
             </div>
         </aside>
 
@@ -105,8 +113,8 @@
             <header class="top-header">
                 <div class="header-brand">
                     <button id="toggleSidebar" class="toggle-btn">
-    <i class="fas fa-bars"></i>
-</button>
+                        <i class="fas fa-bars"></i>
+                    </button>
                     <img src="img/logovanlang.png" alt="Logo VLU" class="header-logo">
                     <div class="model-name">VLU Chatbot <i class="fas fa-chevron-down"></i></div>
 
@@ -117,65 +125,113 @@
             </header>
 
             <div id="chatbox" class="chat-display">
+                <div id="messagesContainer"></div>
+
                 <div class="gemini-welcome" id="welcomeScreen">
                     <h1><span class="gradient-text">Xin chào, sinh viên VLU!</span></h1>
                     <h2 class="sub-welcome" id="dynamicGreeting">Hôm nay mình có thể giúp gì cho bạn?</h2>
+
+                    <div class="suggestion-container">
+                        <div class="suggestion-card" onclick="window.ui.useSuggestion('Lộ trình học tập ngành Công nghệ thông tin')">
+                            <i class="fas fa-map-marked-alt"></i>
+                            <p>Lộ trình học tập</p>
+                        </div>
+                        <div class="suggestion-card" onclick="window.ui.useSuggestion('Cách tính điểm GPA tại VLU')">
+                            <i class="fas fa-calculator"></i>
+                            <p>Cách tính GPA</p>
+                        </div>
+                        <div class="suggestion-card" onclick="window.ui.useSuggestion('Điều kiện xét tốt nghiệp VLU')">
+                            <i class="fas fa-graduation-cap"></i>
+                            <p>Điều kiện tốt nghiệp</p>
+                        </div>
+                        <div class="suggestion-card" onclick="window.ui.useSuggestion('Định hướng nghề nghiệp tương lai')">
+                            <i class="fas fa-briefcase"></i>
+                            <p>Định hướng nghề nghiệp</p>
+                        </div>
+                    </div>
                 </div>
 
-                <button id="scrollToBottom" class="scroll-btn">
+                <button id="scrollToBottom" class="scroll-btn" style="display: none;">
                     <i class="fas fa-arrow-down"></i>
                 </button>
             </div>
 
             <div class="bottom-container">
-                <div class="input-wrapper">
-                    <div class="attach-wrapper">
-                        <button type="button" class="plus-btn" id="plusBtn">
-                            <i class="fas fa-plus"></i>
-                        </button>
+                <div class="input-wrapper" id="inputWrapper">
 
-                        <div class="attach-menu" id="attachMenu">
-                            <div class="menu-item"><i class="fas fa-image"></i> Thêm ảnh và tệp</div>
-                            <div class="menu-item"><i class="fas fa-wand-magic-sparkles"></i> Tạo hình ảnh</div>
-                            <div class="menu-item"><i class="fas fa-lightbulb"></i> Đang suy nghĩ</div>
-                            <div class="menu-item"><i class="fas fa-microscope"></i> Nghiên cứu chuyên sâu</div>
-                            <div class="menu-item has-submenu">
-                                <span><i class="fas fa-ellipsis"></i> Thêm</span>
-                                <i class="fas fa-chevron-right arrow"></i>
-                                <div class="submenu">
-                                    <div class="menu-item"><i class="fas fa-globe"></i> Tìm kiếm trên mạng</div>
-                                    <div class="menu-item"><i class="fas fa-graduation-cap"></i> Học hỏi</div>
-                                    <div class="menu-item"><i class="fas fa-pen-nib"></i> Soạn thảo văn bản</div>
-                                    <div class="menu-item"><i class="fas fa-file-invoice"></i> Bài kiểm tra</div>
-                                </div>
-                            </div>
+                    <div id="imagePreviewContainer" style="display: none;">
+                        <div class="preview-badge">
+                            <img id="imagePreview" src="">
+                            <span id="closePreview">& times;</span>
                         </div>
                     </div>
 
-                    <textarea id="userInput" placeholder="Nhập câu hỏi tại đây..." rows="1"></textarea>
+                    <div class="input-row" style="display: flex; width: 100%; align-items: flex-end; gap: 12px;">
+                        <div class="attach-wrapper">
+                            <button type="button" class="plus-btn" id="plusBtn" title="Đính kèm">
+                                <i class="fas fa-plus"></i>
+                            </button>
 
-                    <div class="input-tools-right">
-                        <button class="mic-btn"><i class="fas fa-microphone"></i></button>
-                        <button id="sendBtn" class="send-btn"><i class="fas fa-paper-plane"></i></button>
+                            <div class="attach-menu" id="attachMenu" style="display: none;">
+                                <div class="menu-item" onclick="document.getElementById('hiddenFileInput').click()"><i class="fas fa-image"></i> Thêm ảnh và tệp</div>
+                                <div class="menu-item"><i class="fas fa-wand-magic-sparkles"></i> Tạo hình ảnh</div>
+                                <div class="menu-item"><i class="fas fa-lightbulb"></i> Đang suy nghĩ</div>
+                                <div class="menu-item"><i class="fas fa-microscope"></i> Nghiên cứu chuyên sâu</div>
+                                <div class="menu-item has-submenu">
+                                    <span><i class="fas fa-ellipsis"></i> Thêm</span>
+                                    <i class="fas fa-chevron-right arrow"></i>
+                                    <div class="submenu">
+                                        <div class="menu-item"><i class="fas fa-globe"></i> Tìm kiếm trên mạng</div>
+                                        <div class="menu-item"><i class="fas fa-graduation-cap"></i> Học hỏi</div>
+                                        <div class="menu-item"><i class="fas fa-pen-nib"></i> Soạn thảo văn bản</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <textarea id="userInput" placeholder="Hỏi VLU Chatbot bất cứ điều gì..." rows="1"></textarea>
+
+                        <div class="input-tools-right">
+                            <button class="mic-btn" id="micBtn" title="Nhập liệu bằng giọng nói">
+                                <i class="fas fa-microphone"></i>
+                            </button>
+                            <button id="sendBtn" class="send-btn" title="Gửi (Enter)">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
-                <p class="disclaimer">VLU Chatbot có thể đưa ra thông tin không chính xác. Hãy kiểm tra lại lịch đào tạo chính thức</p>
+                <p class="disclaimer">VLU Chatbot có thể đưa ra thông tin không chính xác. Hãy kiểm tra lại lịch đào tạo chính thức.</p>
             </div>
         </main>
     </div>
 
+    <input type="file" id="hiddenFileInput" style="display: none;" accept="image/*, .pdf, .docx, .txt">
+
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 
-    <script src="auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-    <script src="config.js"></script>
-    <script src="auth.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script type="module" src="script.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyC03anG1UFwBR1752-JGNHyOtQtDcyx1co",
+            authDomain: "vlu---bot.firebaseapp.com",
+            projectId: "vlu---bot",
+            storageBucket: "vlu---bot.firebasestorage.app",
+            messagingSenderId: "869970228305",
+            appId: "1:869970228305:web:c1bc57cf4982f4c811b470",
+            measurementId: "G-FCW5JT8K0T"
+        };
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+    </script>
 
-    
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/upload.js"></script>
+    <script src="js/chat.js"></script>
+    <script src="js/main.js"></script>
 </body>
 
 </html>
