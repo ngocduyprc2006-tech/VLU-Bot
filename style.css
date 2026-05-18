@@ -1,1529 +1,1681 @@
-                       :root {
-                          --bg-main: #ffffff;
-                          --sidebar-bg: #f9f9f9;
-                          --input-bg: #f4f4f4;
-                          --text-main: #2d2d2d;
-                          --vlu-red: #ed1c24;
-                          --vlu-red-hover: #c4161d;
-                          --border-color: #e5e5e5;
-                      }
-                      
-                      * {
-                          margin: 0;
-                          padding: 0;
-                          box-sizing: border-box;
-                      }
-                      
-                      body {
-                          background: var(--bg-main);
-                          font-family: 'Segoe UI', sans-serif;
-                          color: var(--text-main);
-                          height: 100vh;
-                          overflow: hidden;
-                      }
-                      
-                      .gemini-container {
-                          display: flex;
-                          height: 100vh;
-                      }
-                      /* Sidebar */
-                      
-                      .gemini-sidebar {
-                          width: 260px;
-                          background: var(--sidebar-bg);
-                          border-right: 1px solid var(--border-color);
-                          display: flex;
-                          flex-direction: column;
-                          justify-content: space-between;
-                          padding: 15px;
-                          z-index: 100;
-                      }
-                      /* --- [MỚI CHÈN] STYLE CHO NÚT LOGO TRANG CHỦ --- */
-                      
-                      #goHomeBtn {
-                          text-decoration: none;
-                          display: block;
-                          width: 100%;
-                          transition: transform 0.2s;
-                      }
-                      
-                      #goHomeBtn:hover {
-                          transform: scale(1.03);
-                      }
-                      /* ------------------------------------------- */
-                      /* CSS CHO SIDEBAR LOGO */
-                      
-                      .sidebar-logo {
-                          width: 140px;
-                          height: auto;
-                          margin-bottom: 25px;
-                          display: block;
-                          margin-left: auto;
-                          margin-right: auto;
-                      }
-                      
-                      .sidebar-top {
-                          display: flex;
-                          flex-direction: column;
-                          align-items: center;
-                          flex: 1;
-                          overflow: hidden;
-                          width: 100%;
-                      }
-                      
-                      .new-chat-btn {
-                          width: 100%;
-                          padding: 12px;
-                          border: 1px solid #ddd;
-                          border-radius: 10px;
-                          background: white;
-                          font-weight: 600;
-                          cursor: pointer;
-                          display: flex;
-                          align-items: center;
-                          gap: 10px;
-                      }
-                      /* Main Content */
-                      
-                      .main-content {
-                          flex: 1;
-                          display: flex;
-                          flex-direction: column;
-                          align-items: center;
-                          position: relative;
-                      }
-                      
-                      .top-header {
-                          width: 100%;
-                          padding: 15px 25px;
-                          border-bottom: 1px solid #f0f0f0;
-                      }
-                      /* CSS CHO HEADER LOGO */
-                      
-                      .header-brand {
-                          display: flex;
-                          align-items: center;
-                          gap: 10px;
-                      }
-                      
-                      .header-logo {
-                          width: 30px;
-                          height: 30px;
-                          object-fit: contain;
-                      }
-                      
-                      .chat-display {
-                          flex: 1;
-                          width: 100%;
-                          max-width: 850px;
-                          padding: 20px;
-                          overflow-y: auto;
-                          display: flex;
-                          flex-direction: column;
-                      }
-                      
-                      .gradient-text {
-                          font-size: 44px;
-                          font-weight: 800;
-                          background: linear-gradient(to right, var(--vlu-red), #ff6b6b);
-                          -webkit-background-clip: text;
-                          background-clip: text;
-                          -webkit-text-fill-color: transparent;
-                          display: inline-block;
-                      }
-                      
-                      .gemini-welcome {
-                          margin-top: 10vh;
-                          text-align: center;
-                          width: 100%;
-                          max-width: 800px;
-                          margin-left: auto;
-                          margin-right: auto;
-                      }
-                      
-                      .sub-welcome {
-                          font-size: 28px;
-                          color: #666;
-                          margin-top: 15px;
-                          margin-bottom: 20px;
-                      }
-                      /* Suggestion Container & Cards */
-                      
-                      .suggestion-container {
-                          display: grid;
-                          grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-                          gap: 15px;
-                          margin-top: 40px;
-                          padding: 0 10px;
-                      }
-                      
-                      .suggestion-card {
-                          background: white;
-                          border: 1px solid var(--border-color);
-                          border-radius: 16px;
-                          padding: 20px;
-                          text-align: left;
-                          cursor: pointer;
-                          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                          display: flex;
-                          flex-direction: column;
-                          gap: 12px;
-                          min-height: 120px;
-                          justify-content: space-between;
-                      }
-                      
-                      .suggestion-card:hover {
-                          background: #fcfcfc;
-                          border-color: var(--vlu-red);
-                          transform: translateY(-4px);
-                          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
-                      }
-                      
-                      .suggestion-card i {
-                          font-size: 24px;
-                          color: var(--vlu-red);
-                      }
-                      
-                      .suggestion-card p {
-                          font-size: 15px;
-                          font-weight: 500;
-                          color: #444;
-                          margin: 0;
-                          line-height: 1.4;
-                      }
-                      
-                      .hidden {
-                          display: none !important;
-                      }
-                      /* Chat Bubbles */
-                      
-                      .message {
-                          margin-bottom: 25px;
-                          display: flex;
-                          gap: 15px;
-                      }
-                      
-                      .user-message {
-                          justify-content: flex-end;
-                      }
-                      
-                      .user-message .content {
-                          background: #f0f0f0;
-                          padding: 12px 18px;
-                          border-radius: 18px 18px 0 18px;
-                          max-width: 70%;
-                      }
-                      
-                      .bot-message .bot-icon {
-                          width: 35px;
-                          height: 35px;
-                          background: var(--vlu-red);
-                          color: white;
-                          border-radius: 50%;
-                          display: flex;
-                          align-items: center;
-                          justify-content: center;
-                      }
-                      /* Input Bar */
-                      
-                      .bottom-container {
-                          width: 100%;
-                          max-width: 850px;
-                          padding: 0 20px 25px;
-                      }
-                      
-                      .input-wrapper {
-                          background: var(--input-bg);
-                          border-radius: 28px;
-                          padding: 10px 18px;
-                          display: flex;
-                          align-items: center;
-                          gap: 12px;
-                          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-                      }
-                      
-                      textarea {
-                          flex: 1;
-                          background: none;
-                          border: none;
-                          outline: none;
-                          font-size: 16px;
-                          resize: none;
-                          font-family: inherit;
-                          padding: 8px 0;
-                          max-height: 150px;
-                      }
-                      
-                      .input-tools-right {
-                          display: flex;
-                          align-items: center;
-                          gap: 10px;
-                          flex-shrink: 0;
-                      }
-                      
-                      .mic-btn,
-                      .send-btn {
-                          width: 35px;
-                          height: 35px;
-                          border-radius: 50%;
-                          border: none;
-                          background: transparent;
-                          cursor: pointer;
-                          display: flex;
-                          align-items: center;
-                          justify-content: center;
-                          transition: 0.2s;
-                          font-size: 16px;
-                          color: #555;
-                      }
-                      
-                      .mic-btn:hover {
-                          background-color: #e8e8e8;
-                      }
-                      
-                      .send-btn {
-                          background-color: #222;
-                          color: white;
-                      }
-                      
-                      .send-btn:hover {
-                          background-color: var(--vlu-red);
-                      }
-                      
-                      .plus-btn {
-                          width: 32px;
-                          height: 32px;
-                          border-radius: 50%;
-                          border: 1px solid #ccc;
-                          background: transparent;
-                          color: #666;
-                          cursor: pointer;
-                          transition: 0.3s;
-                          display: flex;
-                          align-items: center;
-                          justify-content: center;
-                          flex-shrink: 0;
-                      }
-                      
-                      .plus-btn.active {
-                          transform: rotate(45deg);
-                          background: var(--vlu-red);
-                          border-color: var(--vlu-red);
-                          color: white;
-                      }
-                      
-                      .attach-wrapper {
-                          position: relative;
-                      }
-                      
-                      .attach-menu {
-                          display: none;
-                          position: absolute;
-                          bottom: 50px;
-                          left: 0;
-                          width: 220px;
-                          background: #212121;
-                          border-radius: 12px;
-                          padding: 8px;
-                          z-index: 1000;
-                          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-                      }
-                      
-                      .attach-menu.show {
-                          display: block;
-                      }
-                      
-                      .menu-item {
-                          padding: 10px;
-                          color: #ececec;
-                          font-size: 14px;
-                          cursor: pointer;
-                          border-radius: 8px;
-                          display: flex;
-                          align-items: center;
-                          gap: 12px;
-                      }
-                      
-                      .menu-item:hover {
-                          background: #333;
-                      }
-                      
-                      .has-submenu {
-                          display: flex;
-                          justify-content: space-between;
-                          align-items: center;
-                      }
-                      
-                      .submenu {
-                          display: none;
-                          position: absolute;
-                          left: 215px;
-                          bottom: 0;
-                          width: 180px;
-                          background: #212121;
-                          border-radius: 12px;
-                          padding: 8px;
-                          border: 1px solid #444;
-                      }
-                      
-                      .has-submenu:hover .submenu {
-                          display: block;
-                      }
-                      /* Auth Area */
-                      
-                      .modal {
-                          display: none;
-                          position: fixed;
-                          z-index: 2000;
-                          left: 0;
-                          top: 0;
-                          width: 100%;
-                          height: 100%;
-                          background: rgba(0, 0, 0, 0.5);
-                          backdrop-filter: blur(4px);
-                      }
-                      
-                      .modal-content {
-                          background: white;
-                          margin: 10% auto;
-                          padding: 30px;
-                          width: 350px;
-                          border-radius: 20px;
-                          text-align: center;
-                          position: relative;
-                      }
-                      
-                      .auth-tabs {
-                          display: flex;
-                          justify-content: space-around;
-                          margin-bottom: 20px;
-                          border-bottom: 1px solid #eee;
-                      }
-                      
-                      .tab-btn {
-                          padding: 10px;
-                          border: none;
-                          background: none;
-                          cursor: pointer;
-                          font-weight: 600;
-                          color: #888;
-                      }
-                      
-                      .tab-btn.active {
-                          color: var(--vlu-red);
-                          border-bottom: 2px solid var(--vlu-red);
-                      }
-                      
-                      .auth-form {
-                          display: flex;
-                          flex-direction: column;
-                          gap: 12px;
-                      }
-                      
-                      .auth-form input {
-                          padding: 12px;
-                          border: 1px solid #ddd;
-                          border-radius: 8px;
-                          outline: none;
-                      }
-                      
-                      .vlu-red-btn {
-                          background: var(--vlu-red);
-                          color: white;
-                          border: none;
-                          padding: 12px;
-                          border-radius: 8px;
-                          font-weight: bold;
-                          cursor: pointer;
-                      }
-                      
-                      .vlu-red-btn:hover {
-                          background: var(--vlu-red-hover);
-                      }
-                      
-                      .top-auth-area {
-                          position: absolute;
-                          top: 15px;
-                          right: 20px;
-                          z-index: 100;
-                      }
-                      
-                      .guest-toggle-btn {
-                          background: var(--vlu-red);
-                          color: white;
-                          border: none;
-                          padding: 8px 18px;
-                          border-radius: 25px;
-                          font-weight: 600;
-                          cursor: pointer;
-                      }
-                      
-                      .social-login-separator {
-                          display: flex;
-                          align-items: center;
-                          margin: 15px 0;
-                          color: #888;
-                          font-size: 13px;
-                      }
-                      
-                      .social-login-separator::before,
-                      .social-login-separator::after {
-                          content: '';
-                          flex: 1;
-                          border-bottom: 1px solid #eee;
-                      }
-                      
-                      .social-login-buttons {
-                          display: flex;
-                          gap: 10px;
-                      }
-                      
-                      .social-btn {
-                          flex: 1;
-                          padding: 10px;
-                          border: 1px solid #ddd;
-                          border-radius: 8px;
-                          background: #f9f9f9;
-                          cursor: pointer;
-                          font-weight: 600;
-                          display: flex;
-                          align-items: center;
-                          justify-content: center;
-                          gap: 5px;
-                      }
-                      
-                      .facebook-btn {
-                          background: #1877f2;
-                          color: white;
-                          border: none;
-                      }
-                      
-                      .disclaimer {
-                          font-size: 11px;
-                          color: #999;
-                          text-align: center;
-                          margin-top: 10px;
-                      }
-                      /* Sidebar Bottom Fix */
-                      
-                      .sidebar-bottom {
-                          display: flex;
-                          flex-direction: column;
-                          gap: 5px;
-                          padding-top: 10px;
-                      }
-                      
-                      .icon-link {
-                          width: 100%;
-                          padding: 10px 12px;
-                          display: flex;
-                          align-items: center;
-                          gap: 12px;
-                          background: transparent;
-                          border: none;
-                          border-radius: 8px;
-                          color: #444;
-                          font-size: 14px;
-                          font-weight: 500;
-                          cursor: pointer;
-                          transition: 0.2s;
-                          text-align: left;
-                      }
-                      
-                      .icon-link:hover {
-                          background-color: #f0f0f0;
-                          color: var(--vlu-red);
-                      }
-                      
-                      .icon-link i {
-                          font-size: 16px;
-                          color: #666;
-                      }
-                      /* Hiệu ứng 3 dấu chấm nhảy múa */
-                      
-                      .typing-indicator .content {
-                          display: flex;
-                          gap: 4px;
-                          padding: 12px 18px !important;
-                      }
-                      
-                      .dot {
-                          width: 6px;
-                          height: 6px;
-                          background: #888;
-                          border-radius: 50%;
-                          animation: wave 1.3s infinite;
-                      }
-                      
-                      .dot:nth-child(2) {
-                          animation-delay: 0.15s;
-                      }
-                      
-                      .dot:nth-child(3) {
-                          animation-delay: 0.3s;
-                      }
-                      
-                      @keyframes wave {
-                          0%,
-                          60%,
-                          100% {
-                              transform: translateY(0);
-                          }
-                          30% {
-                              transform: translateY(-6px);
-                          }
-                      }
-                      /* Hiệu ứng mờ dần cho tin nhắn mới */
-                      
-                      .fade-in {
-                          animation: fadeIn 0.4s ease forwards;
-                      }
-                      
-                      @keyframes fadeIn {
-                          from {
-                              opacity: 0;
-                              transform: translateY(10px);
-                          }
-                          to {
-                              opacity: 1;
-                              transform: translateY(0);
-                          }
-                      }
-                      /* Mặc định nút gửi hơi mờ khi chưa có chữ */
-                      
-                      #sendBtn {
-                          opacity: 0.5;
-                          transition: 0.3s;
-                      }
-                      
-                      .clear-btn {
-                          width: 35px;
-                          height: 35px;
-                          border-radius: 50%;
-                          border: none;
-                          background: transparent;
-                          color: #999;
-                          cursor: pointer;
-                          display: flex;
-                          align-items: center;
-                          justify-content: center;
-                          transition: 0.3s;
-                          font-size: 16px;
-                      }
-                      
-                      .clear-btn:hover {
-                          background: #eeeeee;
-                          color: #ed1c24;
-                      }
-                      
-                      .input-tools-right {
-                          display: flex;
-                          align-items: center;
-                          gap: 8px !important;
-                          flex-shrink: 0;
-                      }
-                      /* Nút cuộn xuống dưới */
-                      
-                      .scroll-btn {
-                          position: sticky;
-                          bottom: 20px;
-                          left: 50%;
-                          transform: translateX(-50%);
-                          width: 35px;
-                          height: 35px;
-                          border-radius: 50%;
-                          background: white;
-                          border: 1px solid #ddd;
-                          color: #666;
-                          display: none;
-                          align-items: center;
-                          justify-content: center;
-                          cursor: pointer;
-                          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-                          z-index: 10;
-                          transition: 0.3s;
-                      }
-                      
-                      .scroll-btn:hover {
-                          background: #f5f5f5;
-                          color: var(--vlu-red);
-                      }
-                      /* --- PHẦN BỔ SUNG: LỊCH SỬ CHAT BÊN SIDEBAR --- */
-                      
-                      .chat-history-list {
-                          margin-top: 15px;
-                          width: 100%;
-                          overflow-y: auto;
-                          max-height: 55vh;
-                          padding-right: 5px;
-                      }
-                      
-                      .history-item {
-                          padding: 10px 12px;
-                          border-radius: 8px;
-                          cursor: pointer;
-                          font-size: 13.5px;
-                          white-space: nowrap;
-                          overflow: hidden;
-                          text-overflow: ellipsis;
-                          transition: 0.2s;
-                          display: flex;
-                          align-items: center;
-                          justify-content: space-between;
-                          gap: 10px;
-                          color: #555;
-                          margin-bottom: 2px;
-                      }
-                      
-                      .history-item:hover {
-                          background-color: #f0f0f0;
-                          color: var(--vlu-red);
-                      }
-                      
-                      .history-info {
-                          display: flex;
-                          align-items: center;
-                          gap: 10px;
-                          flex: 1;
-                          overflow: hidden;
-                      }
-                      
-                      .history-title {
-                          white-space: nowrap;
-                          overflow: hidden;
-                          text-overflow: ellipsis;
-                      }
-                      
-                      .history-actions {
-                          display: flex;
-                          align-items: center;
-                      }
-                      
-                      .delete-btn {
-                          opacity: 0.6;
-                          transition: 0.3s;
-                          cursor: pointer;
-                          display: none;
-                      }
-                      
-                      .history-item:hover .delete-btn {
-                          display: block;
-                      }
-                      
-                      .delete-btn:hover {
-                          color: var(--vlu-red);
-                          opacity: 1;
-                      }
-                      
-                      .history-item.active {
-                          background: rgba(0, 0, 0, 0.05);
-                      }
-                      /* Dark Mode Support for Menu */
-                      
-                      body.dark-mode .dropdown-item {
-                          color: #ececec;
-                      }
-                      
-                      body.dark-mode .dropdown-item:hover {
-                          background: #3a3a3a;
-                      }
-                      /* Làm thanh cuộn mỏng */
-                      
-                      .chat-history-list::-webkit-scrollbar {
-                          width: 4px;
-                      }
-                      
-                      .chat-history-list::-webkit-scrollbar-thumb {
-                          background: #e0e0e0;
-                          border-radius: 10px;
-                      }
-                      
-                      #clearChatBtn {
-                          width: 100%;
-                          margin-top: 10px;
-                          background: transparent;
-                          border: 1px dashed #ccc;
-                          color: #888;
-                          padding: 8px;
-                          border-radius: 8px;
-                          font-size: 13px;
-                          cursor: pointer;
-                          display: flex;
-                          align-items: center;
-                          justify-content: center;
-                          gap: 8px;
-                      }
-                      
-                      #clearChatBtn:hover {
-                          background: #fff0f0;
-                          color: var(--vlu-red);
-                          border-color: var(--vlu-red);
-                      }
-                      /* --- CHẾ ĐỘ TỐI (DARK MODE) --- */
-                      
-                      body.dark-mode {
-                          --bg-main: #171717;
-                          --sidebar-bg: #212121;
-                          --input-bg: #2f2f2f;
-                          --text-main: #ececec;
-                          --border-color: #333;
-                      }
-                      
-                      body.dark-mode .new-chat-btn {
-                          background: #333;
-                          color: white;
-                          border-color: #444;
-                      }
-                      
-                      body.dark-mode .user-message .content {
-                          background: #333;
-                          color: white;
-                      }
-                      
-                      body.dark-mode textarea {
-                          color: white;
-                      }
-                      
-                      body.dark-mode .history-item {
-                          color: #ccc;
-                      }
-                      
-                      body.dark-mode .history-item:hover {
-                          background: #444;
-                      }
-                      
-                      body.dark-mode .modal-content {
-                          background: #212121;
-                          color: white;
-                      }
-                      
-                      body.dark-mode .auth-form input {
-                          background: #333;
-                          color: white;
-                          border-color: #444;
-                      }
-                      
-                      body.dark-mode .suggestion-card {
-                          background: #2a2a2a;
-                          border-color: #444;
-                      }
-                      
-                      body.dark-mode .suggestion-card:hover {
-                          background: #333;
-                          border-color: var(--vlu-red);
-                      }
-                      
-                      body.dark-mode .suggestion-card p {
-                          color: #ececec;
-                      }
-                      
-                      body.dark-mode .sub-welcome {
-                          color: #aaa;
-                      }
-                      
-                      body {
-                          transition: background 0.3s, color 0.3s;
-                      }
-                      /* --- HIỆU ỨNG MƯA LOGO VLU --- */
-                      
-                      .rain-logo {
-                          position: fixed;
-                          top: -50px;
-                          width: 30px;
-                          z-index: 9999;
-                          pointer-events: none;
-                          animation: rainFall linear forwards;
-                      }
-                      
-                      @keyframes rainFall {
-                          0% {
-                              transform: translateY(-50px) rotate(0deg);
-                              opacity: 1;
-                          }
-                          100% {
-                              transform: translateY(100vh) rotate(360deg);
-                              opacity: 0;
-                          }
-                      }
-                      /* --- CSS CHO NÚT DARK MODE TRÊN HEADER --- */
-                      
-                      .mode-toggle-top {
-                          background: transparent;
-                          border: none;
-                          color: #666;
-                          cursor: pointer;
-                          font-size: 18px;
-                          margin-left: 15px;
-                          display: flex;
-                          align-items: center;
-                          justify-content: center;
-                          transition: 0.3s;
-                          width: 35px;
-                          height: 35px;
-                          border-radius: 50%;
-                      }
-                      
-                      .mode-toggle-top:hover {
-                          background-color: rgba(237, 28, 36, 0.1);
-                          color: var(--vlu-red);
-                      }
-                      
-                      body.dark-mode .mode-toggle-top {
-                          color: #ccc;
-                      }
-                      
-                      body.dark-mode .mode-toggle-top:hover {
-                          background-color: rgba(255, 255, 255, 0.1);
-                          color: #ffcc00;
-                      }
-                      /* --- HIỆU ỨNG PHÁT SÁNG (GLOW) --- */
-                      
-                      @keyframes redGlow {
-                          0% {
-                              box-shadow: 0 0 5px rgba(237, 28, 36, 0.2);
-                          }
-                          50% {
-                              box-shadow: 0 0 20px rgba(237, 28, 36, 0.6);
-                          }
-                          100% {
-                              box-shadow: 0 0 5px rgba(237, 28, 36, 0.2);
-                          }
-                      }
-                      
-                      .typing-indicator .bot-icon {
-                          animation: redGlow 1.5s infinite;
-                          border: 1px solid var(--vlu-red);
-                      }
-                      /* --- STYLE NÚT COPY & SPEAK --- */
-                      
-                      .bot-actions {
-                          display: flex;
-                          gap: 12px;
-                          margin-top: 8px;
-                          opacity: 0;
-                          transition: 0.3s;
-                      }
-                      
-                      .message:hover .bot-actions {
-                          opacity: 1;
-                      }
-                      
-                      .bot-actions i {
-                          font-size: 13px;
-                          color: #888;
-                          cursor: pointer;
-                          transition: 0.2s;
-                      }
-                      
-                      .bot-actions i:hover {
-                          color: var(--vlu-red);
-                      }
-                      /* Làm đẹp nội dung bong bóng chat Bot */
-                      
-                      .bot-message .content {
-                          line-height: 1.6;
-                          font-size: 15px;
-                      }
-                      
-                      .bot-message .content h1,
-                      .bot-message .content h2 {
-                          margin-top: 10px;
-                          margin-bottom: 5px;
-                          color: #c0392b;
-                      }
-                      
-                      .bot-message .content code {
-                          background: #f0f0f0;
-                          padding: 2px 5px;
-                          border-radius: 4px;
-                          font-family: 'Courier New', monospace;
-                      }
-                      /* Sidebar Toggle */
-                      
-                      aside {
-                          transition: all 0.3s ease;
-                      }
-                      
-                      aside.closed {
-                          width: 0;
-                          padding: 0;
-                          margin: 0;
-                          opacity: 0;
-                      }
-                      
-                      .toggle-btn {
-                          background: transparent;
-                          border: none;
-                          color: var(--text-color);
-                          cursor: pointer;
-                          font-size: 20px;
-                      }
-                      /* Menu đính kèm */
-                      
-                      .attach-menu.active {
-                          display: block;
-                          animation: fadeInUp 0.2s ease-out;
-                      }
-                      
-                      @keyframes fadeInUp {
-                          from {
-                              opacity: 0;
-                              transform: translateY(10px);
-                          }
-                          to {
-                              opacity: 1;
-                              transform: translateY(0);
-                          }
-                      }
-                      /* Biến màu sắc cho Menu (Thêm vào :root và body.dark-mode đã có của bạn) */
-                      
-                       :root {
-                          --menu-bg: #ffffff;
-                          --menu-text: #2d2d2d;
-                          --menu-hover: #f0f0f0;
-                          --menu-shadow: rgba(0, 0, 0, 0.1);
-                      }
-                      
-                      body.dark-mode {
-                          --menu-bg: #212121;
-                          --menu-text: #ececec;
-                          --menu-hover: #333333;
-                          --menu-shadow: rgba(0, 0, 0, 0.5);
-                      }
-                      /* Biến màu sắc riêng cho Menu đính kèm */
-                      
-                       :root {
-                          --attach-bg: #ffffff;
-                          --attach-text: #2d2d2d;
-                          --attach-hover: #f0f0f0;
-                          --attach-border: #e5e5e5;
-                          --attach-shadow: rgba(0, 0, 0, 0.1);
-                      }
-                      
-                      body.dark-mode {
-                          --attach-bg: #212121;
-                          --attach-text: #ececec;
-                          --attach-hover: #333333;
-                          --attach-border: #444444;
-                          --attach-shadow: rgba(0, 0, 0, 0.5);
-                      }
-                      
-                      .attach-menu {
-                          display: none;
-                          /* Mặc định ẩn */
-                          position: absolute;
-                          bottom: 60px;
-                          left: 0;
-                          width: 220px;
-                          background: var(--attach-bg);
-                          color: var(--attach-text);
-                          border-radius: 12px;
-                          padding: 8px;
-                          z-index: 1000;
-                          box-shadow: 0 10px 30px var(--attach-shadow);
-                          border: 1px solid var(--attach-border);
-                      }
-                      
-                      .submenu {
-                          display: none;
-                          /* Chuyển sang điều khiển bằng JS */
-                          position: absolute;
-                          left: 215px;
-                          bottom: 0;
-                          width: 180px;
-                          background: var(--attach-bg);
-                          color: var(--attach-text);
-                          border-radius: 12px;
-                          padding: 8px;
-                          box-shadow: 0 10px 30px var(--attach-shadow);
-                          border: 1px solid var(--attach-border);
-                      }
-                      
-                      .menu-item {
-                          padding: 10px;
-                          color: var(--attach-text) !important;
-                          /* Ép màu chữ theo biến */
-                          font-size: 14px;
-                          cursor: pointer;
-                          border-radius: 8px;
-                          display: flex;
-                          align-items: center;
-                          gap: 12px;
-                          transition: background 0.2s;
-                      }
-                      
-                      .menu-item:hover {
-                          background: var(--attach-hover);
-                      }
-                      
-                      .menu-item i {
-                          color: var(--attach-text);
-                          opacity: 0.8;
-                      }
-                      
-                      .user-message .content img {
-                          cursor: pointer;
-                          transition: opacity 0.2s;
-                      }
-                      
-                      .user-message .content img:hover {
-                          opacity: 0.9;
-                      }
-                      
-                      .mic-btn.recording {
-                          color: red;
-                          animation: pulse 1s infinite;
-                      }
-                      
-                      @keyframes pulse {
-                          0% {
-                              opacity: 1;
-                          }
-                          50% {
-                              opacity: 0.5;
-                          }
-                          100% {
-                              opacity: 1;
-                          }
-                      }
-                      /* Hiệu ứng khi đang gõ - Giống Gemini */
-                      
-                      .input-wrapper:focus-within {
-                          border-color: var(--vlu-red);
-                          box-shadow: 0 0 0 2px rgba(191, 30, 46, 0.1);
-                          background: var(--bg-secondary);
-                      }
-                      /* Hiệu ứng nhấp nháy cho Mic khi đang ghi âm */
-                      
-                      .mic-btn.recording {
-                          color: #ef4444;
-                          animation: pulse-red 1.5s infinite;
-                      }
-                      
-                      @keyframes pulse-red {
-                          0% {
-                              transform: scale(1);
-                          }
-                          50% {
-                              transform: scale(1.2);
-                              box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
-                          }
-                          100% {
-                              transform: scale(1);
-                          }
-                      }
-                      /* Hiện menu đính kèm mượt mà hơn */
-                      
-                      .attach-menu {
-                          display: none;
-                          animation: fadeInScale 0.2s ease-out;
-                          transform-origin: bottom left;
-                      }
-                      
-                      @keyframes fadeInScale {
-                          from {
-                              opacity: 0;
-                              transform: scale(0.9) translateY(10px);
-                          }
-                          to {
-                              opacity: 1;
-                              transform: scale(1) translateY(0);
-                          }
-                      }
-                      /* Làm ảnh người dùng gửi nhỏ gọn lại */
-                      
-                      .user-message img {
-                          max-width: 250px;
-                          /* Duy chỉnh con số này tùy ý nhé */
-                          height: auto;
-                          border-radius: 12px;
-                          margin-top: 8px;
-                          border: 2px solid rgba(255, 255, 255, 0.2);
-                          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-                      }
-                      /* Hiệu ứng mượt khi hiện tin nhắn */
-                      
-                      .fade-in {
-                          animation: fadeIn 0.3s ease-in;
-                      }
-                      
-                      @keyframes fadeIn {
-                          from {
-                              opacity: 0;
-                              transform: translateY(10px);
-                          }
-                          to {
-                              opacity: 1;
-                              transform: translateY(0);
-                          }
-                      }
-                      /* --- DARK MODE CONFIG --- */
-                      
-                       :root {
-                          --vlu-red: #bf1e2e;
-                          --bg-primary: #ffffff;
-                          --bg-secondary: #f0f2f5;
-                          --text-main: #1f1f1f;
-                          --sidebar-bg: #f8f9fa;
-                          --input-bg: #ffffff;
-                          --message-bot: #f1f3f4;
-                      }
-                      
-                      body.dark-mode {
-                          --bg-primary: #131314;
-                          /* Màu nền tối của Gemini */
-                          --bg-secondary: #1e1f20;
-                          --text-main: #e3e3e3;
-                          --sidebar-bg: #1e1f20;
-                          --input-bg: #2b2c2f;
-                          --message-bot: #2b2c2f;
-                      }
-                      
-                      body {
-                          background-color: var(--bg-primary);
-                          color: var(--text-main);
-                          transition: background 0.3s, color 0.3s;
-                      }
-                      
-                      .gemini-sidebar {
-                          background-color: var(--sidebar-bg);
-                      }
-                      
-                      .main-content {
-                          background-color: var(--bg-primary);
-                      }
-                      
-                      .message.bot-message .content {
-                          background-color: var(--message-bot);
-                      }
-                      
-                      .input-wrapper {
-                          background-color: var(--input-bg);
-                          border: 1px solid rgba(255, 255, 255, 0.1);
-                      }
-                      
-                      #userInput {
-                          color: var(--text-main);
-                      }
-                      /* Hiệu ứng cho nút Dark Mode */
-                      
-                      #darkModeBtn {
-                          cursor: pointer;
-                          transition: transform 0.2s;
-                      }
-                      
-                      #darkModeBtn:active {
-                          transform: scale(0.9);
-                      }
-                      /* Thêm vào style.css */
-                      
-                      .history-item {
-                          display: flex;
-                          align-items: center;
-                          gap: 10px;
-                          padding: 8px 12px;
-                          margin: 5px 10px;
-                          border-radius: 8px;
-                          cursor: pointer;
-                          font-size: 14px;
-                          color: var(--text-main);
-                          transition: all 0.2s;
-                          white-space: nowrap;
-                          overflow: hidden;
-                          text-overflow: ellipsis;
-                      }
-                      
-                      .history-item:hover {
-                          background-color: rgba(0, 0, 0, 0.05);
-                      }
-                      
-                      body.dark-mode .history-item:hover {
-                          background-color: rgba(255, 255, 255, 0.1);
-                      }
-                      
-                      .history-item i {
-                          font-size: 13px;
-                          opacity: 0.6;
-                      }
-                      /* Bong bóng chat của Bot */
-                      
-                      .bot-message .content {
-                          background-color: #f1f3f4;
-                          color: #1f1f1f;
-                          padding: 12px 16px;
-                          border-radius: 4px 18px 18px 18px;
-                          max-width: 85%;
-                          /* Cho phép khung chat rộng hơn để chứa code */
-                          font-size: 15px;
-                          line-height: 1.5;
-                          overflow-wrap: break-word;
-                      }
-                      /* ĐỊNH DẠNG KHỐI CODE (DỨT ĐIỂM LỖI LẠ) */
-                      
-                      .bot-message .content pre {
-                          background-color: #1e1e1e;
-                          /* Màu nền tối cho code */
-                          color: #d4d4d4;
-                          padding: 15px;
-                          border-radius: 8px;
-                          overflow-x: auto;
-                          /* Tạo thanh cuộn ngang nếu code quá dài */
-                          margin: 10px 0;
-                          font-family: 'Consolas', 'Monaco', monospace;
-                          border: 1px solid #333;
-                      }
-                      
-                      .bot-message .content code {
-                          font-family: 'Consolas', monospace;
-                          background-color: rgba(0, 0, 0, 0.05);
-                          padding: 2px 4px;
-                          border-radius: 4px;
-                      }
-                      /* ==========================================================================
+                         :root {
+                            --bg-main: #ffffff;
+                            --sidebar-bg: #f9f9f9;
+                            --input-bg: #f4f4f4;
+                            --text-main: #2d2d2d;
+                            --vlu-red: #ed1c24;
+                            --vlu-red-hover: #c4161d;
+                            --border-color: #e5e5e5;
+                        }
+                        
+                        * {
+                            margin: 0;
+                            padding: 0;
+                            box-sizing: border-box;
+                        }
+                        
+                        body {
+                            background: var(--bg-main);
+                            font-family: 'Segoe UI', sans-serif;
+                            color: var(--text-main);
+                            height: 100vh;
+                            overflow: hidden;
+                        }
+                        
+                        .gemini-container {
+                            display: flex;
+                            height: 100vh;
+                        }
+                        /* Sidebar */
+                        
+                        .gemini-sidebar {
+                            width: 260px;
+                            background: var(--sidebar-bg);
+                            border-right: 1px solid var(--border-color);
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: space-between;
+                            padding: 15px;
+                            z-index: 100;
+                        }
+                        /* --- [MỚI CHÈN] STYLE CHO NÚT LOGO TRANG CHỦ --- */
+                        
+                        #goHomeBtn {
+                            text-decoration: none;
+                            display: block;
+                            width: 100%;
+                            transition: transform 0.2s;
+                        }
+                        
+                        #goHomeBtn:hover {
+                            transform: scale(1.03);
+                        }
+                        /* ------------------------------------------- */
+                        /* CSS CHO SIDEBAR LOGO */
+                        
+                        .sidebar-logo {
+                            width: 140px;
+                            height: auto;
+                            margin-bottom: 25px;
+                            display: block;
+                            margin-left: auto;
+                            margin-right: auto;
+                        }
+                        
+                        .sidebar-top {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            flex: 1;
+                            overflow: hidden;
+                            width: 100%;
+                        }
+                        
+                        .new-chat-btn {
+                            width: 100%;
+                            padding: 12px;
+                            border: 1px solid #ddd;
+                            border-radius: 10px;
+                            background: white;
+                            font-weight: 600;
+                            cursor: pointer;
+                            display: flex;
+                            align-items: center;
+                            gap: 10px;
+                        }
+                        /* Main Content */
+                        
+                        .main-content {
+                            flex: 1;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            position: relative;
+                        }
+                        
+                        .top-header {
+                            width: 100%;
+                            padding: 15px 25px;
+                            border-bottom: 1px solid #f0f0f0;
+                        }
+                        /* CSS CHO HEADER LOGO */
+                        
+                        .header-brand {
+                            display: flex;
+                            align-items: center;
+                            gap: 10px;
+                        }
+                        
+                        .header-logo {
+                            width: 30px;
+                            height: 30px;
+                            object-fit: contain;
+                        }
+                        
+                        .chat-display {
+                            flex: 1;
+                            width: 100%;
+                            max-width: 850px;
+                            padding: 20px;
+                            overflow-y: auto;
+                            display: flex;
+                            flex-direction: column;
+                        }
+                        
+                        .gradient-text {
+                            font-size: 44px;
+                            font-weight: 800;
+                            background: linear-gradient(to right, var(--vlu-red), #ff6b6b);
+                            -webkit-background-clip: text;
+                            background-clip: text;
+                            -webkit-text-fill-color: transparent;
+                            display: inline-block;
+                        }
+                        
+                        .gemini-welcome {
+                            margin-top: 10vh;
+                            text-align: center;
+                            width: 100%;
+                            max-width: 800px;
+                            margin-left: auto;
+                            margin-right: auto;
+                        }
+                        
+                        .sub-welcome {
+                            font-size: 28px;
+                            color: #666;
+                            margin-top: 15px;
+                            margin-bottom: 20px;
+                        }
+                        /* Suggestion Container & Cards */
+                        
+                        .suggestion-container {
+                            display: grid;
+                            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                            gap: 15px;
+                            margin-top: 40px;
+                            padding: 0 10px;
+                        }
+                        
+                        .suggestion-card {
+                            background: white;
+                            border: 1px solid var(--border-color);
+                            border-radius: 16px;
+                            padding: 20px;
+                            text-align: left;
+                            cursor: pointer;
+                            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                            display: flex;
+                            flex-direction: column;
+                            gap: 12px;
+                            min-height: 120px;
+                            justify-content: space-between;
+                        }
+                        
+                        .suggestion-card:hover {
+                            background: #fcfcfc;
+                            border-color: var(--vlu-red);
+                            transform: translateY(-4px);
+                            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+                        }
+                        
+                        .suggestion-card i {
+                            font-size: 24px;
+                            color: var(--vlu-red);
+                        }
+                        
+                        .suggestion-card p {
+                            font-size: 15px;
+                            font-weight: 500;
+                            color: #444;
+                            margin: 0;
+                            line-height: 1.4;
+                        }
+                        
+                        .hidden {
+                            display: none !important;
+                        }
+                        /* Chat Bubbles */
+                        
+                        .message {
+                            margin-bottom: 25px;
+                            display: flex;
+                            gap: 15px;
+                        }
+                        
+                        .user-message {
+                            justify-content: flex-end;
+                        }
+                        
+                        .user-message .content {
+                            background: #f0f0f0;
+                            padding: 12px 18px;
+                            border-radius: 18px 18px 0 18px;
+                            max-width: 70%;
+                        }
+                        
+                        .bot-message .bot-icon {
+                            width: 35px;
+                            height: 35px;
+                            background: var(--vlu-red);
+                            color: white;
+                            border-radius: 50%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                        }
+                        /* Input Bar */
+                        
+                        .bottom-container {
+                            width: 100%;
+                            max-width: 850px;
+                            padding: 0 20px 25px;
+                        }
+                        
+                        .input-wrapper {
+                            background: var(--input-bg);
+                            border-radius: 28px;
+                            padding: 10px 18px;
+                            display: flex;
+                            align-items: center;
+                            gap: 12px;
+                            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+                        }
+                        
+                        textarea {
+                            flex: 1;
+                            background: none;
+                            border: none;
+                            outline: none;
+                            font-size: 16px;
+                            resize: none;
+                            font-family: inherit;
+                            padding: 8px 0;
+                            max-height: 150px;
+                        }
+                        
+                        .input-tools-right {
+                            display: flex;
+                            align-items: center;
+                            gap: 10px;
+                            flex-shrink: 0;
+                        }
+                        
+                        .mic-btn,
+                        .send-btn {
+                            width: 35px;
+                            height: 35px;
+                            border-radius: 50%;
+                            border: none;
+                            background: transparent;
+                            cursor: pointer;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            transition: 0.2s;
+                            font-size: 16px;
+                            color: #555;
+                        }
+                        
+                        .mic-btn:hover {
+                            background-color: #e8e8e8;
+                        }
+                        
+                        .send-btn {
+                            background-color: #222;
+                            color: white;
+                        }
+                        
+                        .send-btn:hover {
+                            background-color: var(--vlu-red);
+                        }
+                        
+                        .plus-btn {
+                            width: 32px;
+                            height: 32px;
+                            border-radius: 50%;
+                            border: 1px solid #ccc;
+                            background: transparent;
+                            color: #666;
+                            cursor: pointer;
+                            transition: 0.3s;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            flex-shrink: 0;
+                        }
+                        
+                        .plus-btn.active {
+                            transform: rotate(45deg);
+                            background: var(--vlu-red);
+                            border-color: var(--vlu-red);
+                            color: white;
+                        }
+                        
+                        .attach-wrapper {
+                            position: relative;
+                        }
+                        
+                        .attach-menu {
+                            display: none;
+                            position: absolute;
+                            bottom: 50px;
+                            left: 0;
+                            width: 220px;
+                            background: #212121;
+                            border-radius: 12px;
+                            padding: 8px;
+                            z-index: 1000;
+                            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+                        }
+                        
+                        .attach-menu.show {
+                            display: block;
+                        }
+                        
+                        .menu-item {
+                            padding: 10px;
+                            color: #ececec;
+                            font-size: 14px;
+                            cursor: pointer;
+                            border-radius: 8px;
+                            display: flex;
+                            align-items: center;
+                            gap: 12px;
+                        }
+                        
+                        .menu-item:hover {
+                            background: #333;
+                        }
+                        
+                        .has-submenu {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                        }
+                        
+                        .submenu {
+                            display: none;
+                            position: absolute;
+                            left: 215px;
+                            bottom: 0;
+                            width: 180px;
+                            background: #212121;
+                            border-radius: 12px;
+                            padding: 8px;
+                            border: 1px solid #444;
+                        }
+                        
+                        .has-submenu:hover .submenu {
+                            display: block;
+                        }
+                        /* Auth Area */
+                        
+                        .modal {
+                            display: none;
+                            position: fixed;
+                            z-index: 2000;
+                            left: 0;
+                            top: 0;
+                            width: 100%;
+                            height: 100%;
+                            background: rgba(0, 0, 0, 0.5);
+                            backdrop-filter: blur(4px);
+                        }
+                        
+                        .modal-content {
+                            background: white;
+                            margin: 10% auto;
+                            padding: 30px;
+                            width: 350px;
+                            border-radius: 20px;
+                            text-align: center;
+                            position: relative;
+                        }
+                        
+                        .auth-tabs {
+                            display: flex;
+                            justify-content: space-around;
+                            margin-bottom: 20px;
+                            border-bottom: 1px solid #eee;
+                        }
+                        
+                        .tab-btn {
+                            padding: 10px;
+                            border: none;
+                            background: none;
+                            cursor: pointer;
+                            font-weight: 600;
+                            color: #888;
+                        }
+                        
+                        .tab-btn.active {
+                            color: var(--vlu-red);
+                            border-bottom: 2px solid var(--vlu-red);
+                        }
+                        
+                        .auth-form {
+                            display: flex;
+                            flex-direction: column;
+                            gap: 12px;
+                        }
+                        
+                        .auth-form input {
+                            padding: 12px;
+                            border: 1px solid #ddd;
+                            border-radius: 8px;
+                            outline: none;
+                        }
+                        
+                        .vlu-red-btn {
+                            background: var(--vlu-red);
+                            color: white;
+                            border: none;
+                            padding: 12px;
+                            border-radius: 8px;
+                            font-weight: bold;
+                            cursor: pointer;
+                        }
+                        
+                        .vlu-red-btn:hover {
+                            background: var(--vlu-red-hover);
+                        }
+                        
+                        .top-auth-area {
+                            position: absolute;
+                            top: 15px;
+                            right: 20px;
+                            z-index: 100;
+                        }
+                        
+                        .guest-toggle-btn {
+                            background: var(--vlu-red);
+                            color: white;
+                            border: none;
+                            padding: 8px 18px;
+                            border-radius: 25px;
+                            font-weight: 600;
+                            cursor: pointer;
+                        }
+                        
+                        .social-login-separator {
+                            display: flex;
+                            align-items: center;
+                            margin: 15px 0;
+                            color: #888;
+                            font-size: 13px;
+                        }
+                        
+                        .social-login-separator::before,
+                        .social-login-separator::after {
+                            content: '';
+                            flex: 1;
+                            border-bottom: 1px solid #eee;
+                        }
+                        
+                        .social-login-buttons {
+                            display: flex;
+                            gap: 10px;
+                        }
+                        
+                        .social-btn {
+                            flex: 1;
+                            padding: 10px;
+                            border: 1px solid #ddd;
+                            border-radius: 8px;
+                            background: #f9f9f9;
+                            cursor: pointer;
+                            font-weight: 600;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            gap: 5px;
+                        }
+                        
+                        .facebook-btn {
+                            background: #1877f2;
+                            color: white;
+                            border: none;
+                        }
+                        
+                        .disclaimer {
+                            font-size: 11px;
+                            color: #999;
+                            text-align: center;
+                            margin-top: 10px;
+                        }
+                        /* Sidebar Bottom Fix */
+                        
+                        .sidebar-bottom {
+                            display: flex;
+                            flex-direction: column;
+                            gap: 5px;
+                            padding-top: 10px;
+                        }
+                        
+                        .icon-link {
+                            width: 100%;
+                            padding: 10px 12px;
+                            display: flex;
+                            align-items: center;
+                            gap: 12px;
+                            background: transparent;
+                            border: none;
+                            border-radius: 8px;
+                            color: #444;
+                            font-size: 14px;
+                            font-weight: 500;
+                            cursor: pointer;
+                            transition: 0.2s;
+                            text-align: left;
+                        }
+                        
+                        .icon-link:hover {
+                            background-color: #f0f0f0;
+                            color: var(--vlu-red);
+                        }
+                        
+                        .icon-link i {
+                            font-size: 16px;
+                            color: #666;
+                        }
+                        /* Hiệu ứng 3 dấu chấm nhảy múa */
+                        
+                        .typing-indicator .content {
+                            display: flex;
+                            gap: 4px;
+                            padding: 12px 18px !important;
+                        }
+                        
+                        .dot {
+                            width: 6px;
+                            height: 6px;
+                            background: #888;
+                            border-radius: 50%;
+                            animation: wave 1.3s infinite;
+                        }
+                        
+                        .dot:nth-child(2) {
+                            animation-delay: 0.15s;
+                        }
+                        
+                        .dot:nth-child(3) {
+                            animation-delay: 0.3s;
+                        }
+                        
+                        @keyframes wave {
+                            0%,
+                            60%,
+                            100% {
+                                transform: translateY(0);
+                            }
+                            30% {
+                                transform: translateY(-6px);
+                            }
+                        }
+                        /* Hiệu ứng mờ dần cho tin nhắn mới */
+                        
+                        .fade-in {
+                            animation: fadeIn 0.4s ease forwards;
+                        }
+                        
+                        @keyframes fadeIn {
+                            from {
+                                opacity: 0;
+                                transform: translateY(10px);
+                            }
+                            to {
+                                opacity: 1;
+                                transform: translateY(0);
+                            }
+                        }
+                        /* Mặc định nút gửi hơi mờ khi chưa có chữ */
+                        
+                        #sendBtn {
+                            opacity: 0.5;
+                            transition: 0.3s;
+                        }
+                        
+                        .clear-btn {
+                            width: 35px;
+                            height: 35px;
+                            border-radius: 50%;
+                            border: none;
+                            background: transparent;
+                            color: #999;
+                            cursor: pointer;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            transition: 0.3s;
+                            font-size: 16px;
+                        }
+                        
+                        .clear-btn:hover {
+                            background: #eeeeee;
+                            color: #ed1c24;
+                        }
+                        
+                        .input-tools-right {
+                            display: flex;
+                            align-items: center;
+                            gap: 8px !important;
+                            flex-shrink: 0;
+                        }
+                        /* Nút cuộn xuống dưới */
+                        
+                        .scroll-btn {
+                            position: sticky;
+                            bottom: 20px;
+                            left: 50%;
+                            transform: translateX(-50%);
+                            width: 35px;
+                            height: 35px;
+                            border-radius: 50%;
+                            background: white;
+                            border: 1px solid #ddd;
+                            color: #666;
+                            display: none;
+                            align-items: center;
+                            justify-content: center;
+                            cursor: pointer;
+                            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                            z-index: 10;
+                            transition: 0.3s;
+                        }
+                        
+                        .scroll-btn:hover {
+                            background: #f5f5f5;
+                            color: var(--vlu-red);
+                        }
+                        /* --- PHẦN BỔ SUNG: LỊCH SỬ CHAT BÊN SIDEBAR --- */
+                        
+                        .chat-history-list {
+                            margin-top: 15px;
+                            width: 100%;
+                            overflow-y: auto;
+                            max-height: 55vh;
+                            padding-right: 5px;
+                        }
+                        
+                        .history-item {
+                            padding: 10px 12px;
+                            border-radius: 8px;
+                            cursor: pointer;
+                            font-size: 13.5px;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            transition: 0.2s;
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            gap: 10px;
+                            color: #555;
+                            margin-bottom: 2px;
+                        }
+                        
+                        .history-item:hover {
+                            background-color: #f0f0f0;
+                            color: var(--vlu-red);
+                        }
+                        
+                        .history-info {
+                            display: flex;
+                            align-items: center;
+                            gap: 10px;
+                            flex: 1;
+                            overflow: hidden;
+                        }
+                        
+                        .history-title {
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                        }
+                        
+                        .history-actions {
+                            display: flex;
+                            align-items: center;
+                        }
+                        
+                        .delete-btn {
+                            opacity: 0.6;
+                            transition: 0.3s;
+                            cursor: pointer;
+                            display: none;
+                        }
+                        
+                        .history-item:hover .delete-btn {
+                            display: block;
+                        }
+                        
+                        .delete-btn:hover {
+                            color: var(--vlu-red);
+                            opacity: 1;
+                        }
+                        
+                        .history-item.active {
+                            background: rgba(0, 0, 0, 0.05);
+                        }
+                        /* Dark Mode Support for Menu */
+                        
+                        body.dark-mode .dropdown-item {
+                            color: #ececec;
+                        }
+                        
+                        body.dark-mode .dropdown-item:hover {
+                            background: #3a3a3a;
+                        }
+                        /* Làm thanh cuộn mỏng */
+                        
+                        .chat-history-list::-webkit-scrollbar {
+                            width: 4px;
+                        }
+                        
+                        .chat-history-list::-webkit-scrollbar-thumb {
+                            background: #e0e0e0;
+                            border-radius: 10px;
+                        }
+                        
+                        #clearChatBtn {
+                            width: 100%;
+                            margin-top: 10px;
+                            background: transparent;
+                            border: 1px dashed #ccc;
+                            color: #888;
+                            padding: 8px;
+                            border-radius: 8px;
+                            font-size: 13px;
+                            cursor: pointer;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            gap: 8px;
+                        }
+                        
+                        #clearChatBtn:hover {
+                            background: #fff0f0;
+                            color: var(--vlu-red);
+                            border-color: var(--vlu-red);
+                        }
+                        /* --- CHẾ ĐỘ TỐI (DARK MODE) --- */
+                        
+                        body.dark-mode {
+                            --bg-main: #171717;
+                            --sidebar-bg: #212121;
+                            --input-bg: #2f2f2f;
+                            --text-main: #ececec;
+                            --border-color: #333;
+                        }
+                        
+                        body.dark-mode .new-chat-btn {
+                            background: #333;
+                            color: white;
+                            border-color: #444;
+                        }
+                        
+                        body.dark-mode .user-message .content {
+                            background: #333;
+                            color: white;
+                        }
+                        
+                        body.dark-mode textarea {
+                            color: white;
+                        }
+                        
+                        body.dark-mode .history-item {
+                            color: #ccc;
+                        }
+                        
+                        body.dark-mode .history-item:hover {
+                            background: #444;
+                        }
+                        
+                        body.dark-mode .modal-content {
+                            background: #212121;
+                            color: white;
+                        }
+                        
+                        body.dark-mode .auth-form input {
+                            background: #333;
+                            color: white;
+                            border-color: #444;
+                        }
+                        
+                        body.dark-mode .suggestion-card {
+                            background: #2a2a2a;
+                            border-color: #444;
+                        }
+                        
+                        body.dark-mode .suggestion-card:hover {
+                            background: #333;
+                            border-color: var(--vlu-red);
+                        }
+                        
+                        body.dark-mode .suggestion-card p {
+                            color: #ececec;
+                        }
+                        
+                        body.dark-mode .sub-welcome {
+                            color: #aaa;
+                        }
+                        
+                        body {
+                            transition: background 0.3s, color 0.3s;
+                        }
+                        /* --- HIỆU ỨNG MƯA LOGO VLU --- */
+                        
+                        .rain-logo {
+                            position: fixed;
+                            top: -50px;
+                            width: 30px;
+                            z-index: 9999;
+                            pointer-events: none;
+                            animation: rainFall linear forwards;
+                        }
+                        
+                        @keyframes rainFall {
+                            0% {
+                                transform: translateY(-50px) rotate(0deg);
+                                opacity: 1;
+                            }
+                            100% {
+                                transform: translateY(100vh) rotate(360deg);
+                                opacity: 0;
+                            }
+                        }
+                        /* --- CSS CHO NÚT DARK MODE TRÊN HEADER --- */
+                        
+                        .mode-toggle-top {
+                            background: transparent;
+                            border: none;
+                            color: #666;
+                            cursor: pointer;
+                            font-size: 18px;
+                            margin-left: 15px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            transition: 0.3s;
+                            width: 35px;
+                            height: 35px;
+                            border-radius: 50%;
+                        }
+                        
+                        .mode-toggle-top:hover {
+                            background-color: rgba(237, 28, 36, 0.1);
+                            color: var(--vlu-red);
+                        }
+                        
+                        body.dark-mode .mode-toggle-top {
+                            color: #ccc;
+                        }
+                        
+                        body.dark-mode .mode-toggle-top:hover {
+                            background-color: rgba(255, 255, 255, 0.1);
+                            color: #ffcc00;
+                        }
+                        /* --- HIỆU ỨNG PHÁT SÁNG (GLOW) --- */
+                        
+                        @keyframes redGlow {
+                            0% {
+                                box-shadow: 0 0 5px rgba(237, 28, 36, 0.2);
+                            }
+                            50% {
+                                box-shadow: 0 0 20px rgba(237, 28, 36, 0.6);
+                            }
+                            100% {
+                                box-shadow: 0 0 5px rgba(237, 28, 36, 0.2);
+                            }
+                        }
+                        
+                        .typing-indicator .bot-icon {
+                            animation: redGlow 1.5s infinite;
+                            border: 1px solid var(--vlu-red);
+                        }
+                        /* --- STYLE NÚT COPY & SPEAK --- */
+                        
+                        .bot-actions {
+                            display: flex;
+                            gap: 12px;
+                            margin-top: 8px;
+                            opacity: 0;
+                            transition: 0.3s;
+                        }
+                        
+                        .message:hover .bot-actions {
+                            opacity: 1;
+                        }
+                        
+                        .bot-actions i {
+                            font-size: 13px;
+                            color: #888;
+                            cursor: pointer;
+                            transition: 0.2s;
+                        }
+                        
+                        .bot-actions i:hover {
+                            color: var(--vlu-red);
+                        }
+                        /* Làm đẹp nội dung bong bóng chat Bot */
+                        
+                        .bot-message .content {
+                            line-height: 1.6;
+                            font-size: 15px;
+                        }
+                        
+                        .bot-message .content h1,
+                        .bot-message .content h2 {
+                            margin-top: 10px;
+                            margin-bottom: 5px;
+                            color: #c0392b;
+                        }
+                        
+                        .bot-message .content code {
+                            background: #f0f0f0;
+                            padding: 2px 5px;
+                            border-radius: 4px;
+                            font-family: 'Courier New', monospace;
+                        }
+                        /* Sidebar Toggle */
+                        
+                        aside {
+                            transition: all 0.3s ease;
+                        }
+                        
+                        aside.closed {
+                            width: 0;
+                            padding: 0;
+                            margin: 0;
+                            opacity: 0;
+                        }
+                        
+                        .toggle-btn {
+                            background: transparent;
+                            border: none;
+                            color: var(--text-color);
+                            cursor: pointer;
+                            font-size: 20px;
+                        }
+                        /* Menu đính kèm */
+                        
+                        .attach-menu.active {
+                            display: block;
+                            animation: fadeInUp 0.2s ease-out;
+                        }
+                        
+                        @keyframes fadeInUp {
+                            from {
+                                opacity: 0;
+                                transform: translateY(10px);
+                            }
+                            to {
+                                opacity: 1;
+                                transform: translateY(0);
+                            }
+                        }
+                        /* Biến màu sắc cho Menu (Thêm vào :root và body.dark-mode đã có của bạn) */
+                        
+                         :root {
+                            --menu-bg: #ffffff;
+                            --menu-text: #2d2d2d;
+                            --menu-hover: #f0f0f0;
+                            --menu-shadow: rgba(0, 0, 0, 0.1);
+                        }
+                        
+                        body.dark-mode {
+                            --menu-bg: #212121;
+                            --menu-text: #ececec;
+                            --menu-hover: #333333;
+                            --menu-shadow: rgba(0, 0, 0, 0.5);
+                        }
+                        /* Biến màu sắc riêng cho Menu đính kèm */
+                        
+                         :root {
+                            --attach-bg: #ffffff;
+                            --attach-text: #2d2d2d;
+                            --attach-hover: #f0f0f0;
+                            --attach-border: #e5e5e5;
+                            --attach-shadow: rgba(0, 0, 0, 0.1);
+                        }
+                        
+                        body.dark-mode {
+                            --attach-bg: #212121;
+                            --attach-text: #ececec;
+                            --attach-hover: #333333;
+                            --attach-border: #444444;
+                            --attach-shadow: rgba(0, 0, 0, 0.5);
+                        }
+                        
+                        .attach-menu {
+                            display: none;
+                            /* Mặc định ẩn */
+                            position: absolute;
+                            bottom: 60px;
+                            left: 0;
+                            width: 220px;
+                            background: var(--attach-bg);
+                            color: var(--attach-text);
+                            border-radius: 12px;
+                            padding: 8px;
+                            z-index: 1000;
+                            box-shadow: 0 10px 30px var(--attach-shadow);
+                            border: 1px solid var(--attach-border);
+                        }
+                        
+                        .submenu {
+                            display: none;
+                            /* Chuyển sang điều khiển bằng JS */
+                            position: absolute;
+                            left: 215px;
+                            bottom: 0;
+                            width: 180px;
+                            background: var(--attach-bg);
+                            color: var(--attach-text);
+                            border-radius: 12px;
+                            padding: 8px;
+                            box-shadow: 0 10px 30px var(--attach-shadow);
+                            border: 1px solid var(--attach-border);
+                        }
+                        
+                        .menu-item {
+                            padding: 10px;
+                            color: var(--attach-text) !important;
+                            /* Ép màu chữ theo biến */
+                            font-size: 14px;
+                            cursor: pointer;
+                            border-radius: 8px;
+                            display: flex;
+                            align-items: center;
+                            gap: 12px;
+                            transition: background 0.2s;
+                        }
+                        
+                        .menu-item:hover {
+                            background: var(--attach-hover);
+                        }
+                        
+                        .menu-item i {
+                            color: var(--attach-text);
+                            opacity: 0.8;
+                        }
+                        
+                        .user-message .content img {
+                            cursor: pointer;
+                            transition: opacity 0.2s;
+                        }
+                        
+                        .user-message .content img:hover {
+                            opacity: 0.9;
+                        }
+                        
+                        .mic-btn.recording {
+                            color: red;
+                            animation: pulse 1s infinite;
+                        }
+                        
+                        @keyframes pulse {
+                            0% {
+                                opacity: 1;
+                            }
+                            50% {
+                                opacity: 0.5;
+                            }
+                            100% {
+                                opacity: 1;
+                            }
+                        }
+                        /* Hiệu ứng khi đang gõ - Giống Gemini */
+                        
+                        .input-wrapper:focus-within {
+                            border-color: var(--vlu-red);
+                            box-shadow: 0 0 0 2px rgba(191, 30, 46, 0.1);
+                            background: var(--bg-secondary);
+                        }
+                        /* Hiệu ứng nhấp nháy cho Mic khi đang ghi âm */
+                        
+                        .mic-btn.recording {
+                            color: #ef4444;
+                            animation: pulse-red 1.5s infinite;
+                        }
+                        
+                        @keyframes pulse-red {
+                            0% {
+                                transform: scale(1);
+                            }
+                            50% {
+                                transform: scale(1.2);
+                                box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+                            }
+                            100% {
+                                transform: scale(1);
+                            }
+                        }
+                        /* Hiện menu đính kèm mượt mà hơn */
+                        
+                        .attach-menu {
+                            display: none;
+                            animation: fadeInScale 0.2s ease-out;
+                            transform-origin: bottom left;
+                        }
+                        
+                        @keyframes fadeInScale {
+                            from {
+                                opacity: 0;
+                                transform: scale(0.9) translateY(10px);
+                            }
+                            to {
+                                opacity: 1;
+                                transform: scale(1) translateY(0);
+                            }
+                        }
+                        /* Làm ảnh người dùng gửi nhỏ gọn lại */
+                        
+                        .user-message img {
+                            max-width: 250px;
+                            /* Duy chỉnh con số này tùy ý nhé */
+                            height: auto;
+                            border-radius: 12px;
+                            margin-top: 8px;
+                            border: 2px solid rgba(255, 255, 255, 0.2);
+                            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+                        }
+                        /* Hiệu ứng mượt khi hiện tin nhắn */
+                        
+                        .fade-in {
+                            animation: fadeIn 0.3s ease-in;
+                        }
+                        
+                        @keyframes fadeIn {
+                            from {
+                                opacity: 0;
+                                transform: translateY(10px);
+                            }
+                            to {
+                                opacity: 1;
+                                transform: translateY(0);
+                            }
+                        }
+                        /* --- DARK MODE CONFIG --- */
+                        
+                         :root {
+                            --vlu-red: #bf1e2e;
+                            --bg-primary: #ffffff;
+                            --bg-secondary: #f0f2f5;
+                            --text-main: #1f1f1f;
+                            --sidebar-bg: #f8f9fa;
+                            --input-bg: #ffffff;
+                            --message-bot: #f1f3f4;
+                        }
+                        
+                        body.dark-mode {
+                            --bg-primary: #131314;
+                            /* Màu nền tối của Gemini */
+                            --bg-secondary: #1e1f20;
+                            --text-main: #e3e3e3;
+                            --sidebar-bg: #1e1f20;
+                            --input-bg: #2b2c2f;
+                            --message-bot: #2b2c2f;
+                        }
+                        
+                        body {
+                            background-color: var(--bg-primary);
+                            color: var(--text-main);
+                            transition: background 0.3s, color 0.3s;
+                        }
+                        
+                        .gemini-sidebar {
+                            background-color: var(--sidebar-bg);
+                        }
+                        
+                        .main-content {
+                            background-color: var(--bg-primary);
+                        }
+                        
+                        .message.bot-message .content {
+                            background-color: var(--message-bot);
+                        }
+                        
+                        .input-wrapper {
+                            background-color: var(--input-bg);
+                            border: 1px solid rgba(255, 255, 255, 0.1);
+                        }
+                        
+                        #userInput {
+                            color: var(--text-main);
+                        }
+                        /* Hiệu ứng cho nút Dark Mode */
+                        
+                        #darkModeBtn {
+                            cursor: pointer;
+                            transition: transform 0.2s;
+                        }
+                        
+                        #darkModeBtn:active {
+                            transform: scale(0.9);
+                        }
+                        /* Thêm vào style.css */
+                        
+                        .history-item {
+                            display: flex;
+                            align-items: center;
+                            gap: 10px;
+                            padding: 8px 12px;
+                            margin: 5px 10px;
+                            border-radius: 8px;
+                            cursor: pointer;
+                            font-size: 14px;
+                            color: var(--text-main);
+                            transition: all 0.2s;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                        }
+                        
+                        .history-item:hover {
+                            background-color: rgba(0, 0, 0, 0.05);
+                        }
+                        
+                        body.dark-mode .history-item:hover {
+                            background-color: rgba(255, 255, 255, 0.1);
+                        }
+                        
+                        .history-item i {
+                            font-size: 13px;
+                            opacity: 0.6;
+                        }
+                        /* Bong bóng chat của Bot */
+                        
+                        .bot-message .content {
+                            background-color: #f1f3f4;
+                            color: #1f1f1f;
+                            padding: 12px 16px;
+                            border-radius: 4px 18px 18px 18px;
+                            max-width: 85%;
+                            /* Cho phép khung chat rộng hơn để chứa code */
+                            font-size: 15px;
+                            line-height: 1.5;
+                            overflow-wrap: break-word;
+                        }
+                        /* ĐỊNH DẠNG KHỐI CODE (DỨT ĐIỂM LỖI LẠ) */
+                        
+                        .bot-message .content pre {
+                            background-color: #1e1e1e;
+                            /* Màu nền tối cho code */
+                            color: #d4d4d4;
+                            padding: 15px;
+                            border-radius: 8px;
+                            overflow-x: auto;
+                            /* Tạo thanh cuộn ngang nếu code quá dài */
+                            margin: 10px 0;
+                            font-family: 'Consolas', 'Monaco', monospace;
+                            border: 1px solid #333;
+                        }
+                        
+                        .bot-message .content code {
+                            font-family: 'Consolas', monospace;
+                            background-color: rgba(0, 0, 0, 0.05);
+                            padding: 2px 4px;
+                            border-radius: 4px;
+                        }
+                        /* ==========================================================================
    🌟 NÚT QUẢN LÝ HỆ THỐNG - CHUẨN ĐỘ ĐẶC HIỆU - CHỮ TRẮNG NỀN ĐỎ KHI HOVER
    ========================================================================== */
-                      
-                      #adminModule {
-                          margin-top: 15px;
-                          padding-top: 15px;
-                          border-top: 1px solid rgba(255, 255, 255, 0.1);
-                      }
-                      /* Định dạng hình dáng hộp nút ban đầu */
-                      
-                      .gemini-sidebar .personalization-group #adminModule a.sidebar-feature-btn {
-                          display: flex;
-                          align-items: center;
-                          justify-content: center;
-                          gap: 10px;
-                          padding: 12px 20px;
-                          width: 100%;
-                          box-sizing: border-box;
-                          text-decoration: none;
-                          text-align: center;
-                          background-color: #161925;
-                          /* Nền hộp tối biệt lập */
-                          border: 1px solid rgba(255, 184, 108, 0.4);
-                          /* Viền cam mờ ban đầu */
-                          border-radius: 12px;
-                          color: #ffb86c;
-                          /* Chữ cam sáng ban đầu */
-                          font-weight: 600;
-                          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-                          transition: all 0.25s ease;
-                      }
-                      /* Định dạng màu icon ban đầu */
-                      
-                      .gemini-sidebar .personalization-group #adminModule a.sidebar-feature-btn i {
-                          color: #ffb86c;
-                          font-size: 14px;
-                          transition: color 0.25s ease;
-                      }
-                      /* 🌟 FIX TRỌNG TÂM: HIỆU ỨNG DI CHUỘT VÀO (HOVER) ĐỔI NỀN ĐỎ - CHỮ TRẮNG TIN */
-                      
-                      .gemini-sidebar .personalization-group #adminModule a.sidebar-feature-btn:hover {
-                          background-color: #bf1e2e;
-                          /* Chuột đè vào đổi thành nền đỏ VLU cực cháy */
-                          border-color: #bf1e2e;
-                          color: #ffffff;
-                          /* 🌟 Chữ chuyển hẳn sang màu trắng tinh khôi, cực kỳ rõ nét */
-                          box-shadow: 0 4px 15px rgba(191, 30, 46, 0.4);
-                          /* Bóng đổ phát sáng đỏ mờ */
-                          transform: translateY(-1px);
-                      }
-                      /* Ép luôn icon chuyển sang màu trắng khi di chuột vào */
-                      
-                      .gemini-sidebar .personalization-group #adminModule a.sidebar-feature-btn:hover i {
-                          color: #ffffff;
-                          /* 🌟 Icon chuyển trắng đồng bộ với chữ */
-                      }
-                      /* ==========================================================================
+                        
+                        #adminModule {
+                            margin-top: 15px;
+                            padding-top: 15px;
+                            border-top: 1px solid rgba(255, 255, 255, 0.1);
+                        }
+                        /* Định dạng hình dáng hộp nút ban đầu */
+                        
+                        .gemini-sidebar .personalization-group #adminModule a.sidebar-feature-btn {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            gap: 10px;
+                            padding: 12px 20px;
+                            width: 100%;
+                            box-sizing: border-box;
+                            text-decoration: none;
+                            text-align: center;
+                            background-color: #161925;
+                            /* Nền hộp tối biệt lập */
+                            border: 1px solid rgba(255, 184, 108, 0.4);
+                            /* Viền cam mờ ban đầu */
+                            border-radius: 12px;
+                            color: #ffb86c;
+                            /* Chữ cam sáng ban đầu */
+                            font-weight: 600;
+                            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                            transition: all 0.25s ease;
+                        }
+                        /* Định dạng màu icon ban đầu */
+                        
+                        .gemini-sidebar .personalization-group #adminModule a.sidebar-feature-btn i {
+                            color: #ffb86c;
+                            font-size: 14px;
+                            transition: color 0.25s ease;
+                        }
+                        /* 🌟 FIX TRỌNG TÂM: HIỆU ỨNG DI CHUỘT VÀO (HOVER) ĐỔI NỀN ĐỎ - CHỮ TRẮNG TIN */
+                        
+                        .gemini-sidebar .personalization-group #adminModule a.sidebar-feature-btn:hover {
+                            background-color: #bf1e2e;
+                            /* Chuột đè vào đổi thành nền đỏ VLU cực cháy */
+                            border-color: #bf1e2e;
+                            color: #ffffff;
+                            /* 🌟 Chữ chuyển hẳn sang màu trắng tinh khôi, cực kỳ rõ nét */
+                            box-shadow: 0 4px 15px rgba(191, 30, 46, 0.4);
+                            /* Bóng đổ phát sáng đỏ mờ */
+                            transform: translateY(-1px);
+                        }
+                        /* Ép luôn icon chuyển sang màu trắng khi di chuột vào */
+                        
+                        .gemini-sidebar .personalization-group #adminModule a.sidebar-feature-btn:hover i {
+                            color: #ffffff;
+                            /* 🌟 Icon chuyển trắng đồng bộ với chữ */
+                        }
+                        /* ==========================================================================
    🌙 TỐI ƯU DARK MODE: THẮP SÁNG CÁC CHỮ BỊ DÌM TRONG SIDEBAR THÀNH MÀU TRẮNG
    ========================================================================== */
-                      /* 1. Thắp sáng cụm nút Lộ trình & Tư vấn ở trên */
-                      
-                      body.dark-mode .gemini-sidebar .personalization-group .sidebar-feature-btn {
-                          color: #e2e8f0;
-                          /* Đổi sang màu trắng xám sáng dịu mắt */
-                      }
-                      
-                      body.dark-mode .gemini-sidebar .personalization-group .sidebar-feature-btn i {
-                          color: #e2e8f0;
-                          /* Icon sáng đồng bộ */
-                      }
-                      /* Hover cụm trên ở chế độ tối: Chuyển màu đỏ VLU sáng rõ rệt */
-                      
-                      body.dark-mode .gemini-sidebar .personalization-group .sidebar-feature-btn:hover {
-                          background-color: rgba(255, 255, 255, 0.05);
-                          /* Nền hover mờ tinh tế */
-                          color: #ff4d5a;
-                          /* Chữ chuyển đỏ sáng */
-                      }
-                      
-                      body.dark-mode .gemini-sidebar .personalization-group .sidebar-feature-btn:hover i {
-                          color: #ff4d5a;
-                      }
-                      /* 2. Thắp sáng cụm nút đáy Sidebar (Trợ giúp & Cài đặt) */
-                      
-                      body.dark-mode .gemini-sidebar .sidebar-bottom .icon-link {
-                          color: #e2e8f0;
-                          /* Chữ trắng xám sáng rõ */
-                      }
-                      
-                      body.dark-mode .gemini-sidebar .sidebar-bottom .icon-link i {
-                          color: #e2e8f0;
-                      }
-                      /* Hover cụm đáy ở chế độ tối */
-                      
-                      body.dark-mode .gemini-sidebar .sidebar-bottom .icon-link:hover {
-                          background-color: rgba(255, 255, 255, 0.05);
-                          color: #ff4d5a;
-                      }
-                      
-                      body.dark-mode .gemini-sidebar .sidebar-bottom .icon-link:hover i {
-                          color: #ff4d5a;
-                      }
-                      /* 3. Thắp sáng danh sách tiêu đề Lịch sử "Gần đây" và các hàng chat cũ */
-                      
-                      body.dark-mode .gemini-sidebar .history-label {
-                          color: rgba(255, 255, 255, 0.5);
-                          /* Nhãn tiêu đề rõ hơn */
-                      }
-                      
-                      body.dark-mode .gemini-sidebar .chat-history-list .history-item .history-title {
-                          color: #cbd5e1;
-                          /* Chữ tiêu đề phiên chat cũ sáng rõ */
-                      }
-                      
-                      body.dark-mode .gemini-sidebar .chat-history-list .history-item i {
-                          color: #cbd5e1;
-                      }
-                      /* Thao tác định hình lại cái hộp menu dropdown chứa nút đăng xuất */
-                      
-                      #userDropdown.dropdown-menu {
-                          position: absolute;
-                          right: 0;
-                          top: 100%;
-                          margin-top: 8px;
-                          background-color: #ffffff;
-                          /* Nền trắng sạch sẽ */
-                          border: 1px solid rgba(0, 0, 0, 0.08);
-                          border-radius: 12px;
-                          /* Bo tròn góc hiện đại */
-                          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-                          /* Bóng đổ mịn */
-                          padding: 6px;
-                          z-index: 1000;
-                          min-width: 140px;
-                      }
-                      /* Định hình chi tiết nút bấm Đăng xuất bên trong */
-                      
-                      #userDropdown .dropdown-item {
-                          display: flex;
-                          align-items: center;
-                          gap: 10px;
-                          width: 100%;
-                          padding: 10px 14px;
-                          box-sizing: border-box;
-                          /* Xóa sạch giao diện thô mặc định của Windows */
-                          background: none;
-                          border: none;
-                          outline: none;
-                          font-family: inherit;
-                          font-size: 14px;
-                          font-weight: 500;
-                          color: #333333;
-                          /* Màu chữ đen đậm rõ ràng */
-                          text-align: left;
-                          cursor: pointer;
-                          border-radius: 8px;
-                          transition: all 0.2s ease;
-                      }
-                      /* Biểu tượng Icon Đăng xuất */
-                      
-                      #userDropdown .dropdown-item i {
-                          color: #bf1e2e;
-                          /* Cho icon màu đỏ VLU làm điểm nhấn */
-                          font-size: 14px;
-                      }
-                      /* Hiệu ứng khi rê chuột đè lên nút Đăng xuất (Hover) */
-                      
-                      #userDropdown .dropdown-item:hover {
-                          background-color: rgba(191, 30, 46, 0.08);
-                          /* Nền đỏ trong suốt nhẹ dịu mắt */
-                          color: #bf1e2e;
-                          /* Chữ chuyển sang màu đỏ thương hiệu */
-                      }
-                      /* --- Tự động đồng bộ màu sắc khi ở Chế độ tối (Dark Mode) --- */
-                      
-                      body.dark-mode #userDropdown.dropdown-menu {
-                          background-color: #161925;
-                          /* Nền hộp tối */
-                          border-color: rgba(255, 255, 255, 0.08);
-                          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-                      }
-                      
-                      body.dark-mode #userDropdown .dropdown-item {
-                          color: #cbd5e1;
-                          /* Chữ trắng xám sáng rõ */
-                      }
-                      
-                      body.dark-mode #userDropdown .dropdown-item:hover {
-                          background-color: rgba(255, 255, 255, 0.05);
-                          color: #ff4d5a;
-                          /* Chữ bừng sáng khối đỏ */
-                      }
-                      
-                      body.dark-mode #userDropdown .dropdown-item:hover i {
-                          color: #ff4d5a;
-                      }
-                      /* ==========================================================================
+                        /* 1. Thắp sáng cụm nút Lộ trình & Tư vấn ở trên */
+                        
+                        body.dark-mode .gemini-sidebar .personalization-group .sidebar-feature-btn {
+                            color: #e2e8f0;
+                            /* Đổi sang màu trắng xám sáng dịu mắt */
+                        }
+                        
+                        body.dark-mode .gemini-sidebar .personalization-group .sidebar-feature-btn i {
+                            color: #e2e8f0;
+                            /* Icon sáng đồng bộ */
+                        }
+                        /* Hover cụm trên ở chế độ tối: Chuyển màu đỏ VLU sáng rõ rệt */
+                        
+                        body.dark-mode .gemini-sidebar .personalization-group .sidebar-feature-btn:hover {
+                            background-color: rgba(255, 255, 255, 0.05);
+                            /* Nền hover mờ tinh tế */
+                            color: #ff4d5a;
+                            /* Chữ chuyển đỏ sáng */
+                        }
+                        
+                        body.dark-mode .gemini-sidebar .personalization-group .sidebar-feature-btn:hover i {
+                            color: #ff4d5a;
+                        }
+                        /* 2. Thắp sáng cụm nút đáy Sidebar (Trợ giúp & Cài đặt) */
+                        
+                        body.dark-mode .gemini-sidebar .sidebar-bottom .icon-link {
+                            color: #e2e8f0;
+                            /* Chữ trắng xám sáng rõ */
+                        }
+                        
+                        body.dark-mode .gemini-sidebar .sidebar-bottom .icon-link i {
+                            color: #e2e8f0;
+                        }
+                        /* Hover cụm đáy ở chế độ tối */
+                        
+                        body.dark-mode .gemini-sidebar .sidebar-bottom .icon-link:hover {
+                            background-color: rgba(255, 255, 255, 0.05);
+                            color: #ff4d5a;
+                        }
+                        
+                        body.dark-mode .gemini-sidebar .sidebar-bottom .icon-link:hover i {
+                            color: #ff4d5a;
+                        }
+                        /* 3. Thắp sáng danh sách tiêu đề Lịch sử "Gần đây" và các hàng chat cũ */
+                        
+                        body.dark-mode .gemini-sidebar .history-label {
+                            color: rgba(255, 255, 255, 0.5);
+                            /* Nhãn tiêu đề rõ hơn */
+                        }
+                        
+                        body.dark-mode .gemini-sidebar .chat-history-list .history-item .history-title {
+                            color: #cbd5e1;
+                            /* Chữ tiêu đề phiên chat cũ sáng rõ */
+                        }
+                        
+                        body.dark-mode .gemini-sidebar .chat-history-list .history-item i {
+                            color: #cbd5e1;
+                        }
+                        /* Thao tác định hình lại cái hộp menu dropdown chứa nút đăng xuất */
+                        
+                        #userDropdown.dropdown-menu {
+                            position: absolute;
+                            right: 0;
+                            top: 100%;
+                            margin-top: 8px;
+                            background-color: #ffffff;
+                            /* Nền trắng sạch sẽ */
+                            border: 1px solid rgba(0, 0, 0, 0.08);
+                            border-radius: 12px;
+                            /* Bo tròn góc hiện đại */
+                            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+                            /* Bóng đổ mịn */
+                            padding: 6px;
+                            z-index: 1000;
+                            min-width: 140px;
+                        }
+                        /* Định hình chi tiết nút bấm Đăng xuất bên trong */
+                        
+                        #userDropdown .dropdown-item {
+                            display: flex;
+                            align-items: center;
+                            gap: 10px;
+                            width: 100%;
+                            padding: 10px 14px;
+                            box-sizing: border-box;
+                            /* Xóa sạch giao diện thô mặc định của Windows */
+                            background: none;
+                            border: none;
+                            outline: none;
+                            font-family: inherit;
+                            font-size: 14px;
+                            font-weight: 500;
+                            color: #333333;
+                            /* Màu chữ đen đậm rõ ràng */
+                            text-align: left;
+                            cursor: pointer;
+                            border-radius: 8px;
+                            transition: all 0.2s ease;
+                        }
+                        /* Biểu tượng Icon Đăng xuất */
+                        
+                        #userDropdown .dropdown-item i {
+                            color: #bf1e2e;
+                            /* Cho icon màu đỏ VLU làm điểm nhấn */
+                            font-size: 14px;
+                        }
+                        /* Hiệu ứng khi rê chuột đè lên nút Đăng xuất (Hover) */
+                        
+                        #userDropdown .dropdown-item:hover {
+                            background-color: rgba(191, 30, 46, 0.08);
+                            /* Nền đỏ trong suốt nhẹ dịu mắt */
+                            color: #bf1e2e;
+                            /* Chữ chuyển sang màu đỏ thương hiệu */
+                        }
+                        /* --- Tự động đồng bộ màu sắc khi ở Chế độ tối (Dark Mode) --- */
+                        
+                        body.dark-mode #userDropdown.dropdown-menu {
+                            background-color: #161925;
+                            /* Nền hộp tối */
+                            border-color: rgba(255, 255, 255, 0.08);
+                            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+                        }
+                        
+                        body.dark-mode #userDropdown .dropdown-item {
+                            color: #cbd5e1;
+                            /* Chữ trắng xám sáng rõ */
+                        }
+                        
+                        body.dark-mode #userDropdown .dropdown-item:hover {
+                            background-color: rgba(255, 255, 255, 0.05);
+                            color: #ff4d5a;
+                            /* Chữ bừng sáng khối đỏ */
+                        }
+                        
+                        body.dark-mode #userDropdown .dropdown-item:hover i {
+                            color: #ff4d5a;
+                        }
+                        /* ==========================================================================
    🎯 FIX TRIỆT ĐỂ KHU VỰC NHẬP LIỆU THEO YÊU CẦU CỦA DUY
    ========================================================================== */
-                      /* 1️⃣ ẢNH 2: THÊM VIỀN NHẸ CHO KHUNG NHẬP CHAT (.INPUT-WRAPPER) */
-                      
-                      .main-content .bottom-container .input-wrapper {
-                          background-color: #ffffff;
-                          /* Giữ nền trắng sạch sẽ */
-                          border: 1px solid rgba(191, 30, 46, 0.35);
-                          /* Viền đỏ mảnh mượt mà, sắc nét */
-                          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-                          /* Bóng đổ siêu nhẹ tạo khối */
-                          transition: border-color 0.2s ease, box-shadow 0.2s ease;
-                      }
-                      /* Khi sinh viên click vào gõ chữ, viền đỏ đậm hơn chút nhìn rất chuyên nghiệp */
-                      
-                      .main-content .bottom-container .input-wrapper:focus-within {
-                          border-color: rgba(191, 30, 46, 0.7);
-                          box-shadow: 0 4px 16px rgba(191, 30, 46, 0.1);
-                      }
-                      /* 2️⃣ ẢNH 1 & 3: XÓA SẠCH SÀNH SANH BACKGROUND VÀ BÓNG ĐỔ KHU ĐÁY (.BOTTOM-CONTAINER) */
-                      
-                      .main-content .bottom-container {
-                          background: transparent;
-                          /* Xóa sạch màu nền xanh xám/trắng mờ */
-                          background-color: transparent;
-                          box-shadow: none;
-                          /* Triệt tiêu vĩnh viễn cái dải bóng đổ mờ nhạt lỗi kia */
-                          border: none;
-                          padding-top: 10px;
-                          padding-bottom: 10px;
-                      }
-                      /* --- Đồng bộ mượt mà sang cả Chế độ tối (Dark Mode) --- */
-                      
-                      body.dark-mode .main-content .bottom-container .input-wrapper {
-                          background-color: #161925;
-                          /* Nền hộp tối đồng bộ cho khung gõ chat */
-                          border: 1px solid rgba(191, 30, 46, 0.4);
-                          /* Viền đỏ lowkey cực đẹp */
-                      }
-                      
-                      body.dark-mode .main-content .bottom-container .input-wrapper textarea {
-                          color: #cbd5e1;
-                          /* Chữ gõ vào màu sáng ở chế độ tối */
-                      }
-                      
-                      body.dark-mode .main-content .bottom-container {
-                          background: transparent;
-                          background-color: transparent;
-                          box-shadow: none;
-                      }
+                        /* 1️⃣ ẢNH 2: THÊM VIỀN NHẸ CHO KHUNG NHẬP CHAT (.INPUT-WRAPPER) */
+                        
+                        .main-content .bottom-container .input-wrapper {
+                            background-color: #ffffff;
+                            /* Giữ nền trắng sạch sẽ */
+                            border: 1px solid rgba(191, 30, 46, 0.35);
+                            /* Viền đỏ mảnh mượt mà, sắc nét */
+                            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+                            /* Bóng đổ siêu nhẹ tạo khối */
+                            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+                        }
+                        /* Khi sinh viên click vào gõ chữ, viền đỏ đậm hơn chút nhìn rất chuyên nghiệp */
+                        
+                        .main-content .bottom-container .input-wrapper:focus-within {
+                            border-color: rgba(191, 30, 46, 0.7);
+                            box-shadow: 0 4px 16px rgba(191, 30, 46, 0.1);
+                        }
+                        /* 2️⃣ ẢNH 1 & 3: XÓA SẠCH SÀNH SANH BACKGROUND VÀ BÓNG ĐỔ KHU ĐÁY (.BOTTOM-CONTAINER) */
+                        
+                        .main-content .bottom-container {
+                            background: transparent;
+                            /* Xóa sạch màu nền xanh xám/trắng mờ */
+                            background-color: transparent;
+                            box-shadow: none;
+                            /* Triệt tiêu vĩnh viễn cái dải bóng đổ mờ nhạt lỗi kia */
+                            border: none;
+                            padding-top: 10px;
+                            padding-bottom: 10px;
+                        }
+                        /* --- Đồng bộ mượt mà sang cả Chế độ tối (Dark Mode) --- */
+                        
+                        body.dark-mode .main-content .bottom-container .input-wrapper {
+                            background-color: #161925;
+                            /* Nền hộp tối đồng bộ cho khung gõ chat */
+                            border: 1px solid rgba(191, 30, 46, 0.4);
+                            /* Viền đỏ lowkey cực đẹp */
+                        }
+                        
+                        body.dark-mode .main-content .bottom-container .input-wrapper textarea {
+                            color: #cbd5e1;
+                            /* Chữ gõ vào màu sáng ở chế độ tối */
+                        }
+                        
+                        body.dark-mode .main-content .bottom-container {
+                            background: transparent;
+                            background-color: transparent;
+                            box-shadow: none;
+                        }
+                        /* Trỏ đích danh vào wrapper hoặc nút copy của khung code block */
+                        
+                        .copy-btn,
+                        [class*="copy-button"],
+                        [class*="btn-copy"] {
+                            display: inline-flex;
+                            align-items: center;
+                            justify-content: center;
+                            /* Thiết lập lại kích thước hộp cân bằng hình vuông */
+                            width: 28px;
+                            height: 28px;
+                            padding: 0;
+                            box-sizing: border-box;
+                            /* Làm mượt viền và góc bo */
+                            background-color: rgba(0, 0, 0, 0.05);
+                            /* Nền mờ nhẹ */
+                            border: 1px solid rgba(0, 0, 0, 0.1);
+                            /* Viền mảnh bo quanh */
+                            border-radius: 6px;
+                            /* Bo góc hiện đại không bị méo */
+                            cursor: pointer;
+                            transition: all 0.2s ease;
+                        }
+                        /* Định hình lại icon bên trong nút để không bị lệch hay mất góc */
+                        
+                        .copy-btn i,
+                        [class*="copy-button"] i,
+                        [class*="btn-copy"] svg {
+                            font-size: 14px;
+                            line-height: 1;
+                            margin: 0;
+                            padding: 0;
+                            display: block;
+                        }
+                        /* Hiệu ứng mượt mà khi rê chuột vào nút sao chép */
+                        
+                        .copy-btn:hover,
+                        [class*="copy-button"]:hover {
+                            background-color: rgba(191, 30, 46, 0.1);
+                            /* Đổi nền sang đỏ VLU trong suốt nhẹ */
+                            border-color: rgba(191, 30, 46, 0.3);
+                            color: #bf1e2e;
+                        }
+                        /* --- Tự động tối ưu giao diện nút copy khi ở Chế độ tối (Dark Mode) --- */
+                        
+                        body.dark-mode .copy-btn,
+                        body.dark-mode [class*="copy-button"] {
+                            background-color: rgba(255, 255, 255, 0.08);
+                            border-color: rgba(255, 255, 255, 0.15);
+                            color: #cbd5e1;
+                        }
+                        
+                        body.dark-mode .copy-btn:hover,
+                        body.dark-mode [class*="copy-button"]:hover {
+                            background-color: #bf1e2e;
+                            border-color: #bf1e2e;
+                            color: #ffffff;
+                        }
+                        
+                        .code-block-wrapper,
+                        .markdown-body pre,
+                        pre {
+                            position: relative;
+                            padding-top: 40px;
+                            /* Tạo khoảng trống phía trên để chứa nút */
+                        }
+                        /* Định hình nút copy tối giản theo phong cách ChatGPT */
+                        
+                        .copy-btn,
+                        [class*="copy-button"] {
+                            position: absolute;
+                            top: 10px;
+                            right: 12px;
+                            z-index: 10;
+                            /* Xóa sạch viền và nền đằng sau */
+                            background: transparent;
+                            background-color: transparent;
+                            border: none;
+                            outline: none;
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 6px;
+                            padding: 4px 8px;
+                            color: #888888;
+                            /* Màu xám ẩn nhẹ tinh tế */
+                            font-size: 13px;
+                            font-family: inherit;
+                            cursor: pointer;
+                            transition: color 0.2s ease;
+                        }
+                        /* Hiệu ứng khi rê chuột vào nút copy */
+                        
+                        .copy-btn:hover,
+                        [class*="copy-button"]:hover {
+                            color: #bf1e2e;
+                            /* Chuyển màu đỏ thương hiệu VLU cực chất */
+                            background: transparent;
+                        }
+                        /* 2️⃣ DỌN DẸP TOÀN BỘ BACKGROUND CỦA PHẦN TIÊU ĐỀ KHỐI MÃ (CHỮ JAVA) */
+                        
+                        .code-header,
+                        .code-lang-label,
+                        [class*="code-title"] {
+                            background: transparent;
+                            background-color: transparent;
+                            border: none;
+                            box-shadow: none;
+                            padding: 0;
+                            color: #555555;
+                            font-weight: 600;
+                        }
+                        /* 3️⃣ FIX GẤP: THẮP SÁNG CHỮ BOT TRẢ LỜI TRONG CHẾ ĐỘ TỐI (DARK MODE) */
+                        /* Ép toàn bộ đoạn văn bản bot phản hồi thành màu trắng sáng rõ rệt */
+                        
+                        body.dark-mode .bot-message,
+                        body.dark-mode .chat-display .bot,
+                        body.dark-mode .message-content {
+                            color: #f8fafc;
+                            /* Màu trắng xám dịu mắt, không lo bị dìm */
+                        }
+                        /* Thắp sáng các đoạn chữ giải thích, lưu ý, đoạn văn thường của bot */
+                        
+                        body.dark-mode .bot-message p,
+                        body.dark-mode .bot-message li,
+                        body.dark-mode .bot-message span {
+                            color: #f8fafc;
+                        }
+                        /* Tối ưu các đoạn mã code ngắn nằm xen kẽ trong văn bản (Inline Code) */
+                        
+                        body.dark-mode .bot-message code:not(pre code),
+                        body.dark-mode .message-content p code {
+                            background-color: rgba(255, 255, 255, 0.1);
+                            /* Nền mờ nhẹ */
+                            color: #ff4d5a;
+                            /* Chữ mã ngắn nổi lên màu đỏ ruby sáng */
+                            padding: 2px 6px;
+                            border-radius: 4px;
+                            font-family: monospace;
+                        }
+                        /* Đồng bộ nút copy ở chế độ tối */
+                        
+                        body.dark-mode .copy-btn,
+                        body.dark-mode [class*="copy-button"] {
+                            color: #94a3b8;
+                            /* Màu sáng bạc dễ nhìn trong nền tối */
+                        }
+                        
+                        body.dark-mode .copy-btn:hover,
+                        body.dark-mode [class*="copy-button"]:hover {
+                            color: #ff4d5a;
+                            /* Hover lên bừng sáng đỏ */
+                        }
