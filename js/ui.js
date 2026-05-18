@@ -1,5 +1,5 @@
 /** * FILE: js/ui.js
- * CHỨC NĂNG: Darkmode, Sidebar, Lịch sử chat và Lời chúc
+ * CHỨC NĂNG: Darkmode, Sidebar, Lịch sử chat (Đồng bộ Session chống trùng), Lời chúc và Hiệu ứng UI
  */
 
 // Chỉ khai báo 1 lần duy nhất để tránh lỗi redeclaration
@@ -7,25 +7,61 @@ if (typeof get !== 'function') {
     window.get = (id) => document.getElementById(id);
 }
 
-// --- 1. HÀM VẼ LỊCH SỬ CHAT ---
+// --- 1. HÀM VẼ LỊCH SỬ CHAT (SỬA LỖI CLICK THÙNG RÁC TRIỆT ĐỂ) ---
 function renderHistory() {
-    const list = get('chatHistoryList');
+    const list = document.getElementById('chatHistoryList');
     if (!list) return;
 
-    const history = JSON.parse(localStorage.getItem('vlu_chat_history') || '[]');
+    // Đọc dữ liệu từ bộ lưu trữ vlu_chat_sessions chuẩn
+    const allChats = JSON.parse(localStorage.getItem('vlu_chat_sessions')) || {};
 
     // Giữ lại tiêu đề "Gần đây"
     list.innerHTML = '<p class="history-label">Gần đây</p>';
 
-    history.forEach(item => {
+    Object.keys(allChats).reverse().forEach(id => {
+        const item = allChats[id];
         const div = document.createElement('div');
         div.className = 'history-item';
-        div.innerHTML = `<i class="far fa-comment-alt"></i> <span>${item.title}</span>`;
+        if (id === window.currentChatId) div.classList.add('active');
 
-        // Click để chat lại câu đo`
-        div.onclick = () => {
-            handleAction(item.title, 'default');
+        // Cấu trúc phân tách không gian rõ ràng bằng thuộc tính CSS nội dòng hỗ trợ an toàn
+        div.innerHTML = `
+            <div class="history-info" style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0;">
+                <i class="far fa-comment-alt"></i> 
+                <span class="history-title" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;">${item.title}</span>
+            </div>
+            <div class="history-actions" style="padding: 4px 8px; z-index: 10; cursor: pointer; display: flex; align-items: center;">
+                <i class="fas fa-trash-alt delete-item-btn" title="Xóa cuộc trò chuyện này" style="opacity: 0.6; transition: opacity 0.2s;"></i>
+            </div>
+        `;
+
+        // 🔹 SỬA LỖI CHỐNG TRÙNG SỰ KIỆN: Chỉ gán lệnh mở lại chat vào vùng chữ bên trái
+        const infoPart = div.querySelector('.history-info');
+        infoPart.onclick = (e) => {
+            e.preventDefault();
+            if (typeof window.loadSession === 'function') {
+                window.loadSession(id);
+            }
         };
+
+        // 🔹 SỬA LỖI CHỐNG BUBBLING: Cô lập hoàn toàn cú click chuột của cụm thùng rác
+        const actionsPart = div.querySelector('.history-actions');
+        actionsPart.onclick = (e) => {
+            e.preventDefault();
+            e.stopPropagation(); // 🔴 NGĂN CHẶN TUYỆT ĐỐI sự kiện bị nhảy ngược lên thẻ cha .history-item
+
+            if (typeof window.deleteSpecificChat === 'function') {
+                window.deleteSpecificChat(e, id);
+            }
+        };
+
+        // Hiệu ứng hover đổi màu thùng rác mượt mà của riêng bạn
+        const deleteBtn = div.querySelector('.delete-item-btn');
+        actionsPart.onmouseover = () => { deleteBtn.style.opacity = "1";
+            deleteBtn.style.color = "#d9534f"; };
+        actionsPart.onmouseout = () => { deleteBtn.style.opacity = "0.6";
+            deleteBtn.style.color = ""; };
+
         list.appendChild(div);
     });
 }
@@ -35,7 +71,7 @@ function handleAction(text, mode = 'default') {
     if (typeof window.setMode === 'function') window.setMode(mode);
 
     const welcome = get('welcomeScreen');
-    if (welcome) welcome.style.display = 'none';
+    if (welcome) welcome.classList.add('hidden'); // Sử dụng class hidden đồng bộ với index.html
 
     const container = get('messagesContainer');
     if (container) container.innerHTML = '';
@@ -49,7 +85,7 @@ function handleAction(text, mode = 'default') {
     }
 }
 
-// --- 3. QUẢN LÝ SIDEBAR ---
+// --- 3. QUẢN LÝ SIDEBAR (GIỮ NGUYÊN HOÀN TOÀN CƠ CHẾ OVERLAY MOBILE) ---
 function initSidebar() {
     const sidebar = document.querySelector('aside');
     const toggle = get('toggleSidebar');
@@ -88,7 +124,7 @@ function initSidebar() {
         'btn-future': { m: 'future', t: 'Định hướng tương lai' }
     };
 
-    const sidebarElem = document.querySelector('.gemini-sidebar');
+    const sidebarElem = document.querySelector('.gemini-sidebar') || document.querySelector('aside');
     if (sidebarElem) {
         sidebarElem.onclick = function(e) {
             const btn = e.target.closest('button');
@@ -106,9 +142,26 @@ function initSidebar() {
         };
     }
 
+    // Tối ưu nút Tạo đoạn chat mới chạy đồng bộ không gây tải lại toàn bộ trang
     const newChatBtn = get('newChatBtn');
     if (newChatBtn) {
-        newChatBtn.onclick = () => location.reload();
+        newChatBtn.onclick = () => {
+            window.currentChatId = null;
+            if (typeof window.setCurrentChatId === 'function') window.setCurrentChatId(null);
+
+            const container = get('messagesContainer');
+            const welcome = get('welcomeScreen');
+            if (container) container.innerHTML = '';
+            if (welcome) welcome.classList.remove('hidden');
+
+            const input = get('userInput');
+            if (input) {
+                input.value = '';
+                input.style.height = 'auto';
+                input.focus();
+            }
+            renderHistory();
+        };
     }
 }
 
@@ -159,57 +212,57 @@ function initClearHistory() {
     const clearBtn = get('clearHistoryBtn');
     if (clearBtn) {
         clearBtn.onclick = () => {
-            // Hỏi lại cho chắc, không lỡ tay bấm nhầm thì phí
             if (confirm("Xóa hết lịch sử trò chuyện nhé?")) {
-                localStorage.removeItem('vlu_chat_history');
-                // Gọi hàm vẽ lại để danh sách trắng tinh ngay lập tức
-                if (typeof renderHistory === 'function') {
-                    renderHistory();
-                }
+                localStorage.removeItem('vlu_chat_sessions');
+                window.currentChatId = null;
+                const container = get('messagesContainer');
+                const welcome = get('welcomeScreen');
+                if (container) container.innerHTML = '';
+                if (welcome) welcome.classList.remove('hidden');
+                renderHistory();
             }
         };
     }
 }
 
 function copyCode(btn) {
+    if (!btn) return;
     const wrapper = btn.closest('.code-block-wrapper');
+    if (!wrapper) return;
     const codeElement = wrapper.querySelector('code');
     if (!codeElement) return;
 
     const textToCopy = codeElement.innerText;
 
     navigator.clipboard.writeText(textToCopy).then(() => {
-        // 1. Hiệu ứng icon trên nút bấm
         const icon = btn.querySelector('i');
-        icon.className = 'fas fa-check';
-        btn.style.color = '#50fa7b';
+        if (icon) {
+            icon.className = 'fas fa-check';
+            btn.style.color = '#50fa7b';
+        }
 
-        // 2. TẠO THÔNG BÁO "ĐÃ SAO CHÉP" GIỐNG GPT
         showToast("Đã sao chép vào bộ nhớ tạm");
 
         setTimeout(() => {
-            icon.className = 'far fa-clone';
-            btn.style.color = '';
+            if (icon) {
+                icon.className = 'far fa-clone';
+                btn.style.color = '';
+            }
         }, 2000);
     });
 }
 
-// Hàm bổ trợ hiện thông báo bay
 function showToast(message) {
-    // Xóa toast cũ nếu còn
     const oldToast = document.querySelector('.copy-toast');
     if (oldToast) oldToast.remove();
 
-    // Tạo toast mới
     const toast = document.createElement('div');
     toast.className = 'copy-toast';
     toast.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
     document.body.appendChild(toast);
 
-    // Kích hoạt hiệu ứng bay lên
     setTimeout(() => toast.classList.add('show'), 10);
 
-    // Tự động biến mất sau 2.5 giây
     setTimeout(() => {
         toast.classList.remove('show');
         setTimeout(() => toast.remove(), 300);
@@ -225,5 +278,7 @@ window.ui = {
     renderHistory,
     initClearHistory,
     copyCode,
-    useSuggestion: handleAction
+    showToast,
+    useSuggestion: handleAction,
+    updateHistorySidebar: renderHistory // Định nghĩa alias kết nối hệ thống cho chat.js/main.js
 };

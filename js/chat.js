@@ -1,8 +1,12 @@
 /** * FILE: js/chat.js
- * FIX TRIỆT ĐỂ: Xử lý Vision (Ảnh + Chữ) & Nén ảnh tự động & Lưu lịch sử
+ * CHỨC NĂNG: Xử lý Vision (Ảnh + Chữ) & Nén ảnh tự động & Lưu/Xóa lịch sử đồng bộ Session
+ * PHIÊN BẢN: Đơn giản hóa, sửa lỗi triệt để tính năng xóa
  */
 
 const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
+
+// Biến quản lý phiên toàn cục kết nối hệ thống
+window.currentChatId = null;
 
 function getApiKey() {
     return (typeof window.CONFIG !== "undefined" && window.CONFIG.GROQ_API_KEY) ? window.CONFIG.GROQ_API_KEY : "";
@@ -30,6 +34,7 @@ async function compressImage(base64Str, maxWidth = 800) {
     });
 }
 
+// --- HÀM GỬI TIN NHẮN CHÍNH ---
 async function sendMessage() {
     const ui = {
         input: document.getElementById('userInput'),
@@ -55,12 +60,13 @@ async function sendMessage() {
     if (hasImage && ui.preImg) {
         imageData = await compressImage(ui.preImg.src);
         renderUserImageMessage(imageData);
+        // Lưu lịch sử dạng text đại diện nếu cuộc chat có ảnh
+        saveChatToLocal('user', text ? `[Hình ảnh] ${text}` : "[Hình ảnh]");
         ui.preContainer.style.display = 'none';
-    }
-
-    if (text || docContent) {
+    } else if (text || docContent) {
         const displayPrompt = text + (docContent ? `\n*(Đã đính kèm tài liệu)*` : "");
         renderUserMessage(displayPrompt);
+        saveChatToLocal('user', displayPrompt);
     }
 
     ui.input.value = '';
@@ -72,7 +78,7 @@ async function sendMessage() {
     if (!apiKey) {
         setTimeout(() => {
             removeTypingIndicator(typingMsg);
-            renderBotMessage("Ối! Duy chưa dán Key vào `config.js` kìa!", true);
+            renderBotMessage("Ối! Bạn chưa dán Key vào `config.js` kìa!", true);
         }, 600);
         return;
     }
@@ -105,7 +111,7 @@ async function sendMessage() {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                model: "llama-3.1-8b-instant", // Model ổn định để tránh lỗi decommissioned
+                model: "llama-3.1-8b-instant",
                 messages: [
                     { role: "system", content: window.currentSystemPrompt || "Trợ lý VLU" },
                     { role: "user", content: contentPayload }
@@ -121,29 +127,24 @@ async function sendMessage() {
         if (data.choices && data.choices[0]) {
             const botResponse = data.choices[0].message.content;
             renderBotMessage(botResponse, true);
+            saveChatToLocal('bot', botResponse);
             window.lastUploadedDocContent = "";
-
-            // --- KÍCH HOẠT LƯU LỊCH SỬ TẠI ĐÂY ---
-            if (text) {
-                saveChatHistory(text);
-            } else if (hasImage) {
-                saveChatHistory("Đã gửi một hình ảnh");
-            }
         } else if (data.error) {
             renderBotMessage("Ối! Groq báo lỗi: " + data.error.message);
         }
     } catch (error) {
         removeTypingIndicator(typingMsg);
-        renderBotMessage("Ối! Mạng chập chờn rồi Duy ơi.", true);
+        renderBotMessage("Ối! Mạng chập chờn rồi bạn ơi.", true);
         console.error("Lỗi:", error);
     }
 }
 
-// --- CÁC HÀM PHỤ TRỢ ---
+// --- CÁC HÀM PHỤ TRỢ HIỂN THỊ THỦ CÔNG ---
 function renderUserMessage(text) {
     const container = document.getElementById('messagesContainer');
+    if (!container) return;
     const msgDiv = document.createElement('div');
-    msgDiv.className = "message user-message fade-in"; // Phải có cả 2 class
+    msgDiv.className = "message user-message fade-in";
     msgDiv.innerHTML = `<div class="content">${text}</div>`;
     container.appendChild(msgDiv);
     scrollToBottom();
@@ -151,6 +152,7 @@ function renderUserMessage(text) {
 
 function renderUserImageMessage(url) {
     const c = document.getElementById('messagesContainer');
+    if (!c) return;
     const d = document.createElement('div');
     d.className = "message user-message fade-in";
     d.innerHTML = `
@@ -163,22 +165,21 @@ function renderUserImageMessage(url) {
 
 function renderBotMessage(text) {
     const container = document.getElementById('messagesContainer');
+    if (!container) return;
     const msgDiv = document.createElement('div');
     msgDiv.className = "message bot-message fade-in";
 
-    // Sử dụng Marked để chuyển Markdown sang HTML
     let htmlContent = (typeof marked !== 'undefined') ? marked.parse(text) : text;
 
-    // TẠO HEADER CHO KHỐI CODE
-    const tempDiv = document.createElement('div');
+    // SỬA LỖI TRIỆT ĐỂ: Thay const bằng var để tránh xung đột redeclaration trên scope toàn cục
+    var tempDiv = document.createElement('div');
     tempDiv.innerHTML = htmlContent;
 
-    // Tìm tất cả các thẻ <pre> (nơi chứa code) để chèn Header
     tempDiv.querySelectorAll('pre').forEach(pre => {
-        const wrapper = document.createElement('div');
+        // SỬA LỖI TRIỆT ĐỂ: Thay const bằng let để an toàn trong block-scope của vòng lặp
+        let wrapper = document.createElement('div');
         wrapper.className = 'code-block-wrapper';
 
-        // Lấy tên ngôn ngữ (ví dụ: java, javascript)
         const codeElement = pre.querySelector('code');
         let lang = 'Code';
         if (codeElement) {
@@ -186,15 +187,14 @@ function renderBotMessage(text) {
             if (langClass) lang = langClass.replace('language-', '').toUpperCase();
         }
 
-        // Tạo thanh Header
         const header = document.createElement('div');
         header.className = 'code-header';
         header.innerHTML = `
-    <span class="code-lang"><i class="fas fa-code"></i> ${lang}</span>
-    <button class="copy-btn" onclick="window.ui.copyCode(this)" title="Sao chép mã nguồn">
-        <i class="far fa-clone"></i>
-    </button>
-`;
+            <span class="code-lang"><i class="fas fa-code"></i> ${lang}</span>
+            <button class="copy-btn" onclick="window.ui.copyCode(this)" title="Sao chép mã nguồn">
+                <i class="far fa-clone"></i>
+            </button>
+        `;
 
         pre.parentNode.insertBefore(wrapper, pre);
         wrapper.appendChild(header);
@@ -213,6 +213,7 @@ function renderBotMessage(text) {
 
 function showTypingIndicator() {
     const c = document.getElementById('messagesContainer');
+    if (!c) return null;
     const d = document.createElement('div');
     d.className = "message bot-message typing-indicator";
     d.innerHTML = `<div class="bot-icon"><i class="fas fa-robot"></i></div><div class="content"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`;
@@ -225,27 +226,81 @@ function removeTypingIndicator(e) { if (e && e.parentNode) e.parentNode.removeCh
 
 function scrollToBottom() { const b = document.getElementById('chatbox'); if (b) b.scrollTop = b.scrollHeight; }
 
+// --- HÀM LƯU LỊCH SỬ CHAT THEO HỆ THỐNG PHIÊN (SESSION-BASED) ---
+function saveChatToLocal(role, text) {
+    if (!window.currentChatId) {
+        window.currentChatId = Date.now().toString();
+    }
+    let allChats = JSON.parse(localStorage.getItem('vlu_chat_sessions')) || {};
+    if (!allChats[window.currentChatId]) {
+        // Tạo tiêu đề thu gọn cho thanh sidebar bằng câu hỏi đầu tiên
+        let titleText = text.replace(/\[Hình ảnh\]\s*/g, "");
+        allChats[window.currentChatId] = {
+            title: titleText.substring(0, 25) + (titleText.length > 25 ? '...' : ''),
+            messages: [],
+            timestamp: Date.now()
+        };
+    }
+    allChats[window.currentChatId].messages.push({ role, text });
+    localStorage.setItem('vlu_chat_sessions', JSON.stringify(allChats));
+
+    if (window.ui && typeof window.ui.renderHistory === 'function') {
+        window.ui.renderHistory();
+    }
+}
+
+// Hàm kết nối đổ dữ liệu cũ của phiên chat lên màn hình hiển thị
+function renderSession(id) {
+    const container = document.getElementById('messagesContainer');
+    const welcomeScreen = document.getElementById('welcomeScreen');
+    const allChats = JSON.parse(localStorage.getItem('vlu_chat_sessions')) || {};
+    const chatData = allChats[id];
+
+    if (chatData && container) {
+        container.innerHTML = '';
+        if (welcomeScreen) welcomeScreen.classList.add('hidden');
+
+        chatData.messages.forEach(msg => {
+            if (msg.role === 'user') {
+                renderUserMessage(msg.text);
+            } else {
+                renderBotMessage(msg.text, false);
+            }
+        });
+        scrollToBottom();
+    }
+}
+
+// --- ĐĂNG KÝ HÀM TOÀN CỤC HỆ THỐNG (GLOBAL) KẾT NỐI UI VÀ MAIN ---
 window.sendMessage = sendMessage;
 
-// --- HÀM LƯU LỊCH SỬ ---
-function saveChatHistory(firstQuestion) {
-    let history = JSON.parse(localStorage.getItem('vlu_chat_history') || '[]');
+window.loadSession = function(id) {
+    window.currentChatId = id;
+    renderSession(id);
+    if (window.ui && typeof window.ui.renderHistory === 'function') window.ui.renderHistory();
+};
 
-    // Kiểm tra trùng
-    if (!history.find(item => item.title === firstQuestion)) {
-        // Dùng UNSHIFT để đẩy phần tử mới vào ĐẦU mảng
-        history.unshift({
-            id: Date.now(),
-            title: firstQuestion.substring(0, 30) + (firstQuestion.length > 30 ? '...' : ''),
-            date: new Date().toLocaleDateString()
-        });
+// --- FIX TRIỆT ĐỂ: HÀM XÓA PHIÊN CHAT CỤ THỂ KHÔNG LỖI RE-RENDER ---
+window.deleteSpecificChat = function(event, id) {
+    if (event) event.stopPropagation(); // Ngăn chặn bong bóng sự kiện click chuột
 
-        if (history.length > 10) history.pop(); // Xóa cái cũ nhất ở cuối
+    if (confirm('Bạn có muốn xóa cuộc trò chuyện này không?')) {
+        let allChats = JSON.parse(localStorage.getItem('vlu_chat_sessions')) || {};
+        delete allChats[id]; // Loại bỏ hoàn toàn bản ghi khỏi mảng
+        localStorage.setItem('vlu_chat_sessions', JSON.stringify(allChats));
 
-        localStorage.setItem('vlu_chat_history', JSON.stringify(history));
+        // Nếu phiên bị xóa trùng với phiên đang mở, reset ngay giao diện chat về rỗng
+        if (id === window.currentChatId) {
+            window.currentChatId = null;
+            const container = document.getElementById('messagesContainer');
+            const welcomeScreen = document.getElementById('welcomeScreen');
+            if (container) container.innerHTML = '';
+            if (welcomeScreen) welcomeScreen.classList.remove('hidden');
+        }
 
-        if (window.ui && window.ui.renderHistory) {
+        // Gọi lại module UI vẽ lại danh sách sidebar lập tức
+        if (window.ui && typeof window.ui.renderHistory === 'function') {
             window.ui.renderHistory();
         }
     }
-}
+};

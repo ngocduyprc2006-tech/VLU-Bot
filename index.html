@@ -4,10 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="img/logovanlang.png">
+    <link class="vlu-icon" rel="icon" type="image/png" href="img/logovanlang.png">
     <title>VLU Chatbot - Trợ lý sinh viên</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=1.3firebase deploy">
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
@@ -68,9 +69,9 @@
     <div class="gemini-container">
         <aside class="gemini-sidebar">
             <div class="sidebar-top">
-                <a href="#" id="goHomeBtn" style="text-decoration: none; display: block; text-align: center;">
-                    <img src="img/logovanlang.png" alt="Logo VLU" class="sidebar-logo" style="cursor: pointer;">
-                </a>
+                <div class="sidebar-brand-area" id="logoHomeBtn" style="cursor: pointer; text-align: center; display: block; padding: 10px 0;" title="Quay về trang chủ">
+                    <img src="img/logovanlang.png" alt="Logo VLU" class="sidebar-logo">
+                </div>
 
                 <div class="personalization-group" style="margin-top: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
                     <p class="history-label">Lộ trình & Tư vấn</p>
@@ -96,16 +97,17 @@
 
                 <button class="new-chat-btn" id="newChatBtn">
                     <i class="fas fa-plus"></i> Đoạn chat mới
-        </button>
+                </button>
 
                 <div class="chat-history-list" id="chatHistoryList">
                     <p class="history-label">Gần đây</p>
                 </div>
             </div>
             <div class="sidebar-bottom">
-                <button class="icon-link" id="clearHistoryBtn" title="Xóa lịch sử">
-                    <i class="fas fa-trash-alt"></i> Xóa lịch sử
-                </button><button class="icon-link"><i class="fas fa-cog"></i> Cài đặt</button>
+                <button class="icon-link" id="helpBtn" title="Hướng dẫn sử dụng hệ thống">
+                    <i class="fas fa-question-circle"></i> Trợ giúp
+                </button>
+                <button class="icon-link"><i class="fas fa-cog"></i> Cài đặt</button>
             </div>
         </aside>
 
@@ -162,7 +164,7 @@
                     <div id="imagePreviewContainer" style="display: none;">
                         <div class="preview-badge">
                             <img id="imagePreview" src="">
-                            <span id="closePreview">& times;</span>
+                            <span id="closePreview">&times;</span>
                         </div>
                     </div>
 
