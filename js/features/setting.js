@@ -4,7 +4,7 @@
 
 window.featureSetting = {
     init: function() {
-        const settingBtn = document.getElementById('settingBtn');
+        const settingBtn = document.getElementById('headerSettingBtn');
         if (!settingBtn) return;
 
         settingBtn.onclick = (e) => {

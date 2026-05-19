@@ -1,12 +1,7 @@
-/** * FILE: js/main.js
- * CHỨC NĂNG: Nhạc trưởng điều phối - KHỚP NỐI TOÀN BỘ CÁC MODULE CON SAU KHI TÁCH FILE
- */
-
-// 1. Cấu hình Prompt chuyên gia
 window.featurePrompts = {
     'roadmap': "Bạn là chuyên gia tư vấn lộ trình học tập tại VLU. Hãy phân tích chuyên sâu, đi thẳng vào môn học trọng tâm của từng học kỳ. Trình bày mạch lạc bằng gạch đầu dòng, loại bỏ hoàn toàn các câu chào hỏi thừa thãi.",
     'results': "Bạn là chuyên gia phân tích kết quả học tập. Hãy đọc kỹ các thông số điểm, giải thích quy chế tính GPA thang 4 và thang 10 của VLU một cách dứt khoát, ngắn gọn, dễ hiểu nhất. Tập trung vào giải pháp cải thiện điểm.",
-    'graduation': "Bạn là cố vấn xét tốt nghiệp. Hãy nêu rõ các điều kiện cốt lõi (tín chỉ, chứng chỉ ngoại ngữ/tin học, học phần bắt buộc) một cách mạch lạc, phân tích trực diện vào câu hỏi, không nói dài dòng.",
+    'graduation': "Bạn là cố vấn xét tốt nghiệp. Hãy nêu rõ các điều kiện cốt lõi (tín chỉ, chứng chỉ ngoại ngữ/tin học, học phần bắt buộc) một cách mạch lạc, phân tích trực diện vào câu hỏi, không nói dòng vo.",
     'future': "Bạn là chuyên gia định hướng nghề nghiệp thuộc Khoa CNTT - VLU. Hãy phân tích xu hướng thị trường, đưa ra lời khuyên thực tế, dứt khoát về các vị trí việc làm (Frontend, Backend, Data, AI...) phù hợp với câu hỏi.",
     'default': "Bạn là một AI Core trợ lý ảo cao cấp. Hãy thực hiện chính xác các quy tắc tư duy sau:\n1. DỊCH THUẬT TUYỆT ĐỐI: Khi người dùng yêu cầu dịch (bất kể ngôn ngữ nào: Anh, Nhật, Hàn, Trung...), hãy đóng vai biên dịch viên chuyên nghiệp. Dịch sát nghĩa, chuẩn ngữ cảnh, giữ nguyên và dịch đúng các thuật ngữ chuyên ngành (đặc biệt là CNTT/Kỹ thuật phần mềm), tuyệt đối không dịch thô word-by-word.\n2. TƯ DUY TRỌNG TÂM: Với mọi câu hỏi, đưa ra câu trả lời trực diện ngay từ dòng đầu tiên. Không chào hỏi, không lặp lại câu hỏi của người dùng.\n3. CẤU TRÚC MẠCH LẠC: Chia nhỏ thông tin thành các gạch đầu dòng (-) ngắn gọn, súc tích. Đưa ra câu trả lời có giá trị thông tin cao nhất với số lượng từ tối giản nhất."
 };
@@ -16,9 +11,7 @@ window.currentSystemPrompt = window.featurePrompts['default'];
 document.addEventListener('DOMContentLoaded', () => {
     console.log("%c🚀 VLU AI Core: Booting...", "color: #ff9900; font-weight: bold;");
 
-    // --- HÀM KHỞI TẠO CÁC MODULE (FIX CHỐNG NULL VÀ LIÊN KẾT MODULE MỚI) ---
     const startApp = () => {
-        // Khởi tạo Lõi UI Giao diện
         if (window.ui) {
             if (typeof ui.initSidebar === 'function') ui.initSidebar();
             if (typeof ui.updateDynamicGreeting === 'function') ui.updateDynamicGreeting();
@@ -27,51 +20,109 @@ document.addEventListener('DOMContentLoaded', () => {
             if (typeof ui.initClearHistory === 'function') ui.initClearHistory();
         }
 
-        // Khởi tạo Lõi Auth Xác thực mới xé lẻ
         if (window.vluAuthState && typeof window.vluAuthState.init === 'function') window.vluAuthState.init();
         if (window.vluAuthUtils && typeof window.vluAuthUtils.init === 'function') window.vluAuthUtils.init();
         if (window.vluRegister && typeof window.vluRegister.init === 'function') window.vluRegister.init();
+
         if (window.vluLogin) {
             if (typeof window.vluLogin.initTabs === 'function') window.vluLogin.initTabs();
             if (typeof window.vluLogin.initLoginFormSubmit === 'function') window.vluLogin.initLoginFormSubmit();
         }
 
-        // Khởi tạo Lõi Kéo thả file Upload
+        const loginTabBtn = document.getElementById('loginTabBtn');
+        const registerTabBtn = document.getElementById('registerTabBtn');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+
+        if (loginTabBtn && registerTabBtn && loginForm && registerForm) {
+            registerTabBtn.onclick = () => {
+                loginTabBtn.classList.remove('active');
+                registerTabBtn.classList.add('active');
+                loginForm.style.display = 'none';
+                registerForm.style.display = 'block';
+            };
+            loginTabBtn.onclick = () => {
+                registerTabBtn.classList.remove('active');
+                loginTabBtn.classList.add('active');
+                registerForm.style.display = 'none';
+                loginForm.style.display = 'block';
+            };
+        }
+
         if (window.upload) {
             if (typeof upload.initFilePreview === 'function') upload.initFilePreview();
             if (typeof upload.initDragAndDrop === 'function') upload.initDragAndDrop();
             console.log("✅ Module Upload & Drag-Drop: Connected");
         } else {
-            // Nếu chưa tìm thấy module upload, thử lại sau 300ms
             setTimeout(startApp, 300);
             return;
         }
 
-        // Khởi tạo các module tính năng mở rộng trong thư mục features/
         if (window.featureMenu && typeof window.featureMenu.init === 'function') window.featureMenu.init();
         if (window.featureTheme && typeof window.featureTheme.init === 'function') window.featureTheme.init();
         if (window.featureHelp && typeof window.featureHelp.init === 'function') window.featureHelp.init();
         if (window.featureSetting && typeof window.featureSetting.init === 'function') window.featureSetting.init();
 
-        // Đồng bộ vẽ lại lịch sử sidebar khi khởi động trang
         if (window.ui && typeof window.ui.renderHistory === "function") {
             window.ui.renderHistory();
         }
+
+        const singleToggleBtn = document.getElementById('headerToggle');
+        const sidebarElement = document.querySelector('.gemini-sidebar');
+
+        if (singleToggleBtn && sidebarElement) {
+            singleToggleBtn.onclick = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                sidebarElement.classList.toggle('collapsed');
+            };
+        }
+
+        const dropdownTrigger = document.getElementById('headerDropdownTrigger');
+        const dropdownMenu = document.getElementById('headerDropdownMenu');
+        const headerHelp = document.getElementById('headerHelpBtn');
+        const headerSetting = document.getElementById('headerSettingBtn');
+
+        if (dropdownTrigger && dropdownMenu) {
+            dropdownTrigger.onclick = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const isHidden = dropdownMenu.style.display === 'none' || dropdownMenu.style.display === '';
+                dropdownMenu.style.display = isHidden ? 'block' : 'none';
+            };
+
+            document.addEventListener('click', () => {
+                dropdownMenu.style.display = 'none';
+            });
+
+            if (headerHelp) {
+                headerHelp.onclick = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dropdownMenu.style.display = 'none';
+                };
+            }
+
+            if (headerSetting) {
+                headerSetting.onclick = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dropdownMenu.style.display = 'none';
+                };
+            }
+        }
     };
 
-    // Chạy khởi tạo hệ thống tổng hợp
     startApp();
 
-    // --- PHẦN TỬ GIAO DIỆN ---
     const uiElements = {
         input: document.getElementById('userInput'),
         sendBtn: document.getElementById('sendBtn'),
         micBtn: document.querySelector('.mic-btn'),
         logoHomeBtn: document.getElementById('logoHomeBtn'),
-        helpBtn: document.getElementById('helpBtn')
+        helpBtn: document.getElementById('headerHelpBtn')
     };
 
-    // --- HÀM GỬI TIN NHẮN TỚI CHAT.JS ---
     const handleSend = () => {
         const sendFunc = window.sendMessage || (window.chat && window.chat.sendMessage);
         if (typeof sendFunc === 'function') {
@@ -81,45 +132,36 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // --- LOGIC TÍCH HỢP NÚT TRANG CHỦ VÀO LOGO VLU ---
     if (uiElements.logoHomeBtn) {
         uiElements.logoHomeBtn.onclick = (e) => {
             e.preventDefault();
-
             window.currentChatId = null;
             window.currentSystemPrompt = window.featurePrompts['default'];
-
             const messagesContainer = document.getElementById('messagesContainer');
             if (messagesContainer) messagesContainer.innerHTML = '';
-
             const welcomeScreen = document.getElementById('welcomeScreen');
             if (welcomeScreen) welcomeScreen.classList.remove('hidden');
-
             if (uiElements.input) {
                 uiElements.input.value = '';
                 uiElements.input.style.height = 'auto';
                 uiElements.input.focus();
             }
-
             if (window.ui && typeof window.ui.renderHistory === 'function') {
                 window.ui.renderHistory();
             }
         };
     }
 
-    // --- TÍNH NĂNG: GHI ÂM GIỌNG NÓI TIẾNG VIỆT ---
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (uiElements.micBtn && SpeechRecognition) {
         const recognition = new SpeechRecognition();
         recognition.lang = 'vi-VN';
-
         uiElements.micBtn.onclick = (e) => {
             e.preventDefault();
             recognition.start();
             uiElements.micBtn.classList.add('recording');
             uiElements.micBtn.style.color = "red";
         };
-
         recognition.onresult = (event) => {
             const transcript = event.results[0][0].transcript;
             if (uiElements.input) {
@@ -129,14 +171,12 @@ document.addEventListener('DOMContentLoaded', () => {
             uiElements.micBtn.classList.remove('recording');
             uiElements.micBtn.style.color = "";
         };
-
         recognition.onerror = () => {
             uiElements.micBtn.classList.remove('recording');
             uiElements.micBtn.style.color = "";
         };
     }
 
-    // --- TÍNH NĂNG: BÀN PHÍM ENTER & TỰ ĐỘNG CO GIÃN TEXTAREA ---
     if (uiElements.input) {
         uiElements.input.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
@@ -144,7 +184,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 handleSend();
             }
         });
-
         uiElements.input.addEventListener('input', function() {
             this.style.height = 'auto';
             this.style.height = Math.min(this.scrollHeight, 180) + 'px';
@@ -162,7 +201,6 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log("%c🏁 VLU AI Core: Ready to chat!", "color: #00ff00; font-weight: bold;");
 });
 
-// --- HELPERS TIỆN ÍCH TOÀN CỤC (GLOBAL) ---
 window.copyText = (el) => {
     const textWrapper = el.closest('.message-wrapper') || el.closest('.bot-message');
     if (!textWrapper) return;

@@ -4,15 +4,28 @@
 
 window.featureHelp = {
     init: function() {
-        const helpBtn = document.getElementById('helpBtn');
-        if (!helpBtn) return;
+        const helpBtn = document.getElementById('headerHelpBtn');
+        const helpModal = document.getElementById('helpModal');
+        const closeHelpModalBtn = document.getElementById('closeHelpModalBtn');
 
-        helpBtn.onclick = (e) => {
+        if (!helpBtn || !helpModal) return;
+
+        helpBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            alert("💡 HƯỚNG DẪN SỬ DỤNG VLU CHATBOT:\n\n" +
-                "1. Bấm trực tiếp vào LOGO trường Văn Lang để làm mới cuộc hội thoại và quay về trang chủ ban đầu.\n" +
-                "2. Chọn các tính năng (Lộ trình cá nhân, Kết quả học tập...) để kích hoạt trợ lý chuyên gia chuyên sâu.\n" +
-                "3. Bạn có thể xóa riêng lẻ từng phiên chat cũ bằng cách bấm vào biểu tượng Thùng rác nhỏ ngay cạnh dòng lịch sử.");
-        };
+            e.stopPropagation();
+            helpModal.style.display = 'flex';
+        });
+
+        if (closeHelpModalBtn) {
+            closeHelpModalBtn.onclick = () => {
+                helpModal.style.display = 'none';
+            };
+        }
+
+        window.addEventListener('click', (e) => {
+            if (e.target === helpModal) {
+                helpModal.style.display = 'none';
+            }
+        });
     }
 };

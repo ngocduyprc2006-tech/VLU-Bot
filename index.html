@@ -31,35 +31,39 @@
                 <input type="text" id="loginUser" placeholder="Nhập email" required>
                 <input type="password" id="loginPass" placeholder="Mật khẩu" required>
                 <button type="submit" class="auth-submit vlu-red-btn">Đăng nhập</button>
-                <div class="social-login-separator"><span>Hoặc</span></div>
-                <div class="social-login-buttons">
-                    <button type="button" class="social-btn google-btn" onclick="window.vluAuthActions.loginWithGoogle()">
-                        <i class="fab fa-google"></i> Google
-                    </button>
-                    <button type="button" class="social-btn facebook-btn" onclick="window.vluAuthActions.loginWithFacebook()">
-                        <i class="fab fa-facebook-f"></i> Facebook
-                    </button>
-                </div>
             </form>
 
             <form id="registerForm" class="auth-form" style="display: none;">
                 <input type="text" placeholder="Họ và tên sinh viên" required>
-                <input type="text" id="regEmail" placeholder="Nhập email" required>
+                <input type="text" id="regEmail" placeholder="Nhập email (@vanlanguni.vn)" required>
                 <input type="password" id="regPass" placeholder="Mật khẩu" required>
                 <input type="password" id="regPassConfirm" placeholder="Nhập lại mật khẩu" required>
                 <p id="registerError" class="error-text" style="display: none;"></p>
                 <button type="submit" class="auth-submit vlu-red-btn">Tạo tài khoản mới</button>
-
-                <div class="social-login-separator"><span>Hoặc đăng ký bằng</span></div>
-                <div class="social-login-buttons">
-                    <button type="button" class="social-btn google-btn" onclick="window.vluAuthActions.loginWithGoogle()">
-            <i class="fab fa-google"></i> Google
-        </button>
-                    <button type="button" class="social-btn facebook-btn" onclick="window.vluAuthActions.loginWithFacebook()">
-            <i class="fab fa-facebook-f"></i> Facebook
-        </button>
-                </div>
             </form>
+        </div>
+    </div>
+
+    <div id="helpModal" class="modal">
+        <div class="modal-content help-modal-content">
+            <span class="close-help-modal" id="closeHelpModalBtn"><i class="fas fa-times"></i></span>
+            <div class="help-header">
+                <h2><i class="fas fa-lightbulb"></i> HƯỚNG DẪN SỬ DỤNG VLU CHATBOT</h2>
+            </div>
+            <div class="help-body">
+                <div class="help-step-item">
+                    <span class="step-num">1</span>
+                    <p>Bấm trực tiếp vào <strong>LOGO trường Văn Lang</strong> để làm mới cuộc hội thoại và quay về trang chủ ban đầu.</p>
+                </div>
+                <div class="help-step-item">
+                    <span class="step-num">2</span>
+                    <p>Chọn các tính năng (<strong>Lộ trình cá nhân, Kết quả học tập...</strong>) để kích hoạt trợ lý chuyên gia chuyên sâu.</p>
+                </div>
+                <div class="help-step-item">
+                    <span class="step-num">3</span>
+                    <p>Bạn có thể xóa riêng lẻ từng phiên chat cũ bằng cách bấm vào biểu tượng <strong>Thùng rác nhỏ</strong> ngay cạnh dòng lịch sử.</p>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -113,22 +117,29 @@
                     <p class="history-label">Gần đây</p>
                 </div>
             </div>
-            <div class="sidebar-bottom">
-                <button class="icon-link" id="helpBtn" title="Hướng dẫn sử dụng hệ thống">
-                    <i class="fas fa-question-circle"></i> Trợ giúp
-                </button>
-                <button class="icon-link" id="settingBtn"><i class="fas fa-cog"></i> Cài đặt</button>
-            </div>
         </aside>
 
         <main class="main-content">
             <header class="top-header">
-                <div class="header-brand">
-                    <button id="toggleSidebar" class="toggle-btn">
+                <div class="header-brand" style="display: flex; align-items: center; gap: 12px;">
+                    <button id="headerToggle" class="menu-btn" title="Đóng/Mở menu" style="background: none; border: none; font-size: 18px; cursor: pointer; padding: 4px; display: flex; align-items: center; justify-content: center;">
                         <i class="fas fa-bars"></i>
                     </button>
+
                     <img src="img/logovanlang.png" alt="Logo VLU" class="header-logo">
-                    <div class="model-name">VLU Chatbot <i class="fas fa-chevron-down"></i></div>
+
+                    <div class="model-name" id="headerDropdownTrigger" style="cursor: pointer; position: relative; display: flex; align-items: center; gap: 6px;">
+                        VLU Chatbot <i class="fas fa-chevron-down"></i>
+
+                        <div class="header-dropdown" id="headerDropdownMenu" style="display: none;">
+                            <div class="dropdown-item-custom" id="headerHelpBtn">
+                                <i class="fas fa-question-circle"></i> Trợ giúp
+                            </div>
+                            <div class="dropdown-item-custom" id="headerSettingBtn">
+                                <i class="fas fa-cog"></i> Cài đặt
+                            </div>
+                        </div>
+                    </div>
 
                     <button id="darkModeBtn" class="mode-toggle-top" title="Đổi chế độ sáng/tối">
                         <i class="fas fa-moon"></i>
@@ -159,6 +170,18 @@
                         <div class="suggestion-card" onclick="window.ui.useSuggestion('Định hướng nghề nghiệp tương lai')">
                             <i class="fas fa-briefcase"></i>
                             <p>Định hướng nghề nghiệp</p>
+                        </div>
+                        <div class="suggestion-card" onclick="window.ui.useSuggestion('Xem khung chương trình đào tạo chính thức của Khoa')">
+                            <i class="fas fa-book"></i>
+                            <p>Chương trình đào tạo</p>
+                        </div>
+                        <div class="suggestion-card" onclick="window.ui.useSuggestion('Tra cứu cẩm nang sinh viên VLU mới nhất')">
+                            <i class="fas fa-book-open"></i>
+                            <p>Cẩm nang sinh viên</p>
+                        </div>
+                        <div class="suggestion-card" onclick="window.ui.useSuggestion('Các hoạt động sự kiện sắp diễn ra của trường')">
+                            <i class="fas fa-calendar-alt"></i>
+                            <p>Hoạt động sự kiện</p>
                         </div>
                     </div>
                 </div>
