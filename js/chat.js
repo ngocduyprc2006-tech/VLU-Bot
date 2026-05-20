@@ -1,7 +1,3 @@
-/** * FILE: js/chat.js
- * CHỨC NĂNG: Xử lý đóng gói payload Chat, gửi nhận API Groq & Quản lý vòng đời Session
- */
-
 const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
 
 window.currentChatId = null;
@@ -10,7 +6,6 @@ function getApiKey() {
     return (typeof window.CONFIG !== "undefined" && window.CONFIG.GROQ_API_KEY) ? window.CONFIG.GROQ_API_KEY : "";
 }
 
-// --- HÀM GỬI TIN NHẮN CHÍNH ---
 async function sendMessage() {
     const ui = {
         input: document.getElementById('userInput'),
@@ -31,14 +26,12 @@ async function sendMessage() {
 
     if (ui.welcome) ui.welcome.classList.add('hidden');
 
-    // --- 1. XỬ LÝ HIỂN THỊ TIN NHẮN NGƯỜI DÙNG ---
     let imageData = null;
     if (hasImage && ui.preImg) {
-        // Gọi hàm nén ảnh từ module vision độc lập vừa bóc tách
         if (window.featureVision && typeof window.featureVision.compressImage === 'function') {
             imageData = await window.featureVision.compressImage(ui.preImg.src);
         } else {
-            imageData = ui.preImg.src; // Fallback nếu chưa load kịp file
+            imageData = ui.preImg.src;
         }
         renderUserImageMessage(imageData);
         saveChatToLocal('user', text ? `[Hình ảnh] ${text}` : "[Hình ảnh]");
@@ -53,6 +46,27 @@ async function sendMessage() {
     ui.input.style.height = 'auto';
 
     const typingMsg = showTypingIndicator();
+
+    const textLower = text.toLowerCase();
+    const isVLUKeywords = textLower.includes('văn lang') ||
+        textLower.includes('vlu') ||
+        (textLower.includes('học phần') && textLower.includes('đăng ký')) ||
+        (textLower.includes('tốt nghiệp') && textLower.includes('điều kiện')) ||
+        (textLower.includes('lịch thi') || textLower.includes('phòng thi'));
+
+    if (isVLUKeywords && !hasImage && !docContent && window.ui && typeof window.ui.fetchVLUData === 'function') {
+        try {
+            const botReply = await window.ui.fetchVLUData(text);
+            removeTypingIndicator(typingMsg);
+            renderBotMessage(botReply, true);
+            saveChatToLocal('bot', botReply);
+        } catch (err) {
+            removeTypingIndicator(typingMsg);
+            renderBotMessage("Ối! Hệ thống tra cứu dữ liệu trường gặp sự cố rồi.", true);
+        }
+        return;
+    }
+
     const apiKey = getApiKey();
 
     if (!apiKey) {
@@ -63,7 +77,6 @@ async function sendMessage() {
         return;
     }
 
-    // --- 2. CẤU TRÚC PAYLOAD ĐA PHƯƠNG THỨC ---
     let contentPayload = [];
     let combinedText = text;
     if (docContent) {
@@ -82,7 +95,6 @@ async function sendMessage() {
         ui.preImg.src = '';
     }
 
-    // --- 3. GỌI API ---
     try {
         const response = await fetch(GROQ_URL, {
             method: "POST",
@@ -93,7 +105,7 @@ async function sendMessage() {
             body: JSON.stringify({
                 model: "llama-3.1-8b-instant",
                 messages: [
-                    { role: "system", content: window.currentSystemPrompt || "Trợ lý VLU" },
+                    { role: "system", content: "Bạn là một trợ lý ảo thông minh, thân thiện của trường Đại học Văn Lang. Hãy trả lời câu hỏi của sinh viên một cách tự nhiên, ngắn gọn và hữu ích. Nếu sinh viên chào hỏi, hãy chào lại một cách vui vẻ." },
                     { role: "user", content: contentPayload }
                 ],
                 max_tokens: 1024,
@@ -119,7 +131,6 @@ async function sendMessage() {
     }
 }
 
-// --- CÁC HÀM PHỤ TRỢ HIỂN THỊ THỦ CÔNG ---
 function renderUserMessage(text) {
     const container = document.getElementById('messagesContainer');
     if (!container) return;
@@ -189,7 +200,6 @@ function renderBotMessage(text) {
     scrollToBottom();
 }
 
-// Xuất các hàm kết xuất ra global cho các file chuyên môn khác dùng chung
 window.renderBotMessage = renderBotMessage;
 window.renderUserMessage = renderUserMessage;
 
@@ -208,7 +218,6 @@ function removeTypingIndicator(e) { if (e && e.parentNode) e.parentNode.removeCh
 
 function scrollToBottom() { const b = document.getElementById('chatbox'); if (b) b.scrollTop = b.scrollHeight; }
 
-// --- HÀM LƯU LỊCH SỬ CHAT THEO HỆ THỐNG PHIÊN (SESSION-BASED) ---
 function saveChatToLocal(role, text) {
     if (!window.currentChatId) {
         window.currentChatId = Date.now().toString();

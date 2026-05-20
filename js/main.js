@@ -75,6 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
                 e.stopPropagation();
                 sidebarElement.classList.toggle('collapsed');
+                sidebarElement.classList.toggle('closed');
             };
         }
 
@@ -111,6 +112,67 @@ document.addEventListener('DOMContentLoaded', () => {
                 };
             }
         }
+
+        const personalMenuTrigger = document.getElementById('personalMenuTrigger');
+        if (personalMenuTrigger) {
+            personalMenuTrigger.onclick = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                personalMenuTrigger.classList.toggle('active');
+            };
+        }
+
+        const footerHelpBtn = document.getElementById('helpBtn');
+        const footerSettingsBtn = document.getElementById('settingsBtn');
+        const helpModal = document.getElementById('helpModal');
+        const authModal = document.getElementById('authModal');
+        const closeHelpModalBtn = document.getElementById('closeHelpModalBtn');
+        const closeAuthModalBtn = document.querySelector('.close-modal');
+
+        if (footerHelpBtn && helpModal) {
+            footerHelpBtn.onclick = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                helpModal.style.display = 'block';
+                helpModal.classList.add('show');
+            };
+        }
+
+        if (closeHelpModalBtn && helpModal) {
+            closeHelpModalBtn.onclick = (e) => {
+                e.preventDefault();
+                helpModal.style.display = 'none';
+                helpModal.classList.remove('show');
+            };
+        }
+
+        if (footerSettingsBtn && authModal) {
+            footerSettingsBtn.onclick = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                authModal.style.display = 'block';
+                authModal.classList.add('show');
+            };
+        }
+
+        if (closeAuthModalBtn && authModal) {
+            closeAuthModalBtn.onclick = (e) => {
+                e.preventDefault();
+                authModal.style.display = 'none';
+                authModal.classList.remove('show');
+            };
+        }
+
+        window.addEventListener('click', (event) => {
+            if (event.target === helpModal) {
+                helpModal.style.display = 'none';
+                helpModal.classList.remove('show');
+            }
+            if (event.target === authModal) {
+                authModal.style.display = 'none';
+                authModal.classList.remove('show');
+            }
+        });
     };
 
     startApp();

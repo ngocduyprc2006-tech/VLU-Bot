@@ -29,7 +29,7 @@ window.vluRegister = {
                 const vluEmailRegex = /^[a-z]+\.[0-9]+@vanlanguni\.vn$/;
 
                 if (!vluEmailRegex.test(emailInput)) {
-                    alert("🚫 Đăng ký thất bại!\nEmail sinh viên phải đúng định dạng: tên.mssv@vanlanguni.vn\nVí dụ: a.2474200001@vanlanguni.vn");
+                    alert("🚫 Đăng ký thất bại!\nEmail sinh viên phải đúng định dạng: tên.mssv@vanlanguni.vn\nVí dụ: ten.mssv@vanlanguni.vn");
                     return;
                 }
 

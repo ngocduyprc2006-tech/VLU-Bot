@@ -35,7 +35,7 @@
 
             <form id="registerForm" class="auth-form" style="display: none;">
                 <input type="text" placeholder="Họ và tên sinh viên" required>
-                <input type="text" id="regEmail" placeholder="Nhập email (@vanlanguni.vn)" required>
+                <input type="text" id="regEmail" placeholder="Nhập tên.mssv@vanlanguni.vn   " required>
                 <input type="password" id="regPass" placeholder="Mật khẩu" required>
                 <input type="password" id="regPassConfirm" placeholder="Nhập lại mật khẩu" required>
                 <p id="registerError" class="error-text" style="display: none;"></p>
@@ -81,26 +81,32 @@
     </div>
 
     <div class="gemini-container">
-        <aside class="gemini-sidebar">
-            <div class="sidebar-top">
+        <aside class="gemini-sidebar" style="display: flex; flex-direction: column;">
+            <div class="sidebar-top" style="flex: 1; overflow-y: auto;">
                 <div class="sidebar-brand-area" id="logoHomeBtn" style="cursor: pointer; text-align: center; display: block; padding: 10px 0;" title="Quay về trang chủ">
                     <img src="img/logovanlang.png" alt="Logo VLU" class="sidebar-logo">
                 </div>
 
-                <div class="personalization-group" style="margin-top: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
-                    <p class="history-label">Lộ trình & Tư vấn</p>
-                    <button id="btn-roadmap" class="icon-link sidebar-feature-btn" title="Lộ trình học tập cá nhân">
-                        <i class="fas fa-map-signs"></i> Lộ trình cá nhân hóa
-                    </button>
-                    <button id="btn-results" class="icon-link sidebar-feature-btn" title="Xem điểm và môn nợ">
-                        <i class="fas fa-user-graduate"></i> Kết quả học tập
-                    </button>
-                    <button id="btn-graduation" class="icon-link sidebar-feature-btn" title="Dự báo thời gian ra trường">
-                        <i class="fas fa-calendar-check"></i> Dự báo tốt nghiệp
-                    </button>
-                    <button id="btn-future" class="icon-link sidebar-feature-btn" title="Định hướng nghề nghiệp">
-                        <i class="fas fa-compass"></i> Định hướng tương lai
-                    </button>
+                <div class="personalization-group">
+                    <div class="menu-trigger-btn" id="personalMenuTrigger">
+                        <span class="history-label">Lộ trình & Tư vấn</span>
+                        <i class="fas fa-chevron-down menu-arrow-icon"></i>
+                    </div>
+
+                    <div class="menu-dropdown-content" id="personalMenuContent">
+                        <button id="btn-roadmap" class="icon-link sidebar-feature-btn" title="Lộ trình học tập cá nhân">
+                            <i class="fas fa-map-signs"></i> Lộ trình cá nhân hóa
+                        </button>
+                        <button id="btn-results" class="icon-link sidebar-feature-btn" title="Xem điểm và môn nợ">
+                            <i class="fas fa-user-graduate"></i> Kết quả học tập
+                        </button>
+                        <button id="btn-graduation" class="icon-link sidebar-feature-btn" title="Dự báo thời gian ra trường">
+                            <i class="fas fa-calendar-check"></i> Dự báo tốt nghiệp
+                        </button>
+                        <button id="btn-future" class="icon-link sidebar-feature-btn" title="Định hướng nghề nghiệp">
+                            <i class="fas fa-compass"></i> Định hướng tương lai
+                        </button>
+                    </div>
 
                     <div id="adminModule" style="display: none; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
                         <a href="admin/admin.html" class="icon-link sidebar-feature-btn" style="color: #ffb86c !important; text-decoration: none; display: block;">
@@ -117,32 +123,29 @@
                     <p class="history-label">Gần đây</p>
                 </div>
             </div>
+
+            <div class="sidebar-footer" style="padding: 16px; border-top: 1px solid rgba(0, 0, 0, 0.05); margin-top: auto;">
+                <div class="system-menu-group" style="display: flex; flex-direction: column; gap: 4px;">
+                    <button id="helpBtn" class="menu-item-btn" onclick="if(window.ui && typeof window.ui.showToast === 'function') window.ui.showToast('Hệ thống Trợ giúp đang được cập nhật!')" style="display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 14px; background: none; border: none; border-radius: 8px; color: #555; font-size: 14px; text-align: left; cursor: pointer; transition: background 0.2s;">
+                        <i class="far fa-question-circle" style="font-size: 16px; width: 20px; color: #666;"></i>
+                        <span>Trợ giúp & Phản hồi</span>
+                    </button>
+                    <button id="settingsBtn" class="menu-item-btn" style="display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 14px; background: none; border: none; border-radius: 8px; color: #555; font-size: 14px; text-align: left; cursor: pointer; transition: background 0.2s;">
+                        <i class="fas fa-cog" style="font-size: 16px; width: 20px; color: #666;"></i>
+                        <span>Cài đặt hệ thống</span>
+                    </button>
+                </div>
+            </div>
         </aside>
 
         <main class="main-content">
             <header class="top-header">
-                <div class="header-brand" style="display: flex; align-items: center; gap: 12px;">
-                    <button id="headerToggle" class="menu-btn" title="Đóng/Mở menu" style="background: none; border: none; font-size: 18px; cursor: pointer; padding: 4px; display: flex; align-items: center; justify-content: center;">
-                        <i class="fas fa-bars"></i>
-                    </button>
-
-                    <img src="img/logovanlang.png" alt="Logo VLU" class="header-logo">
-
-                    <div class="model-name" id="headerDropdownTrigger" style="cursor: pointer; position: relative; display: flex; align-items: center; gap: 6px;">
-                        VLU Chatbot <i class="fas fa-chevron-down"></i>
-
-                        <div class="header-dropdown" id="headerDropdownMenu" style="display: none;">
-                            <div class="dropdown-item-custom" id="headerHelpBtn">
-                                <i class="fas fa-question-circle"></i> Trợ giúp
-                            </div>
-                            <div class="dropdown-item-custom" id="headerSettingBtn">
-                                <i class="fas fa-cog"></i> Cài đặt
-                            </div>
-                        </div>
-                    </div>
-
-                    <button id="darkModeBtn" class="mode-toggle-top" title="Đổi chế độ sáng/tối">
-                        <i class="fas fa-moon"></i>
+                <div class="header-brand">
+                    <button id="headerToggle" class="gemini-toggle-btn" title="Đóng thanh bên">
+                        <span class="toggle-icon-wrapper">
+                            <i class="fas fa-columns"></i>
+                            <i class="fas fa-chevron-left inner-arrow"></i>
+                        </span>
                     </button>
                 </div>
             </header>
@@ -155,33 +158,37 @@
                     <h2 class="sub-welcome" id="dynamicGreeting">Hôm nay mình có thể giúp gì cho bạn?</h2>
 
                     <div class="suggestion-container">
-                        <div class="suggestion-card" onclick="window.ui.useSuggestion('Lộ trình học tập ngành Công nghệ thông tin')">
-                            <i class="fas fa-map-marked-alt"></i>
-                            <p>Lộ trình học tập</p>
-                        </div>
-                        <div class="suggestion-card" onclick="window.ui.useSuggestion('Cách tính điểm GPA tại VLU')">
+                        <div class="suggestion-card" onclick="window.ui.useSuggestion('Lịch đóng học phí trường Văn Lang')">
                             <i class="fas fa-calculator"></i>
-                            <p>Cách tính GPA</p>
+                            <p>Học phí & Quy chế</p>
                         </div>
-                        <div class="suggestion-card" onclick="window.ui.useSuggestion('Điều kiện xét tốt nghiệp VLU')">
+                        <div class="suggestion-card" onclick="window.ui.useSuggestion('Điều kiện xét tốt nghiệp đại học Văn Lang')">
                             <i class="fas fa-graduation-cap"></i>
                             <p>Điều kiện tốt nghiệp</p>
                         </div>
-                        <div class="suggestion-card" onclick="window.ui.useSuggestion('Định hướng nghề nghiệp tương lai')">
-                            <i class="fas fa-briefcase"></i>
-                            <p>Định hướng nghề nghiệp</p>
-                        </div>
-                        <div class="suggestion-card" onclick="window.ui.useSuggestion('Xem khung chương trình đào tạo chính thức của Khoa')">
+                        <div class="suggestion-card" onclick="window.ui.useSuggestion('Khung chương trình đào tạo Khoa CNTT Văn Lang')">
                             <i class="fas fa-book"></i>
                             <p>Chương trình đào tạo</p>
                         </div>
-                        <div class="suggestion-card" onclick="window.ui.useSuggestion('Tra cứu cẩm nang sinh viên VLU mới nhất')">
+                        <div class="suggestion-card" onclick="window.ui.useSuggestion('Thông báo tuyển dụng thực tập Khoa CNTT Văn Lang')">
+                            <i class="fas fa-briefcase"></i>
+                            <p>Cơ hội việc làm</p>
+                        </div>
+                        <div class="suggestion-card" onclick="window.ui.useSuggestion('Cẩm nang sinh viên Đại học Văn Lang mới nhất')">
                             <i class="fas fa-book-open"></i>
                             <p>Cẩm nang sinh viên</p>
                         </div>
-                        <div class="suggestion-card" onclick="window.ui.useSuggestion('Các hoạt động sự kiện sắp diễn ra của trường')">
+                        <div class="suggestion-card" onclick="window.ui.useSuggestion('Lịch công tác tuần và sự kiện trường Văn Lang')">
                             <i class="fas fa-calendar-alt"></i>
                             <p>Hoạt động sự kiện</p>
+                        </div>
+                        <div class="suggestion-card" onclick="window.ui.useSuggestion('Lịch thi học kỳ và phòng thi trường Văn Lang')">
+                            <i class="fas fa-file-invoice"></i>
+                            <p>Lịch thi & Phòng thi</p>
+                        </div>
+                        <div class="suggestion-card" onclick="window.ui.useSuggestion('Thông báo thời gian đăng ký học phần môn học Văn Lang')">
+                            <i class="fas fa-edit"></i>
+                            <p>Đăng ký học phần</p>
                         </div>
                     </div>
                 </div>
@@ -193,7 +200,6 @@
 
             <div class="bottom-container">
                 <div class="input-wrapper" id="inputWrapper">
-
                     <div id="imagePreviewContainer" style="display: none;">
                         <div class="preview-badge">
                             <img id="imagePreview" src="">
@@ -212,7 +218,7 @@
                                 <div class="menu-item"><i class="fas fa-wand-magic-sparkles"></i> Tạo hình ảnh</div>
                                 <div class="menu-item"><i class="fas fa-lightbulb"></i> Đang suy nghĩ</div>
                                 <div class="menu-item"><i class="fas fa-microscope"></i> Nghiên cứu chuyên sâu</div>
-                                <div class="menu-item has-submenu">
+                                <div class="menu-item alt-submenu">
                                     <span><i class="fas fa-ellipsis"></i> Thêm</span>
                                     <i class="fas fa-chevron-right arrow"></i>
                                     <div class="submenu">
@@ -288,6 +294,10 @@
 
     <script src="js/chat.js"></script>
     <script src="js/main.js"></script>
+    <div id="hiddenGcseContainer" style="display: none !important; visibility: hidden !important; opacity: 0 !important; width: 0 !important; height: 0 !important; overflow: hidden !important;">
+        <script async src="https://cse.google.com/cse.js?cx=45b8e74d1ffd34e0f"></script>
+        <div class="gcse-searchresults-only" data-gstyle="theme"></div>
+    </div>
 </body>
 
 </html>

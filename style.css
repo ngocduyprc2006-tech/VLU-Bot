@@ -2251,3 +2251,468 @@ body.dark-mode .close-help-modal:hover {
 body.dark-mode .main-content .bottom-container .disclaimer {
     color: #94a3b8;
 }
+
+.gemini-sidebar {
+    transition: width 0.2s ease;
+}
+
+.gemini-sidebar .sidebar-brand-area {
+    padding: 20px 0;
+    text-align: center;
+    transition: padding 0.2s ease;
+}
+
+.gemini-sidebar .sidebar-logo {
+    width: 120px;
+    height: auto;
+    object-fit: contain;
+    transition: width 0.2s ease, height 0.2s ease;
+}
+
+.gemini-sidebar.collapsed {
+    width: 70px;
+}
+
+.gemini-sidebar.collapsed .sidebar-brand-area {
+    padding: 15px 0;
+}
+
+.gemini-sidebar.collapsed .sidebar-logo {
+    width: 32px;
+    height: 32px;
+}
+
+.main-content .top-header {
+    background-color: var(--bg-main, #ffffff);
+    border-bottom: 1px solid var(--border-color, #e2e8f0);
+    height: 60px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.main-content .top-header .header-brand {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.main-content .top-header .gemini-toggle-btn {
+    position: absolute;
+    left: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, left 0.2s ease;
+    z-index: 1000;
+}
+
+.main-content .top-header .gemini-toggle-btn:hover {
+    background-color: rgba(0, 0, 0, 0.06);
+}
+
+body.dark-mode .main-content .top-header .gemini-toggle-btn:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.toggle-icon-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #475569;
+    font-size: 16px;
+}
+
+body.dark-mode .toggle-icon-wrapper {
+    color: #94a3b8;
+}
+
+.toggle-icon-wrapper .inner-arrow {
+    position: absolute;
+    font-size: 8px;
+    left: 4px;
+    top: 5px;
+    color: #475569;
+    transition: transform 0.2s ease;
+}
+
+body.dark-mode .toggle-icon-wrapper .inner-arrow {
+    color: #94a3b8;
+}
+
+.gemini-sidebar.collapsed~.main-content .top-header .gemini-toggle-btn {
+    left: 15px;
+}
+
+.gemini-sidebar.collapsed~.main-content .top-header .toggle-icon-wrapper .inner-arrow {
+    transform: rotate(180deg);
+    left: 5px;
+}
+
+body.dark-mode .main-content .top-header {
+    background-color: #1a1a1a;
+    border-color: #333333;
+}
+
+.gemini-sidebar {
+    transition: width 0.2s ease;
+}
+
+.gemini-sidebar .sidebar-brand-area {
+    padding: 20px 0;
+    text-align: center;
+    transition: padding 0.2s ease;
+}
+
+.gemini-sidebar .sidebar-logo {
+    width: 120px;
+    height: auto;
+    object-fit: contain;
+    transition: width 0.2s ease, height 0.2s ease;
+}
+
+.gemini-sidebar.collapsed {
+    width: 70px;
+}
+
+.gemini-sidebar.collapsed .sidebar-brand-area {
+    padding: 15px 0;
+}
+
+.gemini-sidebar.collapsed .sidebar-logo {
+    width: 32px;
+    height: 32px;
+}
+
+.main-content .top-header {
+    background-color: var(--bg-main, #ffffff);
+    border-bottom: 1px solid var(--border-color, #e2e8f0);
+    height: 60px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.main-content .top-header .header-brand {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.main-content .top-header .gemini-toggle-btn {
+    position: absolute;
+    left: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, left 0.2s ease;
+    z-index: 1000;
+}
+
+.main-content .top-header .gemini-toggle-btn:hover {
+    background-color: rgba(0, 0, 0, 0.06);
+}
+
+body.dark-mode .main-content .top-header .gemini-toggle-btn:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.toggle-icon-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #475569;
+    font-size: 16px;
+}
+
+body.dark-mode .toggle-icon-wrapper {
+    color: #94a3b8;
+}
+
+.toggle-icon-wrapper .inner-arrow {
+    position: absolute;
+    font-size: 8px;
+    left: 4px;
+    top: 5px;
+    color: #475569;
+    transition: transform 0.2s ease;
+}
+
+body.dark-mode .toggle-icon-wrapper .inner-arrow {
+    color: #94a3b8;
+}
+
+.gemini-sidebar.collapsed~.main-content .top-header .gemini-toggle-btn {
+    left: 15px;
+}
+
+.gemini-sidebar.collapsed~.main-content .top-header .toggle-icon-wrapper .inner-arrow {
+    transform: rotate(180deg);
+    left: 5px;
+}
+
+body.dark-mode .main-content .top-header {
+    background-color: #1a1a1a;
+    border-color: #333333;
+}
+
+html body .gemini-container .gemini-sidebar .personalization-group {
+    margin-top: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 10px;
+}
+
+html body .gemini-container .gemini-sidebar .menu-trigger-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: background-color 0.15s ease;
+    user-select: none;
+}
+
+html body .gemini-container .gemini-sidebar .menu-trigger-btn:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+}
+
+html body .gemini-container body.dark-mode .gemini-sidebar .menu-trigger-btn:hover {
+    background-color: rgba(255, 255, 255, 0.06);
+}
+
+html body .gemini-container .gemini-sidebar .menu-trigger-btn .history-label {
+    margin: 0;
+}
+
+html body .gemini-container .gemini-sidebar .menu-arrow-icon {
+    font-size: 12px;
+    color: #64748b;
+    transition: transform 0.2s ease;
+}
+
+html body .gemini-container body.dark-mode .gemini-sidebar .menu-arrow-icon {
+    color: #94a3b8;
+}
+
+html body .gemini-container .gemini-sidebar .menu-dropdown-content {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 6px;
+    overflow: hidden;
+}
+
+html body .gemini-container .gemini-sidebar .menu-trigger-btn.active .menu-arrow-icon {
+    transform: rotate(180deg);
+}
+
+html body .gemini-container .gemini-sidebar .menu-trigger-btn.active+.menu-dropdown-content {
+    display: flex;
+}
+
+html body .gemini-container .main-content #chatbox .suggestion-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 24px;
+    width: 100%;
+    max-width: 1000px;
+    box-sizing: border-box;
+}
+
+@media (max-width: 992px) {
+    html body .gemini-container .main-content #chatbox .suggestion-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 576px) {
+    html body .gemini-container .main-content #chatbox .suggestion-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.gemini-sidebar {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.sidebar-top {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.sidebar-footer {
+    padding: 16px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    margin-top: auto;
+    background-color: inherit;
+}
+
+.menu-item-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 10px 14px;
+    background: none;
+    border: none;
+    border-radius: 8px;
+    color: #555;
+    font-size: 14px;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.menu-item-btn span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.menu-item-btn:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+    color: #b31f24;
+}
+
+.menu-item-btn:hover i {
+    color: #b31f24;
+}
+
+.gemini-sidebar.closed .sidebar-footer span {
+    display: none;
+}
+
+.gemini-sidebar.closed .sidebar-footer .menu-item-btn {
+    justify-content: center;
+    padding: 10px 0;
+}
+
+.gemini-sidebar.closed .sidebar-footer .menu-item-btn i {
+    margin: 0;
+    width: auto;
+    font-size: 18px;
+}
+
+.gemini-sidebar {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.sidebar-top {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.sidebar-footer {
+    padding: 16px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    margin-top: auto;
+    background-color: inherit;
+}
+
+.system-menu-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+}
+
+.menu-item-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 10px 14px;
+    background: none;
+    border: none;
+    border-radius: 8px;
+    color: #555;
+    font-size: 14px;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.menu-item-btn span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.menu-item-btn i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    font-size: 16px;
+    color: #666;
+    transition: color 0.2s;
+}
+
+.menu-item-btn:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+    color: #b31f24;
+}
+
+.menu-item-btn:hover i {
+    color: #b31f24;
+}
+
+.gemini-sidebar.closed .sidebar-footer {
+    padding: 16px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.gemini-sidebar.closed .system-menu-group {
+    align-items: center;
+}
+
+.gemini-sidebar.closed .sidebar-footer span {
+    display: none;
+}
+
+.gemini-sidebar.closed .sidebar-footer .menu-item-btn {
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 50%;
+}
+
+.gemini-sidebar.closed .sidebar-footer .menu-item-btn i {
+    width: auto;
+    margin: 0;
+    font-size: 18px;
+}
