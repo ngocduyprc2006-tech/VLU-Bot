@@ -1,7 +1,3 @@
-//Chỉ chứa lắng nghe trạng thái onAuthStateChanged của Firebase/** * FILE: js/auth/state.js
-//* CHỨC NĂNG: Lắng nghe trạng thái đăng nhập onAuthStateChanged của Firebase và ẩn hiện giao diện modal/dropdown
-
-
 window.vluAuthState = {
     init: function() {
         if (typeof firebase === 'undefined') return;
@@ -38,16 +34,13 @@ window.vluAuthState = {
             }
         });
 
-        // Hàm xử lý UI khi xác thực thành công và phân quyền Admin
         function handleAuthSuccess(user) {
             if (modal) modal.style.display = "none";
             if (guestBtn) {
                 guestBtn.innerHTML = `<i class="fas fa-user-check"></i> ${user.displayName || user.email.split('@')[0]}`;
-                guestBtn.style.background = "#28a745";
-                guestBtn.title = "Bấm vào đây để đăng xuất";
+                guestBtn.title = "Bấm vào đây để quản lý tài khoản";
             }
 
-            // Kiểm tra danh sách Email Admin của Duy
             const adminList = ["ngocduyprc2006@gmail.com", "duy.2474802010071@vanlanguni.vn", "trungvt040106@gmail.com", "phuongtruong121204@gmail.com"];
             const adminModule = document.getElementById('adminModule');
             if (user && adminList.includes(user.email)) {
@@ -57,7 +50,6 @@ window.vluAuthState = {
             }
         }
 
-        // Theo dõi trạng thái đăng nhập toàn cục
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 handleAuthSuccess(user);

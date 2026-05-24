@@ -67,24 +67,24 @@
         </div>
     </div>
 
-    <div class="top-auth-area">
-        <div class="user-dropdown-container">
-            <button id="guestBtn" class="guest-toggle-btn">
-                <i class="fas fa-user-circle"></i> Đăng nhập
-            </button>
-            <div id="userDropdown" class="dropdown-menu" style="display: none;">
-                <button id="logoutBtn" class="dropdown-item">
-                    <i class="fas fa-sign-out-alt"></i> Đăng xuất
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <div class="gemini-container">
-        <aside class="gemini-sidebar" style="display: flex; flex-direction: column;">
+    <div class="vlu-container">
+        <aside class="vlu-sidebar" style="display: flex; flex-direction: column;">
             <div class="sidebar-top" style="flex: 1; overflow-y: auto;">
                 <div class="sidebar-brand-area" id="logoHomeBtn" style="cursor: pointer; text-align: center; display: block; padding: 10px 0;" title="Quay về trang chủ">
                     <img src="img/logovanlang.png" alt="Logo VLU" class="sidebar-logo">
+                </div>
+
+                <div class="top-auth-area" style="width: 100%; padding: 0 12px 10px 12px;">
+                    <div class="user-dropdown-container" style="width: 100%; position: relative;">
+                        <button id="guestBtn" class="guest-toggle-btn" style="width: 100%;">
+                            <i class="fas fa-user-circle"></i> Đăng nhập
+                        </button>
+                        <div id="userDropdown" class="dropdown-menu" style="display: none;">
+                            <button id="logoutBtn" class="dropdown-item">
+                                <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="personalization-group">
@@ -140,20 +140,24 @@
 
         <main class="main-content">
             <header class="top-header">
-                <div class="header-brand">
-                    <button id="headerToggle" class="gemini-toggle-btn" title="Đóng thanh bên">
+                <div class="header-brand" style="width: 100%; display: flex; align-items: center;">
+                    <button id="headerToggle" class="vlu-toggle-btn" title="Đóng thanh bên">
                         <span class="toggle-icon-wrapper">
                             <i class="fas fa-columns"></i>
                             <i class="fas fa-chevron-left inner-arrow"></i>
                         </span>
                     </button>
+                    <div class="model-name" style="margin-left: 10px; display: inline-flex; align-items: center; gap: 6px;">
+                        VLU Chatbot <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <button id="darkModeBtn" class="mode-toggle-top" style="margin-left: 8px;"><i class="far fa-moon"></i></button>
                 </div>
             </header>
 
             <div id="chatbox" class="chat-display">
                 <div id="messagesContainer"></div>
 
-                <div class="gemini-welcome" id="welcomeScreen">
+                <div class="vlu-welcome" id="welcomeScreen">
                     <h1><span class="gradient-text">Xin chào, sinh viên VLU!</span></h1>
                     <h2 class="sub-welcome" id="dynamicGreeting">Hôm nay mình có thể giúp gì cho bạn?</h2>
 

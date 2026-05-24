@@ -1,7 +1,3 @@
-/** * FILE: js/auth/register.js
- * CHỨC NĂNG: Kiểm tra dữ liệu hợp lệ và thực hiện Đăng ký tài khoản mới lên Firebase
- */
-
 window.vluRegister = {
     init: function() {
         const registerForm = document.getElementById('registerForm');
@@ -21,11 +17,6 @@ window.vluRegister = {
                 if (pass.includes(" ")) { alert("Mật khẩu không được chứa khoảng trắng!"); return; }
                 if (pass !== confirm) { alert("Mật khẩu nhập lại không khớp!"); return; }
 
-                // 🎯 REGEX ÉP ĐÚNG KHUÔN MẪU: ten.mssv@vanlanguni.vn
-                // ^[a-z]+ : Bắt đầu bằng chữ cái (tên)
-                // \.      : Bắt buộc phải có dấu chấm ở giữa
-                // [0-9]+  : Tiếp theo phải là dãy số (MSSV)
-                // @vanlanguni\.vn$ : Kết thúc bằng đuôi trường
                 const vluEmailRegex = /^[a-z]+\.[0-9]+@vanlanguni\.vn$/;
 
                 if (!vluEmailRegex.test(emailInput)) {

@@ -142,8 +142,8 @@ async function handleAction(text, mode = 'default') {
 }
 
 function initSidebar() {
-    const sidebar = document.querySelector('aside');
-    const toggle = get('toggleSidebar');
+    const sidebar = document.querySelector('.vlu-sidebar');
+    const toggle = get('headerToggle');
 
     let overlay = document.querySelector('.sidebar-overlay');
     if (!overlay) {

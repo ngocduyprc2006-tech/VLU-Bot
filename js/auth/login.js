@@ -37,7 +37,6 @@ window.vluLogin = {
                     return;
                 }
 
-                // 🎯 REGEX ÉP ĐÚNG KHUÔN MẪU: ten.mssv@vanlanguni.vn KHI ĐĂNG NHẬP
                 const vluEmailRegex = /^[a-z]+\.[0-9]+@vanlanguni\.vn$/;
 
                 if (!vluEmailRegex.test(emailInput)) {
@@ -48,7 +47,14 @@ window.vluLogin = {
                 firebase.auth().signInWithEmailAndPassword(emailInput, passInput)
                     .then((userCredential) => {
                         console.log("Đăng nhập thành công hệ thống nội bộ VLU:", userCredential.user.email);
-                        window.location.href = "index.html";
+
+                        const authModal = document.getElementById('authModal');
+                        if (authModal) {
+                            authModal.style.display = "none";
+                            authModal.classList.remove("show");
+                        } else {
+                            window.location.href = "index.html";
+                        }
                     })
                     .catch((error) => {
                         console.error("Lỗi đăng nhập Firebase:", error);

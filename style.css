@@ -1,5 +1,5 @@
 /* ==========================================================================
-   🔑 1. HỆ THỐNG BIẾN CHỦ ĐỀ (VARIABLES) - GOM GỌN ĐỒNG BỘ
+    🔑 1. HỆ THỐNG BIẾN CHỦ ĐỀ (VARIABLES) - GOM GỌN ĐỒNG BỘ
    ========================================================================== */
 
 :root {
@@ -12,7 +12,6 @@
     --text-main: #1f1f1f;
     --border-color: #e5e5e5;
     --message-bot: #f1f3f4;
-    /* Hệ thống màu cho Menu đính kèm */
     --attach-bg: #ffffff;
     --attach-text: #2d2d2d;
     --attach-hover: #f0f0f0;
@@ -22,14 +21,12 @@
 
 body.dark-mode {
     --bg-primary: #131314;
-    /* Màu nền tối chuẩn Gemini */
     --bg-secondary: #1e1f20;
     --sidebar-bg: #1e1f20;
     --input-bg: #2b2c2f;
     --text-main: #e3e3e3;
     --border-color: #333333;
     --message-bot: #2b2c2f;
-    /* Thiết lập Menu tối */
     --attach-bg: #212121;
     --attach-text: #ececec;
     --attach-hover: #333333;
@@ -57,7 +54,7 @@ body {
     transition: background 0.3s, color 0.3s;
 }
 
-.gemini-container {
+.vlu-container {
     display: flex;
     height: 100vh;
 }
@@ -67,7 +64,7 @@ body {
    🧭 2. THANH SIDEBAR (BÊN TRÁI) - CẤU TRÚC PHẲNG TỰ NHIÊN
    ========================================================================== */
 
-.gemini-sidebar {
+.vlu-sidebar {
     width: 260px;
     background-color: var(--sidebar-bg);
     border-right: 1px solid var(--border-color);
@@ -276,13 +273,13 @@ body.dark-mode .chat-history-list .history-item i {
     color: #666;
 }
 
-body.dark-mode .gemini-sidebar .sidebar-bottom .icon-link,
-body.dark-mode .gemini-sidebar .sidebar-bottom .icon-link i {
+body.dark-mode .vlu-sidebar .sidebar-bottom .icon-link,
+body.dark-mode .vlu-sidebar .sidebar-bottom .icon-link i {
     color: #e2e8f0;
 }
 
-body.dark-mode .gemini-sidebar .sidebar-bottom .icon-link:hover,
-body.dark-mode .gemini-sidebar .sidebar-bottom .icon-link:hover i {
+body.dark-mode .vlu-sidebar .sidebar-bottom .icon-link:hover,
+body.dark-mode .vlu-sidebar .sidebar-bottom .icon-link:hover i {
     color: #ff4d5a;
 }
 
@@ -311,29 +308,29 @@ body.dark-mode .gemini-sidebar .sidebar-bottom .icon-link:hover i {
 
 /* NÚT TÚC NĂNG CHUYÊN GIA */
 
-body.dark-mode .gemini-sidebar .personalization-group .sidebar-feature-btn {
+body.dark-mode .vlu-sidebar .personalization-group .sidebar-feature-btn {
     color: #e2e8f0;
 }
 
-body.dark-mode .gemini-sidebar .personalization-group .sidebar-feature-btn i {
+body.dark-mode .vlu-sidebar .personalization-group .sidebar-feature-btn i {
     color: #e2e8f0;
 }
 
-body.dark-mode .gemini-sidebar .personalization-group .sidebar-feature-btn:hover {
+body.dark-mode .vlu-sidebar .personalization-group .sidebar-feature-btn:hover {
     background-color: rgba(255, 255, 255, 0.05);
     color: #ff4d5a;
 }
 
-body.dark-mode .gemini-sidebar .personalization-group .sidebar-feature-btn:hover i {
+body.dark-mode .vlu-sidebar .personalization-group .sidebar-feature-btn:hover i {
     color: #ff4d5a;
 }
 
 
 /* ==========================================================================
-   🛠️ 3. TRẠNG THÁI SIDEBAR CO RÚT (.COLLAPSED) - KHÔNG DÙNG !IMPORTANT
+   🛠️ 3. TRẠNG THÁI SIDEBAR CO RÚT (.CLOSED) - KHÔNG DÙNG !IMPORTANT
    ========================================================================== */
 
-.gemini-sidebar.collapsed {
+.vlu-sidebar.closed {
     width: 68px;
     padding: 15px 5px;
 }
@@ -341,36 +338,36 @@ body.dark-mode .gemini-sidebar .personalization-group .sidebar-feature-btn:hover
 
 /* Ẩn triệt để các phần chữ dính dáng */
 
-.gemini-sidebar.collapsed .sidebar-logo,
-.gemini-sidebar.collapsed .history-label,
-.gemini-sidebar.collapsed .sidebar-feature-btn,
-.gemini-sidebar.collapsed .new-chat-btn,
-.gemini-sidebar.collapsed .chat-history-list,
-.gemini-sidebar.collapsed #helpBtn,
-.gemini-sidebar.collapsed #adminModule,
-.gemini-sidebar.collapsed .theme-text,
-.gemini-sidebar.collapsed .setting-text {
+.vlu-sidebar.closed .sidebar-logo,
+.vlu-sidebar.closed .history-label,
+.vlu-sidebar.closed .sidebar-feature-btn,
+.vlu-sidebar.closed .new-chat-btn,
+.vlu-sidebar.closed .chat-history-list,
+.vlu-sidebar.closed #helpBtn,
+.vlu-sidebar.closed #adminModule,
+.vlu-sidebar.closed .theme-text,
+.vlu-sidebar.closed .setting-text {
     display: none;
 }
 
 
 /* Khóa cứng và căn giữa nút 3 gạch */
 
-.gemini-sidebar.collapsed .sidebar-brand-area {
+.vlu-sidebar.closed .sidebar-brand-area {
     display: flex;
     justify-content: center;
     width: 100%;
     padding: 10px 0;
 }
 
-.gemini-sidebar.collapsed #toggleSidebar {
+.vlu-sidebar.closed #toggleSidebar {
     margin: 0 auto;
 }
 
 
 /* Chuyển đổi nút "Đoạn chat mới" thành Icon cây bút tinh gọn */
 
-.gemini-sidebar.collapsed::after {
+.vlu-sidebar.closed::after {
     content: "\f044";
     font-family: "Font Awesome 6 Free";
     font-weight: 900;
@@ -383,14 +380,14 @@ body.dark-mode .gemini-sidebar .personalization-group .sidebar-feature-btn:hover
     transition: color 0.2s;
 }
 
-.gemini-sidebar.collapsed::after:hover {
+.vlu-sidebar.closed::after:hover {
     color: var(--vlu-red);
 }
 
 
 /* Căn hàng dọc cụm công cụ đáy */
 
-.gemini-sidebar.collapsed .sidebar-bottom {
+.vlu-sidebar.closed .sidebar-bottom {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -399,8 +396,8 @@ body.dark-mode .gemini-sidebar .personalization-group .sidebar-feature-btn:hover
     padding: 15px 0;
 }
 
-.gemini-sidebar.collapsed #darkModeBtn,
-.gemini-sidebar.collapsed #settingBtn {
+.vlu-sidebar.closed #darkModeBtn,
+.vlu-sidebar.closed #settingBtn {
     font-size: 20px;
     width: 100%;
     justify-content: center;
@@ -412,7 +409,7 @@ body.dark-mode .gemini-sidebar .personalization-group .sidebar-feature-btn:hover
 
 /* Ép khung chat bên phải tự động giãn nở chiếm không gian */
 
-.gemini-sidebar.collapsed+.main-content {
+.vlu-sidebar.closed+.main-content {
     margin-left: 68px;
     width: calc(100% - 68px);
 }
@@ -469,7 +466,7 @@ body.dark-mode .gemini-sidebar .personalization-group .sidebar-feature-btn:hover
 
 /* Màn hình chào mừng */
 
-.gemini-welcome {
+.vlu-welcome {
     margin-top: 10vh;
     text-align: center;
     width: 100%;
@@ -1071,7 +1068,7 @@ body.dark-mode #userDropdown .dropdown-item:hover i {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.gemini-sidebar .personalization-group #adminModule a.sidebar-feature-btn {
+.vlu-sidebar .personalization-group #adminModule a.sidebar-feature-btn {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1090,13 +1087,13 @@ body.dark-mode #userDropdown .dropdown-item:hover i {
     transition: all 0.25s ease;
 }
 
-.gemini-sidebar .personalization-group #adminModule a.sidebar-feature-btn i {
+.vlu-sidebar .personalization-group #adminModule a.sidebar-feature-btn i {
     color: #ffb86c;
     font-size: 14px;
     transition: color 0.25s ease;
 }
 
-.gemini-sidebar .personalization-group #adminModule a.sidebar-feature-btn:hover {
+.vlu-sidebar .personalization-group #adminModule a.sidebar-feature-btn:hover {
     background-color: var(--vlu-red);
     border-color: var(--vlu-red);
     color: #ffffff;
@@ -1104,13 +1101,13 @@ body.dark-mode #userDropdown .dropdown-item:hover i {
     transform: translateY(-1px);
 }
 
-.gemini-sidebar .personalization-group #adminModule a.sidebar-feature-btn:hover i {
+.vlu-sidebar .personalization-group #adminModule a.sidebar-feature-btn:hover i {
     color: #ffffff;
 }
 
 
 /* ==========================================================================
-   ✨ 8. HIỆU ỨNG SINH ĐỘNG (ANIMATIONS & INDICATORS)
+    ✨ 8. HIỆU ỨNG SINH ĐỘNG (ANIMATIONS & INDICATORS)
    ========================================================================== */
 
 
@@ -1245,23 +1242,19 @@ body.dark-mode #userDropdown .dropdown-item:hover i {
 
 
 /* ==========================================================================
-   🔒 CẤU HÌNH KHUNG NỀN MODAL AUTH ĐĂNG NHẬP / ĐĂNG KÝ (FIX LỖI VỠ FORM)
+    🔒 CẤU HÌNH KHUNG NỀN MODAL AUTH ĐĂNG NHẬP / ĐĂNG KÝ (FIX LỖI VỠ FORM)
    ========================================================================== */
 
 .modal {
     display: none;
-    /* Mặc định ẩn, điều khiển bật/tắt bằng JS */
     position: fixed;
     z-index: 2000;
-    /* Nổi lên trên cùng tất cả các thành phần */
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    /* Nền tối mờ phía sau */
     backdrop-filter: blur(4px);
-    /* Làm nhòe nhẹ background sau lưng */
 }
 
 
@@ -1271,16 +1264,13 @@ body.dark-mode #userDropdown .dropdown-item:hover i {
     background-color: #ffffff;
     padding: 35px 40px;
     border-radius: 16px;
-    /* Bo tròn góc hiện đại */
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-    /* Đổ bóng khối mịn màng */
     max-width: 400px;
     width: 90%;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    /* Kỹ thuật kéo hộp ra chính giữa màn hình */
     text-align: center;
     box-sizing: border-box;
 }
@@ -1290,7 +1280,6 @@ body.dark-mode #userDropdown .dropdown-item:hover i {
 
 body.dark-mode .modal-content {
     background-color: #1e1f20;
-    /* Màu nền tối đồng bộ hộp chat */
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     border: 1px solid #333333;
 }
@@ -1362,7 +1351,6 @@ body.dark-mode .tab-btn.active {
     display: flex;
     flex-direction: column;
     gap: 4px;
-    /* Giữ khoảng trống đều đặn */
     text-align: left;
 }
 
@@ -1433,13 +1421,11 @@ body.dark-mode .auth-form input:focus {
 .top-auth-area {
     position: absolute;
     top: 12px;
-    /* Căn chỉnh cho vừa vặn giữa chiều cao Header */
     right: 20px;
     z-index: 150;
     display: flex;
     align-items: center;
     gap: 12px;
-    /* Khoảng cách đệm giữa nút Trăng và nút Đăng nhập */
 }
 
 
@@ -1453,7 +1439,6 @@ button.guest-toggle-btn {
     outline: none;
     padding: 8px 20px;
     border-radius: 25px;
-    /* Bo tròn viên thuốc chuẩn chỉnh */
     font-size: 14px;
     font-weight: 600;
     font-family: inherit;
@@ -1462,7 +1447,6 @@ button.guest-toggle-btn {
     align-items: center;
     justify-content: center;
     gap: 8px;
-    /* Khoảng cách giữa icon user và chữ Đăng nhập */
     box-shadow: 0 2px 8px rgba(191, 30, 46, 0.2);
     transition: background-color 0.2s ease, transform 0.1s ease;
 }
@@ -1473,7 +1457,6 @@ button.guest-toggle-btn {
 
 .guest-toggle-btn:active {
     transform: scale(0.96);
-    /* Hiệu ứng nhấn nảy nhẹ */
 }
 
 
@@ -1491,13 +1474,11 @@ button.guest-toggle-btn {
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    /* Ép khung hình tròn mượt mà */
     display: flex;
     align-items: center;
     justify-content: center;
     transition: background-color 0.2s, color 0.2s;
     margin: 0;
-    /* Xóa margin thừa tránh đẩy lệch nút Đăng nhập */
 }
 
 .mode-toggle-top:hover,
@@ -1518,18 +1499,15 @@ body.dark-mode .mode-toggle-top:hover,
 body.dark-mode #darkModeBtn:hover {
     background-color: rgba(255, 255, 255, 0.08);
     color: #ffcc00;
-    /* Hover chế độ tối đổi sang mặt trời vàng rực */
 }
 
 .top-header {
     width: 100%;
     height: 60px;
-    /* Định hình chiều cao cố định để cân bằng line-height */
     padding: 0 25px;
     border-bottom: 1px solid var(--border-color);
     display: flex;
     align-items: center;
-    /* Căn giữa tất cả phần tử theo trục dọc */
 }
 
 .header-brand {
@@ -1537,7 +1515,6 @@ body.dark-mode #darkModeBtn:hover {
     align-items: center;
     width: 100%;
     gap: 12px;
-    /* Khoảng cách đệm giữa logo và chữ */
 }
 
 .header-logo {
@@ -1545,7 +1522,6 @@ body.dark-mode #darkModeBtn:hover {
     height: 30px;
     object-fit: contain;
     margin: 0;
-    /* Triệt tiêu margin lỗi */
 }
 
 .model-name {
@@ -1553,9 +1529,7 @@ body.dark-mode #darkModeBtn:hover {
     font-weight: 600;
     color: var(--text-main);
     white-space: nowrap;
-    /* Ép tên ứng dụng tuyệt đối không được rớt hàng */
     margin-right: auto;
-    /* Lực đẩy dạt nút Đăng nhập và nút Trăng về sát mép phải */
     display: flex;
     align-items: center;
     gap: 6px;
@@ -1610,11 +1584,8 @@ body.dark-mode #darkModeBtn:hover {
 
 
 /* ==========================================================================
-   🧭 ĐƯA NÚT SÁNG TỐI VỀ ĐỨNG CẠNH CHỮ VLU CHATBOT
+    🧭 ĐƯA NÚT SÁNG TỐI VỀ ĐỨNG CẠNH CHỮ VLU CHATBOT
    ========================================================================== */
-
-
-/* Khung bọc tổng của Header bên vùng chat */
 
 .top-header {
     width: 100%;
@@ -1630,7 +1601,6 @@ body.dark-mode #darkModeBtn:hover {
     align-items: center;
     width: 100%;
     gap: 12px;
-    /* Khoảng cách đều giữa Logo -> Chữ -> Nút Trăng */
 }
 
 .header-logo {
@@ -1638,9 +1608,6 @@ body.dark-mode #darkModeBtn:hover {
     height: 30px;
     object-fit: contain;
 }
-
-
-/* Tên ứng dụng VLU Chatbot */
 
 .model-name {
     font-size: 16px;
@@ -1651,7 +1618,6 @@ body.dark-mode #darkModeBtn:hover {
     align-items: center;
     gap: 6px;
     margin-right: 4px;
-    /* Đổi margin-right lớn thành margin nhỏ để nút Trăng hít lại gần */
 }
 
 
@@ -1673,8 +1639,6 @@ body.dark-mode #darkModeBtn:hover {
     align-items: center;
     justify-content: center;
     transition: background-color 0.2s, color 0.2s;
-    /* Tuyệt chiêu đẩy: Thêm margin-right tự động ở đây để ép riêng nút Đăng nhập 
-       phải dạt về sát mép bên phải, chừa nút Trăng ở lại bên trái */
     margin-right: auto;
 }
 
@@ -1684,12 +1648,8 @@ body.dark-mode #darkModeBtn:hover {
     color: var(--vlu-red);
 }
 
-
-/* Cấu hình nút Đăng nhập tự động dạt sát lề phải */
-
 .top-auth-area {
     position: relative;
-    /* Trả về luồng Flexbox tự nhiên */
     top: auto;
     right: auto;
     transform: none;
@@ -1697,9 +1657,6 @@ body.dark-mode #darkModeBtn:hover {
     display: flex;
     align-items: center;
 }
-
-
-/* Trạng thái chế độ tối cho nút Trăng */
 
 body.dark-mode .mode-toggle-top,
 body.dark-mode #darkModeBtn {
@@ -1714,11 +1671,8 @@ body.dark-mode #darkModeBtn:hover {
 
 
 /* ==========================================================================
-   🧭 FIX TRIỆT ĐỂ: KHÓA NÚT ĐĂNG NHẬP GÓC PHẢI - GIỮ NÚT TRĂNG BÊN TRÁI
+    🧭 FIX TRIỆT ĐỂ: KHÓA NÚT ĐĂNG NHẬP GÓC PHẢI - GIỮ NÚT TRĂNG BÊN TRÁI
    ========================================================================== */
-
-
-/* 1. Đảm bảo toàn bộ Header là một sàn phẳng Flexbox bao quát */
 
 .top-header {
     width: 100%;
@@ -1728,11 +1682,7 @@ body.dark-mode #darkModeBtn:hover {
     display: flex;
     align-items: center;
     position: relative;
-    /* Tạo điểm neo vị trí vững chắc */
 }
-
-
-/* Khung chứa logo nhỏ và chữ bên trái */
 
 .header-brand {
     display: flex;
@@ -1775,7 +1725,6 @@ body.dark-mode #darkModeBtn:hover {
     justify-content: center;
     transition: background-color 0.2s, color 0.2s;
     margin-left: 4px;
-    /* Tạo khoảng cách nhẹ với chữ VLU Chatbot */
 }
 
 .mode-toggle-top:hover,
@@ -1784,23 +1733,14 @@ body.dark-mode #darkModeBtn:hover {
     color: var(--vlu-red);
 }
 
-
-/* 3. KHÓA CỨNG NÚT ĐĂNG NHẬP Ở GÓC PHẢI (TUYỆT ĐỐI KHÔNG CHO BAY LÊN ĐẦU) */
-
 .top-auth-area {
     position: absolute;
-    /* Dùng lại absolute nhưng neo cứng vào khung .top-header */
     top: 50%;
     right: 25px;
     transform: translateY(-50%);
-    /* Căn giữa trục dọc hoàn hảo */
     z-index: 150;
     display: block;
-    /* Trả về block đơn thuần cho nút */
 }
-
-
-/* Nút Đăng nhập viên thuốc màu đỏ VLU */
 
 .guest-toggle-btn {
     background-color: var(--vlu-red);
@@ -1829,9 +1769,6 @@ body.dark-mode #darkModeBtn:hover {
     transform: scale(0.96);
 }
 
-
-/* Đồng bộ Chế độ tối cho nút mặt trăng */
-
 body.dark-mode .mode-toggle-top,
 body.dark-mode #darkModeBtn {
     color: #cbd5e1;
@@ -1845,27 +1782,19 @@ body.dark-mode #darkModeBtn:hover {
 
 
 /* ==========================================================================
-   ⚙️ ĐIỀU CHỈNH TOẠ ĐỘ: HẠ NÚT ĐĂNG NHẬP XUỐNG CÂN ĐỐI THEO HEADER
+    ⚙️ ĐIỀU CHỈNH TOẠ ĐỘ: HẠ NÚT ĐĂNG NHẬP XUỐNG CÂN ĐỐI THEO HEADER
    ========================================================================== */
 
 .top-auth-area {
     position: fixed;
-    /* Giữ nguyên cơ chế khóa độc lập */
     top: 30px;
-    /* 🎯 ĐÃ ĐỔI: Hạ từ 12px xuống 15px để không bị lố sát mép trên */
     right: 25px;
-    /* Khoảng cách lề phải giữ nguyên cho thẳng hàng dọc */
     height: 30px;
-    /* Giới hạn chiều cao hộp bằng đúng chiều cao nút */
     display: flex;
-    /* Kích hoạt flex để tự căn chỉnh */
     align-items: center;
     z-index: 9999;
     margin: 0;
 }
-
-
-/* Kiểu dáng nút Đăng nhập giữ nguyên cấu trúc mượt mà */
 
 .guest-toggle-btn {
     background-color: var(--vlu-red);
@@ -1873,7 +1802,6 @@ body.dark-mode #darkModeBtn:hover {
     border: none;
     outline: none;
     padding: 7px 18px;
-    /* Tinh chỉnh lại padding cho nút thanh thoát hơn */
     border-radius: 25px;
     font-size: 14px;
     font-weight: 600;
@@ -1895,58 +1823,43 @@ body.dark-mode #darkModeBtn:hover {
     transform: scale(0.96);
 }
 
-
-/* Khi Sidebar đang mở bình thường */
-
-.gemini-sidebar:not(.collapsed)~.main-content {
+.vlu-sidebar:not(.closed)~.main-content {
     margin-left: 0;
     width: 100%;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 
-/* 🎯 KHI SIDEBAR THU NHỎ (.collapsed): Ép vùng chat và Header dịch sát lề trái */
+/* 🎯 KHI SIDEBAR THU NHỎ (.closed): Ép vùng chat và Header dịch sát lề trái */
 
-.gemini-sidebar.collapsed~.main-content {
+.vlu-sidebar.closed~.main-content {
     margin-left: 0;
     width: 100%;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
-
-
-/* Cấu hình lại thanh Header để các phần tử bên trong không bị đẩy lệch */
 
 .top-header {
     width: 100%;
     height: 60px;
     padding: 0 20px;
-    /* Thu nhỏ padding một chút cho thoáng */
     border-bottom: 1px solid var(--border-color);
     display: flex;
     align-items: center;
     position: relative;
 }
 
-
-/* Khung bọc icon 3 gạch, logo và chữ */
-
 .header-brand {
     display: flex;
     align-items: center;
     gap: 8px;
-    /* Khống chế gap nhỏ lại để hít sát vào nhau khi nút 3 gạch hiện lên */
     margin: 0;
     padding: 0;
 }
-
-
-/* Đảm bảo nút 3 gạch trên Header không chiếm không gian đệm vô lý */
 
 #headerToggle {
     margin: 0;
     padding: 0;
     display: none;
-    /* Mặc định ẩn, điều khiển bằng JS inline style bạn đã viết */
 }
 
 .header-logo {
@@ -1966,22 +1879,15 @@ body.dark-mode #darkModeBtn:hover {
     margin: 0;
 }
 
-
-/* Thanh Header bọc nội dung vùng chat */
-
 .main-content .top-header {
     width: 100%;
     height: 60px;
-    /* Đệm lót cố định lề trái 24px cho Header trông thoáng đãng */
     padding: 0 24px;
     border-bottom: 1px solid var(--border-color);
     display: flex;
     align-items: center;
     position: relative;
 }
-
-
-/* Cụm Brand (Logo + Chữ + Mặt trăng) nằm trong luồng Flexbox tự nhiên của Header */
 
 .main-content .top-header .header-brand {
     display: flex;
@@ -1996,14 +1902,10 @@ body.dark-mode #darkModeBtn:hover {
 
 .main-content .top-header #headerToggle {
     position: fixed;
-    /* Khóa theo khung màn hình, không bị Sidebar đẩy dịch vị */
     left: 20px;
-    /* Luôn luôn cách mép trái ngoài cùng màn hình đúng 20px */
     top: 30px;
-    /* Căn giữa theo trục dọc 60px của Header */
     transform: translateY(-50%);
     display: flex;
-    /* Luôn hiển thị */
     align-items: center;
     justify-content: center;
     background: transparent;
@@ -2020,7 +1922,6 @@ body.dark-mode #darkModeBtn:hover {
     padding: 0;
     flex-shrink: 0;
     z-index: 9999;
-    /* Nổi lên lớp trên cùng, đè hẳn lên trên Sidebar xám */
 }
 
 .main-content .top-header #headerToggle:hover {
@@ -2037,12 +1938,8 @@ body.dark-mode .main-content .top-header #headerToggle:hover {
     color: #ff4d5a;
 }
 
-
-/* Khung bọc chữ VLU Chatbot và Mũi tên */
-
 .main-content .top-header #headerDropdownTrigger {
     position: relative;
-    /* Tạo tâm gốc tọa độ cố định để menu con bám vào */
     display: flex;
     align-items: center;
     gap: 6px;
@@ -2055,30 +1952,18 @@ body.dark-mode .main-content .top-header #headerToggle:hover {
 
 .main-content .top-header .header-dropdown {
     position: absolute !important;
-    /* Bứt phá ra khỏi luồng Flexbox của cha */
     top: calc(100% + 8px);
-    /* Ép nhảy xuống dưới cách chữ đúng 8px */
     left: 0;
-    /* Gióng hàng tăm tắp theo lề trái của chữ VLU Chatbot */
     background-color: var(--bg-sidebar, #ffffff);
-    /* Tự động ăn theo màu nền Light/Dark mode */
     border: 1px solid var(--border-color, #e2e8f0);
     min-width: 150px;
-    /* Chiều rộng vừa vặn cho menu */
     border-radius: 8px;
-    /* Bo góc nhẹ tinh tế */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    /* Tạo độ đổ bóng nổi lên trên khung chat */
     padding: 6px 0;
     margin: 0;
     flex-direction: column;
-    /* Ép Trợ giúp và Cài đặt phải xếp hàng dọc */
     z-index: 99999;
-    /* Nổi lên tầng cao nhất, chấp mọi loại layer khác đè */
 }
-
-
-/* Định dạng từng dòng item bên trong (Trợ giúp, Cài đặt) */
 
 .main-content .top-header .dropdown-item-custom {
     display: flex;
@@ -2094,16 +1979,10 @@ body.dark-mode .main-content .top-header #headerToggle:hover {
     transition: background-color 0.15s ease;
 }
 
-
-/* Hiệu ứng hover mượt mà từng dòng */
-
 .main-content .top-header .dropdown-item-custom:hover {
     background-color: rgba(0, 0, 0, 0.04);
     color: var(--vlu-red, #b91c1c);
 }
-
-
-/* Cập nhật giao diện khi bật chế độ tối (Dark Mode) */
 
 body.dark-mode .main-content .top-header .header-dropdown {
     background-color: #1e1e1e;
@@ -2119,9 +1998,6 @@ body.dark-mode .main-content .top-header .dropdown-item-custom:hover {
     background-color: rgba(255, 255, 255, 0.08);
     color: #ff4d5a;
 }
-
-
-/* Căn chỉnh icon cho đều tăm tắp */
 
 .main-content .top-header .dropdown-item-custom i {
     font-size: 15px;
@@ -2252,32 +2128,28 @@ body.dark-mode .main-content .bottom-container .disclaimer {
     color: #94a3b8;
 }
 
-.gemini-sidebar {
+.vlu-sidebar {
     transition: width 0.2s ease;
 }
 
-.gemini-sidebar .sidebar-brand-area {
+.vlu-sidebar .sidebar-brand-area {
     padding: 20px 0;
     text-align: center;
     transition: padding 0.2s ease;
 }
 
-.gemini-sidebar .sidebar-logo {
+.vlu-sidebar .sidebar-logo {
     width: 120px;
     height: auto;
     object-fit: contain;
     transition: width 0.2s ease, height 0.2s ease;
 }
 
-.gemini-sidebar.collapsed {
-    width: 70px;
-}
-
-.gemini-sidebar.collapsed .sidebar-brand-area {
+.vlu-sidebar.closed .sidebar-brand-area {
     padding: 15px 0;
 }
 
-.gemini-sidebar.collapsed .sidebar-logo {
+.vlu-sidebar.closed .sidebar-logo {
     width: 32px;
     height: 32px;
 }
@@ -2300,7 +2172,7 @@ body.dark-mode .main-content .bottom-container .disclaimer {
     height: 100%;
 }
 
-.main-content .top-header .gemini-toggle-btn {
+.main-content .top-header .vlu-toggle-btn {
     position: absolute;
     left: -20px;
     top: 50%;
@@ -2319,11 +2191,11 @@ body.dark-mode .main-content .bottom-container .disclaimer {
     z-index: 1000;
 }
 
-.main-content .top-header .gemini-toggle-btn:hover {
+.main-content .top-header .vlu-toggle-btn:hover {
     background-color: rgba(0, 0, 0, 0.06);
 }
 
-body.dark-mode .main-content .top-header .gemini-toggle-btn:hover {
+body.dark-mode .main-content .top-header .vlu-toggle-btn:hover {
     background-color: rgba(255, 255, 255, 0.08);
 }
 
@@ -2353,11 +2225,11 @@ body.dark-mode .toggle-icon-wrapper .inner-arrow {
     color: #94a3b8;
 }
 
-.gemini-sidebar.collapsed~.main-content .top-header .gemini-toggle-btn {
+.vlu-sidebar.closed~.main-content .top-header .vlu-toggle-btn {
     left: 15px;
 }
 
-.gemini-sidebar.collapsed~.main-content .top-header .toggle-icon-wrapper .inner-arrow {
+.vlu-sidebar.closed~.main-content .top-header .toggle-icon-wrapper .inner-arrow {
     transform: rotate(180deg);
     left: 5px;
 }
@@ -2367,128 +2239,13 @@ body.dark-mode .main-content .top-header {
     border-color: #333333;
 }
 
-.gemini-sidebar {
-    transition: width 0.2s ease;
-}
-
-.gemini-sidebar .sidebar-brand-area {
-    padding: 20px 0;
-    text-align: center;
-    transition: padding 0.2s ease;
-}
-
-.gemini-sidebar .sidebar-logo {
-    width: 120px;
-    height: auto;
-    object-fit: contain;
-    transition: width 0.2s ease, height 0.2s ease;
-}
-
-.gemini-sidebar.collapsed {
-    width: 70px;
-}
-
-.gemini-sidebar.collapsed .sidebar-brand-area {
-    padding: 15px 0;
-}
-
-.gemini-sidebar.collapsed .sidebar-logo {
-    width: 32px;
-    height: 32px;
-}
-
-.main-content .top-header {
-    background-color: var(--bg-main, #ffffff);
-    border-bottom: 1px solid var(--border-color, #e2e8f0);
-    height: 60px;
-    display: flex;
-    align-items: center;
-    padding: 0 20px;
-    box-sizing: border-box;
-    position: relative;
-}
-
-.main-content .top-header .header-brand {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-}
-
-.main-content .top-header .gemini-toggle-btn {
-    position: absolute;
-    left: -20px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: transparent;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s ease, left 0.2s ease;
-    z-index: 1000;
-}
-
-.main-content .top-header .gemini-toggle-btn:hover {
-    background-color: rgba(0, 0, 0, 0.06);
-}
-
-body.dark-mode .main-content .top-header .gemini-toggle-btn:hover {
-    background-color: rgba(255, 255, 255, 0.08);
-}
-
-.toggle-icon-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #475569;
-    font-size: 16px;
-}
-
-body.dark-mode .toggle-icon-wrapper {
-    color: #94a3b8;
-}
-
-.toggle-icon-wrapper .inner-arrow {
-    position: absolute;
-    font-size: 8px;
-    left: 4px;
-    top: 5px;
-    color: #475569;
-    transition: transform 0.2s ease;
-}
-
-body.dark-mode .toggle-icon-wrapper .inner-arrow {
-    color: #94a3b8;
-}
-
-.gemini-sidebar.collapsed~.main-content .top-header .gemini-toggle-btn {
-    left: 15px;
-}
-
-.gemini-sidebar.collapsed~.main-content .top-header .toggle-icon-wrapper .inner-arrow {
-    transform: rotate(180deg);
-    left: 5px;
-}
-
-body.dark-mode .main-content .top-header {
-    background-color: #1a1a1a;
-    border-color: #333333;
-}
-
-html body .gemini-container .gemini-sidebar .personalization-group {
+html body .vlu-container .vlu-sidebar .personalization-group {
     margin-top: 15px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     padding-bottom: 10px;
 }
 
-html body .gemini-container .gemini-sidebar .menu-trigger-btn {
+html body .vlu-container .vlu-sidebar .menu-trigger-btn {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -2499,29 +2256,29 @@ html body .gemini-container .gemini-sidebar .menu-trigger-btn {
     user-select: none;
 }
 
-html body .gemini-container .gemini-sidebar .menu-trigger-btn:hover {
+html body .vlu-container .vlu-sidebar .menu-trigger-btn:hover {
     background-color: rgba(0, 0, 0, 0.04);
 }
 
-html body .gemini-container body.dark-mode .gemini-sidebar .menu-trigger-btn:hover {
+html body .vlu-container body.dark-mode .vlu-sidebar .menu-trigger-btn:hover {
     background-color: rgba(255, 255, 255, 0.06);
 }
 
-html body .gemini-container .gemini-sidebar .menu-trigger-btn .history-label {
+html body .vlu-container .vlu-sidebar .menu-trigger-btn .history-label {
     margin: 0;
 }
 
-html body .gemini-container .gemini-sidebar .menu-arrow-icon {
+html body .vlu-container .vlu-sidebar .menu-arrow-icon {
     font-size: 12px;
     color: #64748b;
     transition: transform 0.2s ease;
 }
 
-html body .gemini-container body.dark-mode .gemini-sidebar .menu-arrow-icon {
+html body .vlu-container body.dark-mode .vlu-sidebar .menu-arrow-icon {
     color: #94a3b8;
 }
 
-html body .gemini-container .gemini-sidebar .menu-dropdown-content {
+html body .vlu-container .vlu-sidebar .menu-dropdown-content {
     display: none;
     flex-direction: column;
     gap: 4px;
@@ -2529,15 +2286,15 @@ html body .gemini-container .gemini-sidebar .menu-dropdown-content {
     overflow: hidden;
 }
 
-html body .gemini-container .gemini-sidebar .menu-trigger-btn.active .menu-arrow-icon {
+html body .vlu-container .vlu-sidebar .menu-trigger-btn.active .menu-arrow-icon {
     transform: rotate(180deg);
 }
 
-html body .gemini-container .gemini-sidebar .menu-trigger-btn.active+.menu-dropdown-content {
+html body .vlu-container .vlu-sidebar .menu-trigger-btn.active+.menu-dropdown-content {
     display: flex;
 }
 
-html body .gemini-container .main-content #chatbox .suggestion-container {
+html body .vlu-container .main-content #chatbox .suggestion-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 16px;
@@ -2548,18 +2305,18 @@ html body .gemini-container .main-content #chatbox .suggestion-container {
 }
 
 @media (max-width: 992px) {
-    html body .gemini-container .main-content #chatbox .suggestion-container {
+    html body .vlu-container .main-content #chatbox .suggestion-container {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
 @media (max-width: 576px) {
-    html body .gemini-container .main-content #chatbox .suggestion-container {
+    html body .vlu-container .main-content #chatbox .suggestion-container {
         grid-template-columns: 1fr;
     }
 }
 
-.gemini-sidebar {
+.vlu-sidebar {
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -2608,37 +2365,442 @@ html body .gemini-container .main-content #chatbox .suggestion-container {
     color: #b31f24;
 }
 
-.gemini-sidebar.closed .sidebar-footer span {
+.vlu-sidebar.closed .sidebar-footer span {
     display: none;
 }
 
-.gemini-sidebar.closed .sidebar-footer .menu-item-btn {
+.vlu-sidebar.closed .sidebar-footer .menu-item-btn {
     justify-content: center;
     padding: 10px 0;
 }
 
-.gemini-sidebar.closed .sidebar-footer .menu-item-btn i {
+.vlu-sidebar.closed .sidebar-footer .menu-item-btn i {
     margin: 0;
     width: auto;
     font-size: 18px;
 }
 
-.gemini-sidebar {
+.system-menu-group {
     display: flex;
     flex-direction: column;
+    gap: 4px;
+    width: 100%;
+}
+
+.menu-item-btn i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    font-size: 16px;
+    color: #666;
+    transition: color 0.2s;
+}
+
+.vlu-sidebar.closed .sidebar-footer {
+    padding: 16px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.vlu-sidebar.closed .system-menu-group {
+    align-items: center;
+}
+
+.vlu-sidebar.closed .sidebar-footer .menu-item-btn {
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 50%;
+}
+
+.vlu-sidebar.closed .sidebar-footer .menu-item-btn i {
+    width: auto;
+    margin: 0;
+    font-size: 18px;
+}
+
+:root {
+    --vlu-red: #bf1e2e;
+    --vlu-red-hover: #a01624;
+    --bg-primary: #ffffff;
+    --bg-secondary: #f0f2f5;
+    --sidebar-bg: #f8f9fa;
+    --input-bg: #ffffff;
+    --text-main: #1f1f1f;
+    --border-color: #e5e5e5;
+    --message-bot: #f1f3f4;
+    --attach-bg: #ffffff;
+    --attach-text: #2d2d2d;
+    --attach-hover: #f0f0f0;
+    --attach-border: #e5e5e5;
+    --attach-shadow: rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode {
+    --bg-primary: #131314;
+    --bg-secondary: #1e1f20;
+    --sidebar-bg: #1e1f20;
+    --input-bg: #2b2c2f;
+    --text-main: #e3e3e3;
+    --border-color: #333333;
+    --message-bot: #2b2c2f;
+    --attach-bg: #212121;
+    --attach-text: #ececec;
+    --attach-hover: #333333;
+    --attach-border: #444444;
+    --attach-shadow: rgba(0, 0, 0, 0.5);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-main);
+    font-family: 'Segoe UI', sans-serif;
     height: 100vh;
+    overflow: hidden;
+    transition: background 0.3s, color 0.3s;
+}
+
+.vlu-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+.vlu-sidebar {
+    width: 260px;
+    background-color: var(--sidebar-bg);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 15px;
+    z-index: 100;
+    transition: width 0.2s ease, padding 0.2s ease;
 }
 
 .sidebar-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     flex: 1;
     overflow-y: auto;
+    width: 100%;
+}
+
+.sidebar-top::-webkit-scrollbar {
+    width: 4px;
+}
+
+.sidebar-top::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 10px;
+}
+
+.sidebar-top:hover::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode .sidebar-top:hover::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+#logoHomeBtn {
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    transition: transform 0.2s;
+}
+
+#logoHomeBtn:hover {
+    transform: scale(1.03);
+}
+
+.sidebar-logo {
+    width: 120px;
+    height: auto;
+    object-fit: contain;
+    margin-bottom: 25px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    transition: width 0.2s ease, height 0.2s ease;
+}
+
+.top-auth-area {
+    width: 100%;
+    display: block;
+    position: static;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    height: auto;
+    box-shadow: none;
+    transform: none;
+}
+
+.guest-toggle-btn {
+    background-color: var(--vlu-red);
+    color: #ffffff;
+    border: none;
+    outline: none;
+    padding: 10px 18px;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 2px 8px rgba(191, 30, 46, 0.2);
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.guest-toggle-btn:hover {
+    background-color: var(--vlu-red-hover);
+}
+
+.guest-toggle-btn:active {
+    transform: scale(0.96);
+}
+
+.personalization-group {
+    width: 100%;
+    margin-top: 15px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+}
+
+body.dark-mode .personalization-group {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+.menu-trigger-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: background-color 0.15s ease;
+    user-select: none;
+}
+
+.menu-trigger-btn:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+}
+
+body.dark-mode .menu-trigger-btn:hover {
+    background-color: rgba(255, 255, 255, 0.06);
+}
+
+.menu-arrow-icon {
+    font-size: 12px;
+    color: #64748b;
+    transition: transform 0.2s ease;
+}
+
+body.dark-mode .menu-arrow-icon {
+    color: #94a3b8;
+}
+
+.menu-dropdown-content {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 6px;
+    overflow: hidden;
+}
+
+.menu-trigger-btn.active .menu-arrow-icon {
+    transform: rotate(180deg);
+}
+
+.menu-trigger-btn.active+.menu-dropdown-content {
+    display: flex;
+}
+
+.new-chat-btn {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    background: white;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #444;
+    margin-top: 10px;
+}
+
+body.dark-mode .new-chat-btn {
+    background: #333;
+    border-color: #444;
+    color: white;
+}
+
+.chat-history-list {
+    margin-top: 15px;
+    width: 100%;
+    padding-right: 5px;
+}
+
+.history-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #888;
+    margin-bottom: 8px;
+    padding-left: 10px;
+}
+
+body.dark-mode .history-label {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.history-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 12px;
+    margin-bottom: 2px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13.5px;
+    color: #555;
+    transition: all 0.2s;
+}
+
+.history-item:hover {
+    background-color: #f0f0f0;
+    color: var(--vlu-red);
+}
+
+body.dark-mode .history-item {
+    color: #cbd5e1;
+}
+
+body.dark-mode .history-item:hover {
+    background: #444;
+    color: #ff4d5a;
+}
+
+.history-item.active {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+body.dark-mode .history-item.active {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.history-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    min-width: 0;
+}
+
+.history-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.history-actions {
+    display: flex;
+    align-items: center;
+}
+
+.delete-item-btn {
+    opacity: 0.6;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+.delete-item-btn:hover {
+    color: var(--vlu-red);
+    opacity: 1;
+}
+
+body.dark-mode .delete-item-btn:hover {
+    color: #ff4d5a;
+}
+
+.sidebar-feature-btn,
+.icon-link {
+    width: 100%;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    color: #444;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.2s;
+    text-align: left;
+}
+
+.sidebar-feature-btn:hover,
+.icon-link:hover {
+    background-color: #f0f0f0;
+    color: var(--vlu-red);
+}
+
+.sidebar-feature-btn i,
+.icon-link i {
+    font-size: 16px;
+    color: #666;
+    width: 20px;
+    text-align: center;
+}
+
+body.dark-mode .sidebar-feature-btn,
+body.dark-mode .icon-link {
+    color: #e2e8f0;
+}
+
+body.dark-mode .sidebar-feature-btn i,
+body.dark-mode .icon-link i {
+    color: #e2e8f0;
+}
+
+body.dark-mode .sidebar-feature-btn:hover,
+body.dark-mode .icon-link:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #ff4d5a;
+}
+
+body.dark-mode .sidebar-feature-btn:hover i,
+body.dark-mode .icon-link:hover i {
+    color: #ff4d5a;
 }
 
 .sidebar-footer {
     padding: 16px;
-    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    border-top: 1px solid var(--border-color);
     margin-top: auto;
     background-color: inherit;
+}
+
+body.dark-mode .sidebar-footer {
+    border-top-color: rgba(255, 255, 255, 0.1);
 }
 
 .system-menu-group {
@@ -2670,6 +2832,10 @@ html body .gemini-container .main-content #chatbox .suggestion-container {
     text-overflow: ellipsis;
 }
 
+body.dark-mode .menu-item-btn {
+    color: #cbd5e1;
+}
+
 .menu-item-btn i {
     display: flex;
     align-items: center;
@@ -2678,6 +2844,10 @@ html body .gemini-container .main-content #chatbox .suggestion-container {
     font-size: 16px;
     color: #666;
     transition: color 0.2s;
+}
+
+body.dark-mode .menu-item-btn i {
+    color: #94a3b8;
 }
 
 .menu-item-btn:hover {
@@ -2689,21 +2859,52 @@ html body .gemini-container .main-content #chatbox .suggestion-container {
     color: #b31f24;
 }
 
-.gemini-sidebar.closed .sidebar-footer {
+body.dark-mode .menu-item-btn:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #ff4d5a;
+}
+
+body.dark-mode .menu-item-btn:hover i {
+    color: #ff4d5a;
+}
+
+.vlu-sidebar.closed {
+    width: 70px;
+    padding: 15px 5px;
+}
+
+.vlu-sidebar.closed .sidebar-brand-area {
+    padding: 15px 0;
+}
+
+.vlu-sidebar.closed .sidebar-logo {
+    width: 32px;
+    height: 32px;
+}
+
+.vlu-sidebar.closed .top-auth-area,
+.vlu-sidebar.closed .personalization-group,
+.vlu-sidebar.closed .history-label,
+.vlu-sidebar.closed .chat-history-list,
+.vlu-sidebar.closed .new-chat-btn {
+    display: none;
+}
+
+.vlu-sidebar.closed .sidebar-footer {
     padding: 16px 0;
     display: flex;
     justify-content: center;
 }
 
-.gemini-sidebar.closed .system-menu-group {
+.vlu-sidebar.closed .system-menu-group {
     align-items: center;
 }
 
-.gemini-sidebar.closed .sidebar-footer span {
+.vlu-sidebar.closed .sidebar-footer span {
     display: none;
 }
 
-.gemini-sidebar.closed .sidebar-footer .menu-item-btn {
+.vlu-sidebar.closed .sidebar-footer .menu-item-btn {
     justify-content: center;
     width: 44px;
     height: 44px;
@@ -2711,8 +2912,803 @@ html body .gemini-container .main-content #chatbox .suggestion-container {
     border-radius: 50%;
 }
 
-.gemini-sidebar.closed .sidebar-footer .menu-item-btn i {
+.vlu-sidebar.closed .sidebar-footer .menu-item-btn i {
     width: auto;
     margin: 0;
     font-size: 18px;
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    background-color: var(--bg-primary);
+    width: 100%;
+}
+
+.top-header {
+    width: 100%;
+    height: 60px;
+    padding: 0 24px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    position: relative;
+    background-color: var(--bg-primary);
+}
+
+body.dark-mode .top-header {
+    background-color: #1a1a1a;
+    border-color: #333333;
+}
+
+.header-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+}
+
+.vlu-toggle-btn {
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+}
+
+.vlu-toggle-btn:hover {
+    background-color: rgba(0, 0, 0, 0.06);
+}
+
+body.dark-mode .vlu-toggle-btn:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.toggle-icon-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #475569;
+    font-size: 16px;
+}
+
+body.dark-mode .toggle-icon-wrapper {
+    color: #94a3b8;
+}
+
+.toggle-icon-wrapper .inner-arrow {
+    position: absolute;
+    font-size: 8px;
+    left: 4px;
+    top: 5px;
+    color: #475569;
+    transition: transform 0.2s ease;
+}
+
+body.dark-mode .toggle-icon-wrapper .inner-arrow {
+    color: #94a3b8;
+}
+
+.vlu-sidebar.closed~.main-content .toggle-icon-wrapper .inner-arrow {
+    transform: rotate(180deg);
+    left: 5px;
+}
+
+.header-logo {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+}
+
+.model-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-main);
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.model-name i {
+    font-size: 12px;
+    color: #64748b;
+}
+
+.mode-toggle-top,
+#darkModeBtn {
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 18px;
+    color: #475569;
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s, color 0.2s;
+    margin-left: 4px;
+}
+
+.mode-toggle-top:hover,
+#darkModeBtn:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: var(--vlu-red);
+}
+
+body.dark-mode .mode-toggle-top,
+body.dark-mode #darkModeBtn {
+    color: #cbd5e1;
+}
+
+body.dark-mode .mode-toggle-top:hover,
+body.dark-mode #darkModeBtn:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #ffcc00;
+}
+
+.vlu-welcome {
+    margin-top: 10vh;
+    text-align: center;
+    width: 100%;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.gradient-text {
+    font-size: 44px;
+    font-weight: 800;
+    background: linear-gradient(to right, var(--vlu-red), #ff6b6b);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
+
+.sub-welcome {
+    font-size: 28px;
+    color: #666;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+body.dark-mode .sub-welcome {
+    color: #aaa;
+}
+
+.suggestion-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 24px;
+    width: 100%;
+    max-width: 1000px;
+    box-sizing: border-box;
+    padding: 0 10px;
+}
+
+@media (max-width: 992px) {
+    .suggestion-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 576px) {
+    .suggestion-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.suggestion-card {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 20px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 120px;
+    justify-content: space-between;
+}
+
+.suggestion-card:hover {
+    background: #fcfcfc;
+    border-color: var(--vlu-red);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.suggestion-card i {
+    font-size: 24px;
+    color: var(--vlu-red);
+}
+
+.suggestion-card p {
+    font-size: 15px;
+    font-weight: 500;
+    color: #444;
+    margin: 0;
+    line-height: 1.4;
+}
+
+body.dark-mode .suggestion-card {
+    background: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .suggestion-card:hover {
+    background: #333;
+    border-color: var(--vlu-red);
+}
+
+body.dark-mode .suggestion-card p {
+    color: #ececec;
+}
+
+.chat-display {
+    flex: 1;
+    width: 100%;
+    max-width: 850px;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.message {
+    margin-bottom: 25px;
+    display: flex;
+    gap: 15px;
+}
+
+.user-message {
+    justify-content: flex-end;
+}
+
+.user-message .content {
+    background: #f0f0f0;
+    padding: 12px 18px;
+    border-radius: 18px 18px 0 18px;
+    max-width: 70%;
+}
+
+body.dark-mode .user-message .content {
+    background: #333;
+    color: white;
+}
+
+.bot-message .bot-icon {
+    width: 35px;
+    height: 35px;
+    background: var(--vlu-red);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.bot-message .content {
+    background-color: var(--message-bot);
+    color: #1f1f1f;
+    padding: 12px 16px;
+    border-radius: 4px 18px 18px 18px;
+    max-width: 85%;
+    font-size: 15px;
+    line-height: 1.6;
+    overflow-wrap: break-word;
+}
+
+body.dark-mode .bot-message .content {
+    color: #f8fafc;
+}
+
+.bot-message .content pre {
+    background-color: #1e1e1e;
+    color: #d4d4d4;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 10px 0;
+    font-family: 'Consolas', 'Monaco', monospace;
+    border: 1px solid #333;
+}
+
+.bot-message .content code {
+    font-family: 'Consolas', monospace;
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 2px 4px;
+    border-radius: 4px;
+}
+
+body.dark-mode .bot-message code:not(pre code) {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ff4d5a;
+}
+
+.copy-btn {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    z-index: 10;
+    background: transparent;
+    border: none;
+    outline: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    color: #888888;
+    font-size: 13px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.copy-btn:hover {
+    color: var(--vlu-red);
+}
+
+body.dark-mode .copy-btn {
+    color: #94a3b8;
+}
+
+body.dark-mode .copy-btn:hover {
+    color: #ff4d5a;
+}
+
+.bottom-container {
+    width: 100%;
+    max-width: 850px;
+    padding: 0 20px 25px;
+    background: transparent;
+}
+
+.input-wrapper {
+    background: var(--input-bg);
+    border: 1px solid rgba(191, 30, 46, 0.35);
+    border-radius: 28px;
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input-wrapper:focus-within {
+    border-color: rgba(191, 30, 46, 0.7);
+    box-shadow: 0 4px 16px rgba(191, 30, 46, 0.15);
+}
+
+body.dark-mode .input-wrapper {
+    background-color: #161925;
+    border: 1px solid rgba(191, 30, 46, 0.4);
+}
+
+textarea {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    resize: none;
+    font-family: inherit;
+    padding: 8px 0;
+    max-height: 150px;
+    color: var(--text-main);
+}
+
+.input-tools-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.mic-btn,
+#sendBtn {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+    font-size: 16px;
+    color: #555;
+}
+
+#sendBtn {
+    background-color: #222;
+    color: white;
+    opacity: 0.5;
+}
+
+#sendBtn:hover {
+    background-color: var(--vlu-red);
+    opacity: 1;
+}
+
+.plus-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    background: transparent;
+    color: #666;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.attach-wrapper {
+    position: relative;
+}
+
+.attach-menu {
+    display: none;
+    position: absolute;
+    bottom: 60px;
+    left: 0;
+    width: 220px;
+    background: var(--attach-bg);
+    color: var(--attach-text);
+    border-radius: 12px;
+    padding: 8px;
+    z-index: 1000;
+    box-shadow: 0 10px 30px var(--attach-shadow);
+    border: 1px solid var(--attach-border);
+}
+
+.attach-menu.active {
+    display: block;
+}
+
+.menu-item {
+    padding: 10px;
+    color: var(--attach-text);
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.menu-item:hover {
+    background: var(--attach-hover);
+}
+
+.submenu {
+    display: none;
+    position: absolute;
+    left: 215px;
+    bottom: 0;
+    width: 180px;
+    background: var(--attach-bg);
+    border-radius: 12px;
+    padding: 8px;
+    box-shadow: 0 10px 30px var(--attach-shadow);
+    border: 1px solid var(--attach-border);
+}
+
+.alt-submenu:hover .submenu {
+    display: block;
+}
+
+#userDropdown.dropdown-menu {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    margin-top: 8px;
+    background-color: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 6px;
+    z-index: 1000;
+    min-width: 140px;
+}
+
+body.dark-mode #userDropdown.dropdown-menu {
+    background-color: #161925;
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+#adminModule a.sidebar-feature-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 20px;
+    width: 100%;
+    text-decoration: none;
+    background-color: #161925;
+    border: 1px solid rgba(255, 184, 108, 0.4);
+    border-radius: 12px;
+    color: #ffb86c;
+    font-weight: 600;
+    transition: all 0.25s ease;
+}
+
+#adminModule a.sidebar-feature-btn:hover {
+    background-color: var(--vlu-red);
+    border-color: var(--vlu-red);
+    color: #ffffff;
+}
+
+.fade-in {
+    animation: fadeInAnimate 0.3s ease-in forwards;
+}
+
+@keyframes fadeInAnimate {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.typing-indicator .content {
+    display: flex;
+    gap: 4px;
+    padding: 12px 18px;
+}
+
+.dot {
+    width: 6px;
+    height: 6px;
+    background: #888;
+    border-radius: 50%;
+    animation: waveAnimate 1.3s infinite;
+}
+
+.dot:nth-child(2) {
+    animation-delay: 0.15s;
+}
+
+.dot:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+@keyframes waveAnimate {
+    0%,
+    60%,
+    100% {
+        transform: translateY(0);
+    }
+    30% {
+        transform: translateY(-6px);
+    }
+}
+
+.rain-logo {
+    position: fixed;
+    top: -50px;
+    width: 30px;
+    z-index: 9999;
+    pointer-events: none;
+    animation: rainFallAnimate linear forwards;
+}
+
+@keyframes rainFallAnimate {
+    0% {
+        transform: translateY(-50px) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.hidden {
+    display: none !important;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+}
+
+.modal-content {
+    background-color: #ffffff;
+    padding: 35px 40px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    max-width: 400px;
+    width: 90%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+body.dark-mode .modal-content {
+    background-color: #1e1f20;
+    border: 1px solid #333333;
+}
+
+.auth-tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+body.dark-mode .auth-tabs {
+    border-bottom-color: #333333;
+}
+
+.tab-btn {
+    padding-bottom: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #64748b;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tab-btn.active {
+    color: var(--vlu-red);
+    border-bottom: 2px solid var(--vlu-red);
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    text-align: left;
+}
+
+.auth-form input {
+    width: 100%;
+    height: 46px;
+    padding: 0 16px;
+    margin-bottom: 14px;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    color: #334155;
+    font-size: 14px;
+    outline: none;
+}
+
+body.dark-mode .auth-form input {
+    background-color: #2b2c2f;
+    border-color: #444444;
+    color: #e3e3e3;
+}
+
+.auth-submit.vlu-red-btn {
+    width: 100%;
+    height: 46px;
+    background-color: var(--vlu-red);
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.help-modal-content {
+    max-width: 500px;
+    border-radius: 16px;
+    padding: 24px;
+    background-color: #ffffff;
+    position: relative;
+}
+
+body.dark-mode .help-modal-content {
+    background-color: #1e1e1e;
+    border: 1px solid #333333;
+}
+
+.help-header h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--vlu-red);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+body.dark-mode .help-header h2 {
+    color: #ff4d5a;
+}
+
+.help-body {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.help-step-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.help-step-item .step-num {
+    background-color: rgba(185, 28, 28, 0.1);
+    color: var(--vlu-red);
+    font-weight: 600;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+body.dark-mode .help-step-item .step-num {
+    background-color: rgba(255, 77, 90, 0.15);
+    color: #ff4d5a;
+}
+
+.help-step-item p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--text-main);
+    line-height: 1.6;
+}
+
+body.dark-mode .help-step-item p {
+    color: #cbd5e1;
+}
+
+.close-help-modal {
+    position: absolute;
+    right: 20px;
+    top: 22px;
+    font-size: 16px;
+    color: #94a3b8;
+    cursor: pointer;
+}
+
+.bottom-container .disclaimer {
+    font-size: 12px;
+    color: #64748b;
+    text-align: center;
+    margin-top: 8px;
 }

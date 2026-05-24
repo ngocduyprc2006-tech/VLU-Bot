@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const singleToggleBtn = document.getElementById('headerToggle');
-        const sidebarElement = document.querySelector('.gemini-sidebar');
+        const sidebarElement = document.querySelector('.vlu-sidebar');
 
         if (singleToggleBtn && sidebarElement) {
             singleToggleBtn.onclick = (e) => {

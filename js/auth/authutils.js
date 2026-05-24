@@ -19,6 +19,14 @@ window.vluAuthUtils = {
                         guestBtn.style.background = "";
                     }
                     if (adminModule) adminModule.style.display = 'none';
+
+                    const welcomeScreen = document.getElementById('welcomeScreen');
+                    const container = document.getElementById('messagesContainer');
+                    if (container) container.innerHTML = '';
+                    if (welcomeScreen) welcomeScreen.classList.remove('hidden');
+                    window.currentChatId = null;
+                    window.currentSystemPrompt = window.featurePrompts['default'];
+
                 }).catch((error) => {
                     console.error("Lỗi đăng xuất:", error);
                 });

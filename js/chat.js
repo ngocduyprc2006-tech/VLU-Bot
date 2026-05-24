@@ -95,6 +95,8 @@ async function sendMessage() {
         ui.preImg.src = '';
     }
 
+    const systemPrompt = window.currentSystemPrompt || "Bạn là một trợ lý ảo thông minh, thân thiện của trường Đại học Văn Lang. Hãy trả lời câu hỏi của sinh viên một cách tự nhiên, ngắn gọn và hữu ích. Nếu sinh viên chào hỏi, hãy chào lại một cách vui vẻ.";
+
     try {
         const response = await fetch(GROQ_URL, {
             method: "POST",
@@ -105,7 +107,7 @@ async function sendMessage() {
             body: JSON.stringify({
                 model: "llama-3.1-8b-instant",
                 messages: [
-                    { role: "system", content: "Bạn là một trợ lý ảo thông minh, thân thiện của trường Đại học Văn Lang. Hãy trả lời câu hỏi của sinh viên một cách tự nhiên, ngắn gọn và hữu ích. Nếu sinh viên chào hỏi, hãy chào lại một cách vui vẻ." },
+                    { role: "system", content: systemPrompt },
                     { role: "user", content: contentPayload }
                 ],
                 max_tokens: 1024,

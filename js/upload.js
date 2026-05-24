@@ -1,17 +1,11 @@
-/** * FILE: js/upload.js
- * CHỨC NĂNG: Quản lý kéo thả tệp và trích xuất nội dung văn bản thô
- */
-
 window.lastUploadedDocContent = "";
 
-// --- XỬ LÝ FILE (ẢNH & TÀI LIỆU) ---
 async function processFile(file) {
     if (!file) return;
 
     const previewContainer = document.getElementById('imagePreviewContainer');
     const imagePreview = document.getElementById('imagePreview');
 
-    // A. Xử lý Hình ảnh
     if (file.type.startsWith('image/')) {
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -22,9 +16,7 @@ async function processFile(file) {
             }
         };
         reader.readAsDataURL(file);
-    }
-    // B. Xử lý Tài liệu (TXT)
-    else {
+    } else {
         const extension = file.name.split('.').pop().toLowerCase();
 
         if (file.type === "text/plain" || extension === "txt") {
@@ -42,7 +34,6 @@ function showFileStatus(fileName, status) {
     }
 }
 
-// --- KÉO THẢ FILE TOÀN CỤC ---
 function initDragAndDrop() {
     const dropZone = document.body;
     if (!dropZone) return;
@@ -77,7 +68,6 @@ function initFilePreview() {
     }
 }
 
-// Xuất module lõi ra ngoài hệ thống
 window.upload = {
     initFilePreview,
     initDragAndDrop,
