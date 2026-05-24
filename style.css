@@ -11,7 +11,7 @@
     --input-bg: #ffffff;
     --text-main: #1f1f1f;
     --border-color: #e5e5e5;
-    --message-bot: #f1f3f4;
+    --message-bot: #ffffff;
     --attach-bg: #ffffff;
     --attach-text: #2d2d2d;
     --attach-hover: #f0f0f0;
@@ -630,14 +630,15 @@ body.dark-mode .user-message .content {
 }
 
 .bot-message .content {
-    background-color: var(--message-bot);
-    color: #1f1f1f;
-    padding: 12px 16px;
-    border-radius: 4px 18px 18px 18px;
+    background-color: transparent;
+    border: none;
+    color: var(--text-main);
+    padding: 6px 0;
     max-width: 85%;
     font-size: 15px;
     line-height: 1.6;
     overflow-wrap: break-word;
+    box-shadow: none;
 }
 
 .bot-message .content h1,
@@ -942,6 +943,7 @@ body.dark-mode .main-content .bottom-container .input-wrapper textarea {
         opacity: 0;
         transform: scale(0.9) translateY(10px);
     }
+
     to {
         opacity: 1;
         transform: scale(1) translateY(0);
@@ -1134,6 +1136,7 @@ body.dark-mode #userDropdown .dropdown-item:hover i {
         opacity: 0;
         transform: translateY(10px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -1155,10 +1158,12 @@ body.dark-mode #userDropdown .dropdown-item:hover i {
 }
 
 @keyframes redGlow {
+
     0%,
     100% {
         box-shadow: 0 0 5px rgba(237, 28, 36, 0.2);
     }
+
     50% {
         box-shadow: 0 0 20px rgba(237, 28, 36, 0.6);
     }
@@ -1181,11 +1186,13 @@ body.dark-mode #userDropdown .dropdown-item:hover i {
 }
 
 @keyframes waveAnimate {
+
     0%,
     60%,
     100% {
         transform: translateY(0);
     }
+
     30% {
         transform: translateY(-6px);
     }
@@ -1200,10 +1207,12 @@ body.dark-mode #userDropdown .dropdown-item:hover i {
 }
 
 @keyframes pulseRedAnimate {
+
     0%,
     100% {
         transform: scale(1);
     }
+
     50% {
         transform: scale(1.2);
         box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
@@ -1227,6 +1236,7 @@ body.dark-mode #userDropdown .dropdown-item:hover i {
         transform: translateY(-50px) rotate(0deg);
         opacity: 1;
     }
+
     100% {
         transform: translateY(100vh) rotate(360deg);
         opacity: 0;
@@ -1951,6 +1961,7 @@ body.dark-mode .main-content .top-header #headerToggle:hover {
 /* 🎯 KHÓA CHẾT LAYOUT MENU XỔ XUỐNG DƯỚI */
 
 .main-content .top-header .header-dropdown {
+    display: none;
     position: absolute !important;
     top: calc(100% + 8px);
     left: 0;
@@ -1963,6 +1974,20 @@ body.dark-mode .main-content .top-header #headerToggle:hover {
     margin: 0;
     flex-direction: column;
     z-index: 99999;
+}
+
+#headerDropdownTrigger:hover #headerDropdownMenu {
+    display: flex;
+}
+
+.main-content .top-header .header-dropdown::before {
+    content: '';
+    position: absolute;
+    top: -12px;
+    left: 0;
+    width: 100%;
+    height: 12px;
+    background: transparent;
 }
 
 .main-content .top-header .dropdown-item-custom {
@@ -2020,6 +2045,7 @@ body.dark-mode .main-content .top-header .dropdown-item-custom:hover {
         opacity: 0;
         transform: scale(0.95);
     }
+
     to {
         opacity: 1;
         transform: scale(1);
@@ -2296,12 +2322,14 @@ html body .vlu-container .vlu-sidebar .menu-trigger-btn.active+.menu-dropdown-co
 
 html body .vlu-container .main-content #chatbox .suggestion-container {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 16px;
     margin-top: 24px;
     width: 100%;
-    max-width: 1000px;
+    max-width: 800px;
     box-sizing: border-box;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 @media (max-width: 992px) {
@@ -3093,13 +3121,15 @@ body.dark-mode .sub-welcome {
 
 .suggestion-container {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 16px;
     margin-top: 24px;
     width: 100%;
-    max-width: 1000px;
+    max-width: 800px;
     box-sizing: border-box;
     padding: 0 10px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 @media (max-width: 992px) {
@@ -3208,14 +3238,15 @@ body.dark-mode .user-message .content {
 }
 
 .bot-message .content {
-    background-color: var(--message-bot);
-    color: #1f1f1f;
-    padding: 12px 16px;
-    border-radius: 4px 18px 18px 18px;
+    background-color: transparent;
+    border: none;
+    color: var(--text-main);
+    padding: 6px 0;
     max-width: 85%;
     font-size: 15px;
     line-height: 1.6;
     overflow-wrap: break-word;
+    box-shadow: none;
 }
 
 body.dark-mode .bot-message .content {
@@ -3470,6 +3501,7 @@ body.dark-mode #userDropdown.dropdown-menu {
         opacity: 0;
         transform: translateY(10px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -3499,11 +3531,13 @@ body.dark-mode #userDropdown.dropdown-menu {
 }
 
 @keyframes waveAnimate {
+
     0%,
     60%,
     100% {
         transform: translateY(0);
     }
+
     30% {
         transform: translateY(-6px);
     }
@@ -3523,6 +3557,7 @@ body.dark-mode #userDropdown.dropdown-menu {
         transform: translateY(-50px) rotate(0deg);
         opacity: 1;
     }
+
     100% {
         transform: translateY(100vh) rotate(360deg);
         opacity: 0;
@@ -3711,4 +3746,14 @@ body.dark-mode .help-step-item p {
     color: #64748b;
     text-align: center;
     margin-top: 8px;
+}
+
+/* Ẩn thanh cuộn dọc (scrollbar) toàn bộ trang web nhưng vẫn cuộn bình thường */
+* {
+    -ms-overflow-style: none;  /* IE và Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+*::-webkit-scrollbar {
+    display: none;             /* Chrome, Safari, Edge và Opera */
 }

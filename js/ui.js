@@ -7,20 +7,48 @@ function renderHistory() {
     if (!list) return;
 
     const allChats = JSON.parse(localStorage.getItem('vlu_chat_sessions')) || {};
-    list.innerHTML = '<p class="history-label">Gần đây</p>';
+    const pinnedIds = JSON.parse(localStorage.getItem('vlu_pinned_chats')) || [];
 
-    Object.keys(allChats).reverse().forEach(id => {
+    list.innerHTML = '';
+
+    // Phân loại: ghim trước, còn lại sau
+    const allIds = Object.keys(allChats).reverse();
+    const pinnedList = allIds.filter(id => pinnedIds.includes(id));
+    const normalList = allIds.filter(id => !pinnedIds.includes(id));
+    const orderedIds = [...pinnedList, ...normalList];
+
+    if (pinnedList.length > 0) {
+        list.innerHTML += '<p class="history-label">📌 Đã ghim</p>';
+    }
+
+    let addedNormalLabel = false;
+
+    orderedIds.forEach(id => {
         const item = allChats[id];
+        if (!item) return;
+
+        const isPinned = pinnedIds.includes(id);
+
+        // Thêm nhãn "Gần đây" trước mục thường đầu tiên
+        if (!isPinned && !addedNormalLabel) {
+            addedNormalLabel = true;
+            if (normalList.length > 0) {
+                list.innerHTML += '<p class="history-label">Gần đây</p>';
+            }
+        }
+
         const div = document.createElement('div');
         div.className = 'history-item';
         if (id === window.currentChatId) div.classList.add('active');
 
         div.innerHTML = `
             <div class="history-info" style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0;">
-                <i class="far fa-comment-alt"></i> 
+                <i class="${isPinned ? 'fas fa-thumbtack' : 'far fa-comment-alt'}" style="${isPinned ? 'color: var(--vlu-red); font-size: 12px;' : ''}"></i>
                 <span class="history-title" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;">${item.title}</span>
             </div>
-            <div class="history-actions" style="padding: 4px 8px; z-index: 10; cursor: pointer; display: flex; align-items: center;">
+            <div class="history-actions" style="padding: 4px 4px; z-index: 10; display: flex; align-items: center; gap: 4px;">
+                <i class="fas fa-thumbtack pin-item-btn" title="${isPinned ? 'Bỏ ghim' : 'Ghim cuộc trò chuyện'}"
+                   style="opacity: 0.6; transition: all 0.2s; font-size: 12px; ${isPinned ? 'color: var(--vlu-red); opacity: 1;' : ''}"></i>
                 <i class="fas fa-trash-alt delete-item-btn" title="Xóa cuộc trò chuyện này" style="opacity: 0.6; transition: opacity 0.2s;"></i>
             </div>
         `;
@@ -33,29 +61,50 @@ function renderHistory() {
             }
         };
 
-        const actionsPart = div.querySelector('.history-actions');
-        actionsPart.onclick = (e) => {
+        const pinBtn = div.querySelector('.pin-item-btn');
+        pinBtn.onclick = (e) => {
             e.preventDefault();
             e.stopPropagation();
+            let pins = JSON.parse(localStorage.getItem('vlu_pinned_chats')) || [];
+            if (pins.includes(id)) {
+                pins = pins.filter(p => p !== id);
+            } else {
+                pins.unshift(id);
+            }
+            localStorage.setItem('vlu_pinned_chats', JSON.stringify(pins));
+            renderHistory();
+        };
 
+        const deleteBtn = div.querySelector('.delete-item-btn');
+        deleteBtn.onclick = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
             if (typeof window.deleteSpecificChat === 'function') {
                 window.deleteSpecificChat(e, id);
             }
         };
 
-        const deleteBtn = div.querySelector('.delete-item-btn');
+        // Hover effect cho cả 2 nút
+        const actionsPart = div.querySelector('.history-actions');
         actionsPart.onmouseover = () => {
-            deleteBtn.style.opacity = "1";
-            deleteBtn.style.color = "#d9534f";
+            if (!isPinned) pinBtn.style.opacity = '1';
+            deleteBtn.style.opacity = '1';
+            deleteBtn.style.color = '#d9534f';
         };
         actionsPart.onmouseout = () => {
-            deleteBtn.style.opacity = "0.6";
-            deleteBtn.style.color = "";
+            if (!isPinned) pinBtn.style.opacity = '0.6';
+            deleteBtn.style.opacity = '0.6';
+            deleteBtn.style.color = '';
         };
 
         list.appendChild(div);
     });
+
+    if (orderedIds.length === 0) {
+        list.innerHTML = '<p class="history-label">Gần đây</p>';
+    }
 }
+
 
 async function handleAction(text, mode = 'default') {
     if (typeof window.setMode === 'function') window.setMode(mode);

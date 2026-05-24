@@ -6,6 +6,7 @@ window.featurePrompts = {
     'default': "Bạn là một AI Core trợ lý ảo cao cấp. Hãy thực hiện chính xác các quy tắc tư duy sau:\n1. DỊCH THUẬT TUYỆT ĐỐI: Khi người dùng yêu cầu dịch (bất kể ngôn ngữ nào: Anh, Nhật, Hàn, Trung...), hãy đóng vai biên dịch viên chuyên nghiệp. Dịch sát nghĩa, chuẩn ngữ cảnh, giữ nguyên và dịch đúng các thuật ngữ chuyên ngành (đặc biệt là CNTT/Kỹ thuật phần mềm), tuyệt đối không dịch thô word-by-word.\n2. TƯ DUY TRỌNG TÂM: Với mọi câu hỏi, đưa ra câu trả lời trực diện ngay từ dòng đầu tiên. Không chào hỏi, không lặp lại câu hỏi của người dùng.\n3. CẤU TRÚC MẠCH LẠC: Chia nhỏ thông tin thành các gạch đầu dòng (-) ngắn gọn, súc tích. Đưa ra câu trả lời có giá trị thông tin cao nhất với số lượng từ tối giản nhất."
 };
 
+
 window.currentSystemPrompt = window.featurePrompts['default'];
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -246,7 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 handleSend();
             }
         });
-        uiElements.input.addEventListener('input', function() {
+        uiElements.input.addEventListener('input', function () {
             this.style.height = 'auto';
             this.style.height = Math.min(this.scrollHeight, 180) + 'px';
         });
