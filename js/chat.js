@@ -39,14 +39,21 @@ async function sendMessage() {
     if (ui.welcome) ui.welcome.classList.add('hidden');
 
     let imageData = null;
-    if (hasImage && ui.preImg) {
-        if (window.featureVision && typeof window.featureVision.compressImage === 'function') {
-            imageData = await window.featureVision.compressImage(ui.preImg.src);
-        } else {
-            imageData = ui.preImg.src;
+    if (hasImage) {
+        // collect all preview images
+        const imgs = ui.preContainer.querySelectorAll('img');
+        for (let i = 0; i < imgs.length; i++) {
+            const src = imgs[i].src;
+            let dataToSend = src;
+            if (window.featureVision && typeof window.featureVision.compressImage === 'function') {
+                dataToSend = await window.featureVision.compressImage(src);
+            }
+            renderUserImageMessage(dataToSend);
+            saveChatToLocal('user', text ? `[Hình ảnh] ${text}` : "[Hình ảnh]");
         }
-        renderUserImageMessage(imageData);
-        saveChatToLocal('user', text ? `[Hình ảnh] ${text}` : "[Hình ảnh]");
+        // hide and clear previews
+        const previewList = ui.preContainer.querySelector('#previewList');
+        if (previewList) previewList.innerHTML = '';
         ui.preContainer.style.display = 'none';
     } else if (text || docContent) {
         const displayPrompt = text + (docContent ? `\n*(Đã đính kèm tài liệu)*` : "");

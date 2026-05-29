@@ -1,19 +1,41 @@
 window.lastUploadedDocContent = "";
 
+// Add a preview thumbnail for an image URL
+function addImagePreview(url, fileName) {
+    const previewContainer = document.getElementById('imagePreviewContainer');
+    const previewList = document.getElementById('previewList');
+    if (!previewList || !previewContainer) return;
+
+    const item = document.createElement('div');
+    item.className = 'preview-item';
+    item.innerHTML = `
+        <img src="${url}" alt="${fileName}">
+        <button type="button" class="preview-close" title="Xóa hình">×</button>
+    `;
+
+    // close handler for this thumbnail
+    const closeBtn = item.querySelector('.preview-close');
+    closeBtn.onclick = (e) => {
+        e.stopPropagation();
+        item.remove();
+        // if no previews left, hide container
+        if (previewList.children.length === 0) previewContainer.style.display = 'none';
+    };
+
+    previewList.appendChild(item);
+    previewContainer.style.display = 'block';
+    previewContainer.classList.add('bounce-in');
+}
+
 async function processFile(file) {
     if (!file) return;
 
     const previewContainer = document.getElementById('imagePreviewContainer');
-    const imagePreview = document.getElementById('imagePreview');
 
-    if (file.type.startsWith('image/')) {
+    if (file.type && file.type.startsWith('image/')) {
         const reader = new FileReader();
         reader.onload = (e) => {
-            if (imagePreview) imagePreview.src = e.target.result;
-            if (previewContainer) {
-                previewContainer.style.display = 'block';
-                previewContainer.classList.add('bounce-in');
-            }
+            addImagePreview(e.target.result, file.name);
         };
         reader.readAsDataURL(file);
     } else {
@@ -55,7 +77,13 @@ function initFilePreview() {
     const imagePreview = document.getElementById('imagePreview');
 
     if (hiddenFileInput) {
-        hiddenFileInput.onchange = (e) => processFile(e.target.files[0]);
+        hiddenFileInput.setAttribute('multiple', '');
+        hiddenFileInput.onchange = (e) => {
+            const files = Array.from(e.target.files || []);
+            files.forEach(f => processFile(f));
+            // clear value so same file can be selected again
+            hiddenFileInput.value = '';
+        };
     }
 
     if (closePreview) {

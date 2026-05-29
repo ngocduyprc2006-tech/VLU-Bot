@@ -47,58 +47,110 @@ function renderHistory() {
                 <span class="history-title" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;">${item.title}</span>
             </div>
             <div class="history-actions" style="padding: 4px 4px; z-index: 10; display: flex; align-items: center; gap: 4px;">
-                <i class="fas fa-thumbtack pin-item-btn" title="${isPinned ? 'Bỏ ghim' : 'Ghim cuộc trò chuyện'}"
-                   style="opacity: 0.6; transition: all 0.2s; font-size: 12px; ${isPinned ? 'color: var(--vlu-red); opacity: 1;' : ''}"></i>
-                <i class="fas fa-trash-alt delete-item-btn" title="Xóa cuộc trò chuyện này" style="opacity: 0.6; transition: opacity 0.2s;"></i>
+                <button class="dot-menu-button" aria-label="Tùy chọn">
+                    <i class="fas fa-ellipsis-h"></i>
+                </button>
+                <div class="history-item-menu" style="display:none; min-width:140px;">
+                    <div class="menu-item menu-pin ${isPinned ? 'pinned' : ''} pin-item-btn" title="${isPinned ? 'Bỏ ghim' : 'Ghim cuộc trò chuyện'}">
+                        <i class="fas fa-thumbtack"></i>
+                        <span style="margin-left:8px;">${isPinned ? 'Bỏ ghim' : 'Ghim đoạn chat'}</span>
+                    </div>
+                    <div class="menu-item menu-delete delete-item-btn" title="Xóa cuộc trò chuyện này">
+                        <i class="fas fa-trash-alt"></i>
+                        <span style="margin-left:8px;">Xóa</span>
+                    </div>
+                </div>
             </div>
         `;
 
-        const infoPart = div.querySelector('.history-info');
-        infoPart.onclick = (e) => {
-            e.preventDefault();
-            if (typeof window.loadSession === 'function') {
-                window.loadSession(id);
-            }
-        };
-
-        const pinBtn = div.querySelector('.pin-item-btn');
-        pinBtn.onclick = (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            let pins = JSON.parse(localStorage.getItem('vlu_pinned_chats')) || [];
-            if (pins.includes(id)) {
-                pins = pins.filter(p => p !== id);
-            } else {
-                pins.unshift(id);
-            }
-            localStorage.setItem('vlu_pinned_chats', JSON.stringify(pins));
-            renderHistory();
-        };
-
-        const deleteBtn = div.querySelector('.delete-item-btn');
-        deleteBtn.onclick = (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            if (typeof window.deleteSpecificChat === 'function') {
-                window.deleteSpecificChat(e, id);
-            }
-        };
-
-        // Hover effect cho cả 2 nút
-        const actionsPart = div.querySelector('.history-actions');
-        actionsPart.onmouseover = () => {
-            if (!isPinned) pinBtn.style.opacity = '1';
-            deleteBtn.style.opacity = '1';
-            deleteBtn.style.color = '#d9534f';
-        };
-        actionsPart.onmouseout = () => {
-            if (!isPinned) pinBtn.style.opacity = '0.6';
-            deleteBtn.style.opacity = '0.6';
-            deleteBtn.style.color = '';
-        };
+        // set data attribute to identify this chat item from delegated events
+        div.dataset.chatId = id;
 
         list.appendChild(div);
     });
+
+    // Event delegation: attach a single click listener to the list to handle
+    // open, pin/unpin, and delete actions. This avoids lost handlers after re-render.
+    if (!list._historyEventsAttached) {
+        list.addEventListener('click', (e) => {
+            const pinBtn = e.target.closest('.pin-item-btn');
+            const deleteBtn = e.target.closest('.delete-item-btn');
+            const dotBtn = e.target.closest('.dot-menu-button');
+            const item = e.target.closest('.history-item');
+            const info = e.target.closest('.history-info');
+            if (!item) return;
+            const cid = item.dataset.chatId;
+
+            // Toggle menu
+            if (dotBtn) {
+                e.preventDefault();
+                e.stopPropagation();
+                const menu = item.querySelector('.history-item-menu');
+                if (menu) {
+                    const open = menu.style.display === 'block';
+                    // close other menus
+                    document.querySelectorAll('.history-item-menu').forEach(m => m.style.display = 'none');
+
+                    // hide other dot buttons to avoid 'bleeding' visibility
+                    const allDots = document.querySelectorAll('.dot-menu-button');
+                    allDots.forEach(d => {
+                        if (!d.closest('.history-item')) return;
+                        if (d.closest('.history-item') !== item) {
+                            d.style.visibility = open ? 'visible' : 'hidden';
+                        } else {
+                            d.style.visibility = 'visible';
+                        }
+                    });
+
+                    menu.style.display = open ? 'none' : 'block';
+                }
+                return;
+            }
+
+            if (pinBtn) {
+                e.preventDefault();
+                e.stopPropagation();
+                let pins = JSON.parse(localStorage.getItem('vlu_pinned_chats')) || [];
+                if (pins.includes(cid)) {
+                    pins = pins.filter(p => p !== cid);
+                } else {
+                    pins.unshift(cid);
+                }
+                localStorage.setItem('vlu_pinned_chats', JSON.stringify(pins));
+                renderHistory();
+                return;
+            }
+
+            if (deleteBtn) {
+                e.preventDefault();
+                e.stopPropagation();
+                if (typeof window.deleteSpecificChat === 'function') {
+                    window.deleteSpecificChat(e, cid);
+                }
+                return;
+            }
+
+            if (info) {
+                e.preventDefault();
+                if (typeof window.loadSession === 'function') {
+                    window.loadSession(cid);
+                }
+            }
+        });
+
+        // Close menus when clicking outside and restore dot visibility
+        document.addEventListener('click', (e) => {
+            document.querySelectorAll('.history-item-menu').forEach(m => {
+                if (!m.contains(e.target) && !m.previousElementSibling?.contains?.(e.target)) {
+                    m.style.display = 'none';
+                }
+            });
+            // restore visibility for all dot buttons
+            document.querySelectorAll('.dot-menu-button').forEach(d => d.style.visibility = 'visible');
+        });
+
+        list._historyEventsAttached = true;
+    }
 
     if (orderedIds.length === 0) {
         list.innerHTML = '<p class="history-label">Gần đây</p>';
@@ -108,6 +160,12 @@ function renderHistory() {
 
 async function handleAction(text, mode = 'default') {
     if (typeof window.setMode === 'function') window.setMode(mode);
+
+    // If caller requests a new chat, reset currentChatId so messages save to a new session
+    if (mode === 'new') {
+        window.currentChatId = null;
+        if (typeof window.setCurrentChatId === 'function') window.setCurrentChatId(null);
+    }
 
     const welcome = get('welcomeScreen');
     if (welcome) welcome.classList.add('hidden');
@@ -435,6 +493,6 @@ window.ui = {
     copyCode,
     showToast,
     fetchVLUData,
-    useSuggestion: handleAction,
+    useSuggestion: (text) => handleAction(text, 'new'), // open suggestion in a new chat session
     updateHistorySidebar: renderHistory
 };

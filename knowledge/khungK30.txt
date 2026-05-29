@@ -1,0 +1,474 @@
+THÔNG TIN CHUNG
+Trường: Đại học Văn Lang
+
+Khoa: Công nghệ Thông tin
+
+Tên văn bản: Khung chương trình đào tạo ngành Công nghệ Thông tin khóa 30
+
+Tổng số tín chỉ: 126 tín chỉ
+
+Người phê duyệt: Trưởng khoa - GS. TS. Võ Nguyễn Quốc Bảo (Ký ngày 19/01/2025)
+
+CHI TIẾT CÁC HỌC PHẦN TRONG CHƯƠNG TRÌNH
+1. Khối Kiến thức Đại cương & Lý luận Chính trị
+Pháp luật đại cương (General Law)
+
+Mã học phần: 71LAWG10012 | Số tín chỉ: 2 (LT: 30, TH: 0)
+
+Bắt buộc (BB) | Khối kiến thức: Đại cương
+
+Điều kiện: Không | Học kỳ: 1, Năm: 3
+
+Môi trường và con người
+
+Mã học phần: 71ENVH10012 | Số tín chỉ: 2 (LT: 30, TH: 0)
+
+Bắt buộc (BB) | Khối kiến thức: Đại cương
+
+Điều kiện: Không | Học kỳ: 1, Năm: 3
+
+Toán cao cấp và ứng dụng (Advanced Calculus)
+
+Mã học phần: 71ITMA10104 | Số tín chỉ: 4 (LT: 45, TH: 30)
+
+Bắt buộc (BB) | Khối kiến thức: Đại cương
+
+Điều kiện: Không | Học kỳ: 2, Năm: 1
+
+Đại số tuyến tính và ứng dụng (Linear Algebra)
+
+Mã học phần: 71MATL10053 | Số tín chỉ: 3 (LT: 30, TH: 30)
+
+Bắt buộc (BB) | Khối kiến thức: Đại cương
+
+Điều kiện: Không | Học kỳ: 3, Năm: 1
+
+Kỹ năng công dân toàn cầu
+
+Mã học phần: 71SSK110023 | Số tín chỉ: 3 (LT: 45, TH: 0)
+
+Bắt buộc (BB) | Khối kiến thức: Đại cương
+
+Điều kiện: Không | Học kỳ: 1, Năm: 1
+
+Triết học Mác-Lênin (Philosophy of Marxism and Leninism)
+
+Mã học phần: 71POLP10013 | Số tín chỉ: 3 (LT: 45, TH: 0)
+
+Bắt buộc (BB) | Khối kiến thức: Lý luận chính trị
+
+Điều kiện: Không | Học kỳ: 2, Năm: 1
+
+Kinh tế chính trị Mác-Lênin (Marxist – Leninist Political Economy)
+
+Mã học phần: 71POLE10022 | Số tín chỉ: 2 (LT: 30, TH: 0)
+
+Bắt buộc (BB) | Khối kiến thức: Lý luận chính trị
+
+Điều kiện học trước: [71POLP10013] Triết học Mác-Lênin | Học kỳ: 3, Năm: 1
+
+Chủ nghĩa xã hội khoa học (Scientific Socialism)
+
+Mã học phần: 71POLS10032 | Số tín chỉ: 2 (LT: 30, TH: 0)
+
+Bắt buộc (BB) | Khối kiến thức: Lý luận chính trị
+
+Điều kiện học trước: [71POLP10013] Triết học Mác-Lênin | Học kỳ: 1, Năm: 2
+
+Tư tưởng Hồ Chí Minh (Ho Chi Minh's Thought)
+
+Mã học phần: 71POLH10042 | Số tín chỉ: 2 (LT: 30, TH: 0)
+
+Bắt buộc (BB) | Khối kiến thức: Lý luận chính trị
+
+Điều kiện học trước: [71POLE10022] Kinh tế chính trị Mác-Lênin và [71POLS10032] Chủ nghĩa xã hội khoa học | Học kỳ: 2, Năm: 2
+
+Lịch sử Đảng Cộng sản Việt Nam (History of Vietnamese Communist Party)
+
+Mã học phần: 71POLC10052 | Số tín chỉ: 2 (LT: 30, TH: 0)
+
+Bắt buộc (BB) | Khối kiến thức: Lý luận chính trị
+
+Điều kiện học trước: [71POLE10022] Kinh tế chính trị Mác-Lênin và [71POLS10032] Chủ nghĩa xã hội khoa học | Học kỳ: 3, Năm: 2
+
+2. Khối Kiến thức Ngoại ngữ (Tiếng Anh)
+Anh văn 1 (AV1) (English 1)
+
+Mã học phần: 71ENG110013 | Số tín chỉ: 3 (LT: 30, TH: 30)
+
+Bắt buộc (BB) | Tiên quyết: [71ENG010012] Anh văn dự bị (AV0) | Học kỳ: 1, Năm: 1
+
+Anh văn 2 (AV2) (English 2)
+
+Mã học phần: 71ENG210023 | Số tín chỉ: 3 (LT: 30, TH: 30)
+
+Bắt buộc (BB) | Tiên quyết: [71ENG110013] Anh văn 1 (AV1) | Học kỳ: 2, Năm: 1
+
+Anh văn 3 (AV3) (English 3)
+
+Mã học phần: 71ENG310033 | Số tín chỉ: 3 (LT: 30, TH: 30)
+
+Bắt buộc (BB) | Tiên quyết: [71ENG210023] Anh văn 2 (AV2) | Học kỳ: 3, Năm: 1
+
+Anh văn 4 (AV4) (English 4)
+
+Mã học phần: 71ENG410043 | Số tín chỉ: 3 (LT: 30, TH: 30)
+
+Bắt buộc (BB) | Tiên quyết: [71ENG310033] Anh văn 3 (AV3) | Học kỳ: 1, Năm: 2
+
+Anh văn 5 (AV5) (English 5)
+
+Mã học phần: 71ENG510053 | Số tín chỉ: 3 (LT: 30, TH: 30)
+
+Bắt buộc (BB) | Tiên quyết: [71ENG410043] Anh văn 4 (AV4) | Học kỳ: 2, Năm: 2
+
+Anh văn 6 (AV6) (English 6)
+
+Mã học phần: 71ENG610063 | Số tín chỉ: 3 (LT: 45, TH: 0)
+
+Bắt buộc (BB) | Tiên quyết: [71ENG510053] Anh văn 5 (AV5) | Học kỳ: 3, Năm: 2
+
+Anh văn 7 (AV7) (English 7)
+
+Mã học phần: 71ENG710073 | Số tín chỉ: 3 (LT: 45, TH: 0)
+
+Bắt buộc (BB) | Tiên quyết: [71ENG610063] Anh văn 6 (AV6) | Học kỳ: 1, Năm: 3
+
+3. Khối Kiến thức Giáo dục Thể chất & Quốc phòng
+Lưu ý tự chọn Thể chất: Sinh viên chọn theo nhóm mã tự chọn (TC002, TC102) đảm bảo đủ số tín chỉ quy định.
+
+Cờ vua | Mã: 71PEKC10062 | 2 TC (LT: 45, TH: 60) | Nhóm TC002 | Học kỳ: 2, Năm: 1
+
+Bơi lội | Mã: 71PESW10042 | 2 TC (LT: 45, TH: 60) | Nhóm TC002 | Học kỳ: 2, Năm: 1
+
+Hatha yoga | Mã: 71PEYO10142 | 2 TC (LT: 45, TH: 8) | Nhóm TC002 | Học kỳ: 2, Năm: 1
+
+Cờ vua nâng cao | Mã: 71PEKC10172 | 2 TC (LT: 45, TH: 8) | Nhóm TC102 | ĐK học trước: [71PEKC10062] Cờ vua | Học kỳ: 3, Năm: 1
+
+Cầu lông | Mã: 71PEBA10052 | 2 TC (LT: 45, TH: 16) | Nhóm TC102 | Học kỳ: 3, Năm: 1
+
+Bóng rổ | Mã: 71PEBB10032 | 2 TC (LT: 45) | Nhóm TC102 | Học kỳ: 3, Năm: 1
+
+Khiêu vũ | Mã: 71PEDA10102 | 2 TC (LT: 45) | Nhóm TC102 | Học kỳ: 3, Năm: 1
+
+Fitness | Mã: 71PEFI10072 | 2 TC (LT: 45) | Nhóm TC102 | Học kỳ: 3, Năm: 1
+
+Futsal | Mã: 71PEFU10082 | 2 TC (LT: 45) | Nhóm TC102 | Học kỳ: 3, Năm: 1
+
+Golf | Mã: 71PEGO10092 | 2 TC (LT: 45) | Nhóm TC102 | Học kỳ: 3, Năm: 1
+
+Võ thuật | Mã: 71PEMA10132 | 2 TC (LT: 45) | Nhóm TC102 | Học kỳ: 3, Năm: 1
+
+Marathon | Mã: 71PEMT10152 | 2 TC (LT: 45) | Nhóm TC102 | Học kỳ: 3, Năm: 1
+
+Leo núi thể thao | Mã: 71PESC10112 | 2 TC (LT: 45) | Nhóm TC102 | Học kỳ: 3, Năm: 1
+
+Bắn súng thể thao | Mã: 71PESS10162 | 2 TC (LT: 45) | Nhóm TC102 | Học kỳ: 3, Năm: 1
+
+Tennis | Mã: 71PETE10122 | 2 TC (LT: 45) | Nhóm TC102 | Học kỳ: 3, Năm: 1
+
+Bóng bàn | Mã: 71PETT10012 | 2 TC (LT: 45) | Nhóm TC102 | Học kỳ: 3, Năm: 1
+
+Bóng chuyền | Mã: 71PEVB10022 | 2 TC (LT: 45) | Nhóm TC102 | Học kỳ: 3, Năm: 1
+
+GDQP1: Đường lối QP và AN của ĐCSVN | Mã: 71NAD110013 | 3 TC | Bắt buộc | Học kỳ: 1, Năm: 1
+
+GDQP2: Công tác quốc phòng và an ninh | Mã: 71NAD210022 | 2 TC | Bắt buộc | Học kỳ: 1, Năm: 1
+
+GDQP3: Quân sự chung | Mã: 71NAD310032 | 2 TC | Bắt buộc | Học kỳ: 1, Năm: 1
+
+GDQP4: Kỹ thuật chiến đấu bộ binh và chiến thuật | Mã: 71NAD410044 | 4 TC | Bắt buộc | Học kỳ: 1, Năm: 1
+
+4. Khối Kiến thức Cơ sở Khối ngành & Cơ sở Ngành
+Nhập môn Công nghệ thông tin (Introduction to Information Technology)
+
+Mã học phần: 71ITBS10103 | Số tín chỉ: 3 (LT: 30, TH: 30)
+
+Bắt buộc (BB) | Khối kiến thức: Cơ sở khối ngành | Học kỳ: 1, Năm: 1
+
+Cơ sở lập trình (Programming Basics)
+
+Mã học phần: 71ITBS10203 | Số tín chỉ: 3 (LT: 30, TH: 30)
+
+Bắt buộc (BB) | Khối kiến thức: Cơ sở khối ngành | Học kỳ: 1, Năm: 1
+
+Cơ sở dữ liệu (Databases)
+
+Mã học phần: 71ITIS30103 | Số tín chỉ: 3 (LT: 30, TH: 30)
+
+Bắt buộc (BB) | Khối kiến thức: Cơ sở khối ngành | Học kỳ: 3, Năm: 1
+
+Nhập môn Mạng máy tính và điện toán đám mây (Introduction to Computer Networks and Cloud Computing)
+
+Mã học phần: 71ITNW30103 | Số tín chỉ: 3 (LT: 30, TH: 30)
+
+Bắt buộc (BB) | Khối kiến thức: Cơ sở khối ngành | Học kỳ: 2, Năm: 1
+
+Cấu trúc dữ liệu và giải thuật (Data Structures and Algorithms)
+
+Mã học phần: 71ITSE30303 | Số tín chỉ: 3 (LT: 30, TH: 30)
+
+Bắt buộc (BB) | Khối kiến thức: Cơ sở khối ngành
+
+Điều kiện học trước: [71ITBS10203] Cơ sở lập trình | Học kỳ: 3, Năm: 1
+
+Toán rời rạc (Discrete Mathematics)
+
+Mã học phần: 71ITMA10403 | Số tín chỉ: 4 (LT: 45, TH: 30)
+
+Bắt buộc (BB) | Khối kiến thức: Cơ sở khối ngành
+
+Điều kiện học trước: [71ITMA10104] Toán cao cấp và ứng dụng | Học kỳ: 1, Năm: 2
+
+Ghi chú: Đổi mã cho đúng quy định.
+
+Kỹ thuật lập trình (Programming Techniques)
+
+Mã học phần: 71ITSE30103 | Số tín chỉ: 3 (LT: 30, TH: 30)
+
+Bắt buộc (BB) | Khối kiến thức: Cơ sở khối ngành
+
+Điều kiện học trước: [71ITBS10203] Cơ sở lập trình | Học kỳ: 2, Năm: 1
+
+Lập trình hướng đối tượng (Object-Oriented Programming)
+
+Mã học phần: 71ITSE30203 | Số tín chỉ: 3 (LT: 30, TH: 30)
+
+Bắt buộc (BB) | Khối kiến thức: Cơ sở ngành
+
+Điều kiện học trước: [71ITBS10203] Cơ sở lập trình | Học kỳ: 1, Năm: 2
+
+Các nền tảng phát triển phần mềm (Software Development Platforms)
+
+Mã học phần: 71ITDS30103 | Số tín chỉ: 3 (LT: 30, TH: 30)
+
+Bắt buộc (BB) | Khối kiến thức: Cơ sở ngành
+
+Điều kiện học trước: [71ITBS10103] Nhập môn công nghệ thông tin | Học kỳ: 2, Năm: 2
+
+Lập trình ứng dụng Web (Web Application Programming)
+
+Mã học phần: 71ITSE30503 | Số tín chỉ: 3 (LT: 30, TH: 30)
+
+Bắt buộc (BB) | Khối kiến thức: Cơ sở ngành
+
+Điều kiện học trước: [71ITBS10203] Cơ sở lập trình | Học kỳ: 1, Năm: 2
+
+Nhập môn Trí tuệ nhân tạo (Introduction to Artificial Intelligence)
+
+Mã học phần: 71ITAI40103 | Số tín chỉ: 3 (LT: 30, TH: 30)
+
+Bắt buộc (BB) | Khối kiến thức: Cơ sở ngành
+
+Điều kiện học trước: [71ITBS10203] Cơ sở lập trình | Học kỳ: 3, Năm: 2
+
+Môn Tự chọn Cơ sở ngành (Nhóm TC209 - Chọn theo định hướng hướng nghiệp):
+
+Nhập môn Phân tích Dữ liệu và Học sâu (Introduction to Data Analytics and Deep Learning)
+
+Mã học phần: 71ITDS30203 | Số tín chỉ: 3 (LT: 30, TH: 30)
+
+Tự chọn (TC209) | Ghi chú: Định hướng Công nghệ Dữ liệu, Trí tuệ nhân tạo | Học kỳ: 3, Năm: 2
+
+Xác xuất thống kê ứng dụng (Applicable Probability and Statistics)
+
+Mã học phần: 71ITDS40203 | Số tín chỉ: 3 (LT: 30, TH: 30)
+
+Tự chọn (TC209) | Điều kiện học trước: [71ITMA10403] Toán rời rạc | Ghi chú: Định hướng Công nghệ Dữ liệu, Trí tuệ nhân tạo | Học kỳ: 2, Năm: 2
+
+Lập trình ứng dụng Java (Java Application Programming)
+
+Mã học phần: 71ITSE30403 | Số tín chỉ: 3 (LT: 30, TH: 30)
+
+Tự chọn (TC209) | Ghi chú: Định hướng Công nghệ Phần mềm | Học kỳ: 2, Năm: 2
+
+Nhập môn hệ thống nhúng (Foundation of Embedded System)
+
+Mã học phần: 71NWSE40103 | Số tín chỉ: 3 (LT: 30, TH: 30)
+
+Tự chọn (TC209) | Ghi chú: Bổ sung môn học tăng lựa chọn | Học kỳ: 3, Năm: 2
+
+Nhập môn Hệ thống thông tin (Introduction to Information Systems)
+
+Mã học phần: 71ISBC30103 | Số tín chỉ: 3 (LT: 30, TH: 30)
+
+Tự chọn (TC209) | Điều kiện học trước: [71ITBS10103] Nhập môn công nghệ thông tin | Học kỳ: 2, Năm: 2
+
+An ninh Mạng máy tính (Network Security)
+
+Mã học phần: 71ITNW30303 | Số tín chỉ: 3 (LT: 30, TH: 30)
+
+Tự chọn (TC209) | Ghi chú: Chuyển từ tự chọn chuyên ngành lên cơ sở ngành | Học kỳ: 2, Năm: 2
+
+Quản lý Dự án Công nghệ Thông tin (IT Project Management)
+
+Mã học phần: 71ITIS30303 | Số tín chỉ: 3 (LT: 30, TH: 30)
+
+Tự chọn (TC209) | Điều kiện học trước: [71ITBS10103] Nhập môn công nghệ thông tin | Ghi chú: Định hướng quản lý | Học kỳ: 2, Năm: 2
+
+Thiết kế giao diện người dùng (User Interface Design)
+
+Mã học phần: 71ITSE30903 | Số tín chỉ: 3 (LT: 30, TH: 30)
+
+Tự chọn (TC209) | Ghi chú: Định hướng lập trình Front-end | Học kỳ: 3, Năm: 2
+
+5. Khối Kiến thức Chuyên ngành / Chuyên sâu
+Định hướng: Công nghệ Phần mềm (Software Engineering)
+Nhập môn Công nghệ phần mềm (Introduction to Software Technology)
+
+Mã học phần: 71ITSE41003 | Số tín chỉ: 3 (LT: 30, TH: 30)
+
+Bắt buộc (BB) | Điều kiện học trước: [71ITBS10103] Nhập môn công nghệ thông tin | Học kỳ: 3, Năm: 2
+
+Kỹ thuật lấy yêu cầu (Requirements Engineering)
+
+Mã học phần: 71ITSE41103 | Số tín chỉ: 3 (LT: 30, TH: 30)
+
+Bắt buộc (BB) | Điều kiện học trước: [71ITSE41003] Nhập môn công nghệ phần mềm | Học kỳ: 1, Năm: 3
+
+Kiểm thử phần mềm (Software Testing)
+
+Mã học phần: 71ITSE41203 | Số tín chỉ: 3 (LT: 30, TH: 30)
+
+Bắt buộc (BB) | Điều kiện học trước: [71ITSE41003] Nhập môn công nghệ phần mềm | Học kỳ: 1, Năm: 3
+
+Phân tích và thiết kế hệ thống theo Hướng đối tượng (Object Oriented Analysis and Design)
+
+Mã học phần: 71ITSE41303 | Số tín chỉ: 3 (LT: 30, TH: 30)
+
+Bắt buộc (BB) | Điều kiện học trước: [71ITSE41103] Kỹ thuật lấy yêu cầu | Học kỳ: 2, Năm: 3
+
+Lập trình Web nâng cao (Advanced Web Programming)
+
+Mã học phần: 71ITSE41403 | Số tín chỉ: 3 (LT: 30, TH: 30)
+
+Bắt buộc (BB) | Điều kiện học trước: [71ITSE30503] Lập trình ứng dụng web | Học kỳ: 2, Năm: 3
+
+Quản lý dự án phần mềm (Software Project Management)
+
+Mã học phần: 71ITSE41503 | Số tín chỉ: 3 (LT: 30, TH: 30)
+
+Bắt buộc (BB) | Điều kiện học trước: [71ITSE41103] Kỹ thuật lấy yêu cầu | Học kỳ: 2, Năm: 3
+
+Định hướng: Công nghệ Dữ liệu (Data Technology)
+Nhập môn Phân tích Dữ liệu lớn (Introduction to BigData Analytics)
+
+Mã học phần: 71ITDS40303 | Số tín chỉ: 3 (LT: 30, TH: 30) | Bắt buộc (BB) | Học kỳ: 3, Năm: 2
+
+Nhập môn học máy (Introduction to Machine Learning)
+
+Mã học phần: 71ITAI40203 | Số tín chỉ: 3 (LT: 30, TH: 30) | Bắt buộc (BB) | Điều kiện học trước: [71ITDS40203] Xác xuất thống kê ứng dụng | Học kỳ: 1, Năm: 3
+
+Các hệ hỗ trợ ra quyết định (Decision Support Systems)
+
+Mã học phần: 71ITAI40303 | Số tín chỉ: 3 (LT: 30, TH: 30) | Bắt buộc (BB) | Học kỳ: 1, Năm: 3
+
+Số hóa và quản trị thông tin số (Information Digitization and Management)
+
+Mã học phần: 71ITDS40403 | Số tín chỉ: 3 (LT: 30, TH: 30) | Bắt buộc (BB) | Học kỳ: 2, Năm: 3
+
+Lập trình tính toán song song (Parallel Computational Programming)
+
+Mã học phần: 71ITAI40903 | Số tín chỉ: 3 (LT: 30, TH: 30) | Bắt buộc (BB) | Điều kiện học trước: [71ITSE30303] Cấu trúc dữ liệu và giải thuật | Học kỳ: 2, Năm: 3
+
+Mã hóa dữ liệu và chuỗi khối (Blockchain) (Data Encryption and Security)
+
+Mã học phần: 71ITDS40503 | Số tín chỉ: 3 (LT: 30, TH: 30) | Bắt buộc (BB) | Điều kiện học trước: [71ITIS30103] Cơ sở dữ liệu | Học kỳ: 2, Năm: 3
+
+Định hướng: Trí tuệ Nhân tạo (Artificial Intelligence)
+Nhập môn xử lý ảnh số (Introduction to Digital Image Processing)
+
+Mã học phần: 71ITAI40803 | Số tín chỉ: 3 (LT: 30, TH: 30) | Bắt buộc (BB) | Học kỳ: 3, Năm: 2
+
+Học máy ứng dụng (Applied Machine Learning)
+
+Mã học phần: 71ITAI41203 | Số tín chỉ: 3 (LT: 30, TH: 30) | Bắt buộc (BB) | Điều kiện học trước: [71ITDS40203] Xác xuất thống kê ứng dụng | Học kỳ: 1, Năm: 3
+
+Trí tuệ nhân tạo ứng dụng (Applied Artificial Intelligence)
+
+Mã học phần: 71ITAI40503 | Số tín chỉ: 3 (LT: 30, TH: 30) | Bắt buộc (BB) | Điều kiện học trước: [71ITDS40203] Xác xuất thống kê ứng dụng | Học kỳ: 1, Năm: 3
+
+Thị giác máy tính (Computer Vision)
+
+Mã học phần: 71ITAI40603 | Số tín chỉ: 3 (LT: 30, TH: 30) | Bắt buộc (BB) | Điều kiện học trước: [71ITAI41203] Học máy và ứng dụng | Học kỳ: 2, Năm: 3
+
+Giới thiệu về học sâu (Introduction to Deep learning)
+
+Mã học phần: 71ITAI40403 | Số tín chỉ: 3 (LT: 30, TH: 30) | Bắt buộc (BB) | Điều kiện học trước: [71ITAI40503] Trí tuệ nhân tạo ứng dụng | Học kỳ: 2, Năm: 3
+
+Các công cụ và nền tảng cho trí tuệ nhân tạo (Tools and Platforms for Artificial Intelligence)
+
+Mã học phần: 71ITAI41303 | Số tín chỉ: 3 (LT: 30, TH: 30) | Bắt buộc (BB) | Học kỳ: 2, Năm: 3
+
+Môn Tự chọn Chuyên ngành (Nhóm TC309):
+
+Lập trình di động nâng cao (Advanced Mobile Programming)
+
+Mã học phần: 71ITSE30703 | Số tín chỉ: 3 (LT: 30, TH: 30) | Tự chọn | Điều kiện học trước: [71ITSE30603] Lập trình ứng dụng di động | Học kỳ: 1, Năm: 3
+
+Lập trình Java nâng cao (Advanced Java Programming)
+
+Mã học phần: 71ITSE30803 | Số tín chỉ: 3 (LT: 30, TH: 30) | Tự chọn | Điều kiện học trước: [71ITSE30403] Lập trình ứng dụng Java | Học kỳ: 2, Năm: 3
+
+Lập trình Python nâng cao (Advanced Python Programming)
+
+Mã học phần: 71ITSE31003 | Số tín chỉ: 3 (LT: 30, TH: 30) | Tự chọn | Học kỳ: 1, Năm: 3
+
+Lập trình Hệ thống nhúng và Mạng kết nối vạn vật (Programming for Embedded Systems and Internet of Things)
+
+Mã học phần: 71ITNW30403 | Số tín chỉ: 3 (LT: 30, TH: 30) | Tự chọn | Học kỳ: 1, Năm: 3
+
+Kiểm thử tự động (Automation Testing)
+
+Mã học phần: 71ITSE41603 | Số tín chỉ: 3 (LT: 30, TH: 30) | Tự chọn | Điều kiện học trước: [71ITSE41203] Kiểm thử phần mềm | Học kỳ: 2, Năm: 3
+
+Nhập môn tối ưu hóa (Introduction to Optimization)
+
+Mã học phần: 71ITAI51403 | Số tín chỉ: 3 (LT: 30, TH: 30) | Tự chọn | Học kỳ: 1, Năm: 3
+
+Hệ Quản trị Cơ sở dữ liệu (Database Management System)
+
+Mã học phần: 71ITIS30203 | Số tín chỉ: 3 (LT: 30, TH: 30) | Tự chọn | Điều kiện học trước: [71ITIS30103] Cơ sở dữ liệu | Học kỳ: 3, Năm: 2
+
+Lập trình ứng dụng di động (Mobile Application Programming)
+
+Mã học phần: 71ITSE30603 | Số tín chỉ: 3 (LT: 30, TH: 30) | Tự chọn | Điều kiện học trước: [71ITBS10203] Cơ sở lập trình | Học kỳ: 3, Năm: 2
+
+6. Khối Học kỳ Doanh nghiệp & Tốt nghiệp
+Đồ án thực tập (Internship Project)
+
+Mã học phần: 71ITIN40304 | Số tín chỉ: 4 (Thực tập: 180 tiết)
+
+Bắt buộc (BB) | Khối kiến thức: Học kỳ doanh nghiệp
+
+Điều kiện học trước: [71ITSE30103] Kỹ thuật lập trình | Học kỳ: 3, Năm: 3
+
+Đồ án Tốt nghiệp (Graduation Projects)
+
+Mã học phần: 71ITGR40206 | Số tín chỉ: 6 (Đồ án: 270 tiết)
+
+Tự chọn (TC406) | Khối kiến thức: Khóa luận/đồ án tốt nghiệp hoặc học phần thay thế
+
+Điều kiện học trước: Dựa theo quy định cụ thể của Khoa về Triển khai Học và làm ĐATN.
+
+Ghi chú: Đổi tên môn -> đổi mã | Học kỳ: 1, Năm: 4
+
+Chuyên đề Tốt nghiệp 1 (Specialized Graduation Topic I)
+
+Mã học phần: 71ITGR40203 | Số tín chỉ: 3 (Đồ án: 180 tiết)
+
+Tự chọn (TC406) | Khối kiến thức: Học phần thay thế Đồ án tốt nghiệp
+
+Điều kiện học trước: Dựa theo quy định cụ thể của Khoa về Triển khai Học và làm ĐATN.
+
+Ghi chú: Học phần thay thế Đồ án tốt nghiệp (Bổ sung môn mới) | Học kỳ: 1, Năm: 4
+
+Chuyên đề Tốt nghiệp 2 (Specialized Graduation Topic II)
+
+Mã học phần: 71ITGR40303 | Số tín chỉ: 3 (Đồ án: 180 tiết)
+
+Tự chọn (TC406) | Khối kiến thức: Học phần thay thế Đồ án tốt nghiệp
+
+Điều kiện học trước: Dựa theo quy định cụ thể của Khoa về Triển khai Học và làm ĐATN.
+
+Ghi chú: Học phần thay thế Đồ án tốt nghiệp (Bổ sung môn mới) | Học kỳ: 1, Năm: 4

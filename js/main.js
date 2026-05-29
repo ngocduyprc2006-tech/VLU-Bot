@@ -159,6 +159,44 @@ document.addEventListener('DOMContentLoaded', () => {
             };
         }
 
+        // Sidebar feature buttons (roadmap, results, graduation, future)
+        const btnRoadmap = document.getElementById('btn-roadmap');
+        const btnResults = document.getElementById('btn-results');
+        const btnGraduation = document.getElementById('btn-graduation');
+        const btnFuture = document.getElementById('btn-future');
+
+        if (btnRoadmap) {
+            btnRoadmap.onclick = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (window.ui && typeof window.ui.useSuggestion === 'function') window.ui.useSuggestion('Lộ trình cá nhân hóa');
+            };
+        }
+
+        if (btnResults) {
+            btnResults.onclick = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (window.ui && typeof window.ui.useSuggestion === 'function') window.ui.useSuggestion('Kết quả học tập');
+            };
+        }
+
+        if (btnGraduation) {
+            btnGraduation.onclick = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (window.ui && typeof window.ui.useSuggestion === 'function') window.ui.useSuggestion('Dự báo tốt nghiệp');
+            };
+        }
+
+        if (btnFuture) {
+            btnFuture.onclick = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (window.ui && typeof window.ui.useSuggestion === 'function') window.ui.useSuggestion('Định hướng tương lai');
+            };
+        }
+
         const footerHelpBtn = document.getElementById('helpBtn');
         const footerSettingsBtn = document.getElementById('settingsBtn');
         const helpModal = document.getElementById('helpModal');
