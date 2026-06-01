@@ -64,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (window.vluLogin) {
             if (typeof window.vluLogin.initTabs === 'function') window.vluLogin.initTabs();
             if (typeof window.vluLogin.initLoginFormSubmit === 'function') window.vluLogin.initLoginFormSubmit();
+            if (typeof window.vluLogin.initMicrosoftAuth === 'function') window.vluLogin.initMicrosoftAuth();
         }
 
         const loginTabBtn = document.getElementById('loginTabBtn');
@@ -159,7 +160,6 @@ document.addEventListener('DOMContentLoaded', () => {
             };
         }
 
-        // Sidebar feature buttons (roadmap, results, graduation, future)
         const btnRoadmap = document.getElementById('btn-roadmap');
         const btnResults = document.getElementById('btn-results');
         const btnGraduation = document.getElementById('btn-graduation');
@@ -216,6 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (closeHelpModalBtn && helpModal) {
             closeHelpModalBtn.onclick = (e) => {
                 e.preventDefault();
+                e.stopPropagation();
                 helpModal.style.display = 'none';
                 helpModal.classList.remove('show');
             };
@@ -233,6 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (closeAuthModalBtn && authModal) {
             closeAuthModalBtn.onclick = (e) => {
                 e.preventDefault();
+                e.stopPropagation();
                 authModal.style.display = 'none';
                 authModal.classList.remove('show');
             };

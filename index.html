@@ -31,6 +31,10 @@
                 <input type="text" id="loginUser" placeholder="Nhập email" required>
                 <input type="password" id="loginPass" placeholder="Mật khẩu" required>
                 <button type="submit" class="auth-submit vlu-red-btn">Đăng nhập</button>
+                <div style="text-align: center; margin: 10px 0; color: #aaa; font-size: 13px;">hoặc</div>
+                <button type="button" id="microsoftLoginBtn" class="auth-submit" style="background-color: #2f2f2f; color: #fff; display: flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid #444; width: 100%; border-radius: 8px; cursor: pointer;">
+                    <i class="fab fa-windows"></i> Đăng nhập bằng Mail Trường (Microsoft)
+                </button>
             </form>
 
             <form id="registerForm" class="auth-form" style="display: none;">
@@ -53,13 +57,11 @@
             <div class="help-body">
                 <div class="help-step-item">
                     <span class="step-num">1</span>
-                    <p>Bấm trực tiếp vào <strong>LOGO trường Văn Lang</strong> để làm mới cuộc hội thoại và quay về
-                        trang chủ ban đầu.</p>
+                    <p>Bấm trực tiếp vào <strong>LOGO trường Văn Lang</strong> để làm mới cuộc hội thoại và quay về trang chủ ban đầu.</p>
                 </div>
                 <div class="help-step-item">
                     <span class="step-num">2</span>
-                    <p>Chọn các tính năng (<strong>Lộ trình cá nhân, Kết quả học tập...</strong>) để kích hoạt trợ lý
-                        chuyên gia chuyên sâu.</p>
+                    <p>Chọn các tính năng (<strong>Lộ trình cá nhân, Kết quả học tập...</strong>) để kích hoạt trợ lý chuyên gia chuyên sâu.</p>
                 </div>
                 <div class="help-step-item">
                     <span class="step-num">3</span>
@@ -73,9 +75,7 @@
     <div class="vlu-container">
         <aside class="vlu-sidebar" style="display: flex; flex-direction: column;">
             <div class="sidebar-top" style="flex: 1; overflow-y: auto;">
-                <div class="sidebar-brand-area" id="logoHomeBtn"
-                    style="cursor: pointer; text-align: center; display: block; padding: 10px 0;"
-                    title="Quay về trang chủ">
+                <div class="sidebar-brand-area" id="logoHomeBtn" style="cursor: pointer; text-align: center; display: block; padding: 10px 0;" title="Quay về trang chủ">
                     <img src="img/logovanlang.png" alt="Logo VLU" class="sidebar-logo">
                 </div>
 
@@ -105,8 +105,7 @@
                         <button id="btn-results" class="icon-link sidebar-feature-btn" title="Xem điểm và môn nợ">
                             <i class="fas fa-user-graduate"></i> Kết quả học tập
                         </button>
-                        <button id="btn-graduation" class="icon-link sidebar-feature-btn"
-                            title="Dự báo thời gian ra trường">
+                        <button id="btn-graduation" class="icon-link sidebar-feature-btn" title="Dự báo thời gian ra trường">
                             <i class="fas fa-calendar-check"></i> Dự báo tốt nghiệp
                         </button>
                         <button id="btn-future" class="icon-link sidebar-feature-btn" title="Định hướng nghề nghiệp">
@@ -114,10 +113,8 @@
                         </button>
                     </div>
 
-                    <div id="adminModule"
-                        style="display: none; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
-                        <a href="admin/admin.html" class="icon-link sidebar-feature-btn"
-                            style="color: #ffb86c !important; text-decoration: none; display: block;">
+                    <div id="adminModule" style="display: none; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
+                        <a href="admin/admin.html" class="icon-link sidebar-feature-btn" style="color: #ffb86c !important; text-decoration: none; display: block;">
                             <i class="fas fa-user-shield"></i> Quản lý hệ thống
                         </a>
                     </div>
@@ -132,17 +129,13 @@
                 </div>
             </div>
 
-            <div class="sidebar-footer"
-                style="padding: 16px; border-top: 1px solid rgba(0, 0, 0, 0.05); margin-top: auto;">
+            <div class="sidebar-footer" style="padding: 16px; border-top: 1px solid rgba(0, 0, 0, 0.05); margin-top: auto;">
                 <div class="system-menu-group" style="display: flex; flex-direction: column; gap: 4px;">
-                    <button id="helpBtn" class="menu-item-btn"
-                        onclick="if(window.ui && typeof window.ui.showToast === 'function') window.ui.showToast('Hệ thống Trợ giúp đang được cập nhật!')"
-                        style="display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 14px; background: none; border: none; border-radius: 8px; color: #555; font-size: 14px; text-align: left; cursor: pointer; transition: background 0.2s;">
+                    <button id="helpBtn" class="menu-item-btn" onclick="if(window.ui && typeof window.ui.showToast === 'function') window.ui.showToast('Hệ thống Trợ giúp đang được cập nhật!')" style="display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 14px; background: none; border: none; border-radius: 8px; color: #555; font-size: 14px; text-align: left; cursor: pointer; transition: background 0.2s;">
                         <i class="far fa-question-circle" style="font-size: 16px; width: 20px; color: #666;"></i>
                         <span>Trợ giúp & Phản hồi</span>
                     </button>
-                    <button id="settingsBtn" class="menu-item-btn"
-                        style="display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 14px; background: none; border: none; border-radius: 8px; color: #555; font-size: 14px; text-align: left; cursor: pointer; transition: background 0.2s;">
+                    <button id="settingsBtn" class="menu-item-btn" style="display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 14px; background: none; border: none; border-radius: 8px; color: #555; font-size: 14px; text-align: left; cursor: pointer; transition: background 0.2s;">
                         <i class="fas fa-cog" style="font-size: 16px; width: 20px; color: #666;"></i>
                         <span>Cài đặt hệ thống</span>
                     </button>
@@ -159,28 +152,22 @@
                             <i class="fas fa-chevron-left inner-arrow"></i>
                         </span>
                     </button>
-                    <div id="headerDropdownTrigger" class="model-name"
-                        style="margin-left: 10px; display: inline-flex; align-items: center; gap: 6px; position: relative;">
+                    <div id="headerDropdownTrigger" class="model-name" style="margin-left: 10px; display: inline-flex; align-items: center; gap: 6px; position: relative;">
                         VLU Chatbot <i class="fas fa-chevron-down"></i>
                         <div id="headerDropdownMenu" class="header-dropdown">
-                            <div class="dropdown-item-custom"
-                                onclick="window.ui.useSuggestion('Điều kiện xét tốt nghiệp đại học Văn Lang')">
+                            <div class="dropdown-item-custom" onclick="window.ui.useSuggestion('Điều kiện xét tốt nghiệp đại học Văn Lang')">
                                 <i class="fas fa-graduation-cap"></i> Điều kiện tốt nghiệp
                             </div>
-                            <div class="dropdown-item-custom"
-                                onclick="window.ui.useSuggestion('Thông báo tuyển dụng thực tập Khoa CNTT Văn Lang')">
+                            <div class="dropdown-item-custom" onclick="window.ui.useSuggestion('Thông báo tuyển dụng thực tập Khoa CNTT Văn Lang')">
                                 <i class="fas fa-briefcase"></i> Cơ hội việc làm
                             </div>
-                            <div class="dropdown-item-custom"
-                                onclick="window.ui.useSuggestion('Lịch công tác tuần và sự kiện trường Văn Lang')">
+                            <div class="dropdown-item-custom" onclick="window.ui.useSuggestion('Lịch công tác tuần và sự kiện trường Văn Lang')">
                                 <i class="fas fa-calendar-alt"></i> Hoạt động sự kiện
                             </div>
-                            <div class="dropdown-item-custom"
-                                onclick="window.ui.useSuggestion('Lịch thi học kỳ và phòng thi trường Văn Lang')">
+                            <div class="dropdown-item-custom" onclick="window.ui.useSuggestion('Lịch thi học kỳ và phòng thi trường Văn Lang')">
                                 <i class="fas fa-file-invoice"></i> Lịch thi & Phòng thi
                             </div>
-                            <div class="dropdown-item-custom"
-                                onclick="window.ui.useSuggestion('Thông báo thời gian đăng ký học phần môn học Văn Lang')">
+                            <div class="dropdown-item-custom" onclick="window.ui.useSuggestion('Thông báo thời gian đăng ký học phần môn học Văn Lang')">
                                 <i class="fas fa-edit"></i> Đăng ký học phần
                             </div>
                         </div>
@@ -198,18 +185,15 @@
                     <h2 class="sub-welcome" id="dynamicGreeting">Hôm nay mình có thể giúp gì cho bạn?</h2>
 
                     <div class="suggestion-container">
-                        <div class="suggestion-card"
-                            onclick="window.ui.useSuggestion('Lịch đóng học phí trường Văn Lang')">
+                        <div class="suggestion-card" onclick="window.ui.useSuggestion('Lịch đóng học phí trường Văn Lang')">
                             <i class="fas fa-calculator"></i>
                             <p>Học phí & Quy chế</p>
                         </div>
-                        <div class="suggestion-card"
-                            onclick="window.ui.useSuggestion('Khung chương trình đào tạo Khoa CNTT Văn Lang')">
+                        <div class="suggestion-card" onclick="window.ui.useSuggestion('Khung chương trình đào tạo Khoa CNTT Văn Lang')">
                             <i class="fas fa-book"></i>
                             <p>Chương trình đào tạo</p>
                         </div>
-                        <div class="suggestion-card"
-                            onclick="window.ui.useSuggestion('Cẩm nang sinh viên Đại học Văn Lang mới nhất')">
+                        <div class="suggestion-card" onclick="window.ui.useSuggestion('Cẩm nang sinh viên Đại học Văn Lang mới nhất')">
                             <i class="fas fa-book-open"></i>
                             <p>Cẩm nang sinh viên</p>
                         </div>
@@ -262,8 +246,7 @@
                         </div>
                     </div>
                 </div>
-                <p class="disclaimer">VLU Chatbot có thể đưa ra thông tin không chính xác. Hãy kiểm tra lại lịch đào tạo
-                    chính thức.</p>
+                <p class="disclaimer">VLU Chatbot có thể đưa ra thông tin không chính xác. Hãy kiểm tra lại lịch đào tạo chính thức.</p>
             </div>
         </main>
     </div>
@@ -315,8 +298,7 @@
 
     <script src="js/chat.js"></script>
     <script src="js/main.js"></script>
-    <div id="hiddenGcseContainer"
-        style="display: none !important; visibility: hidden !important; opacity: 0 !important; width: 0 !important; height: 0 !important; overflow: hidden !important;">
+    <div id="hiddenGcseContainer" style="display: none !important; visibility: hidden !important; opacity: 0 !important; width: 0 !important; height: 0 !important; overflow: hidden !important;">
         <script async src="https://cse.google.com/cse.js?cx=45b8e74d1ffd34e0f"></script>
         <div class="gcse-searchresults-only" data-gstyle="theme"></div>
     </div>

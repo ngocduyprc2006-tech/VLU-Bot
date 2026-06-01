@@ -8,19 +8,17 @@ window.vluRegister = {
             e.preventDefault();
 
             try {
-                let emailInput = document.getElementById('regEmail').value.trim().toLowerCase();
+                const emailInput = document.getElementById('regEmail').value.trim().toLowerCase();
                 const pass = document.getElementById('regPass').value;
                 const confirm = document.getElementById('regPassConfirm').value;
 
                 if (!emailInput) { alert("Vui lòng điền địa chỉ Email!"); return; }
-                if (!emailInput.includes("@")) { alert("Vui lòng nhập đúng định dạng Email!"); return; }
                 if (pass.includes(" ")) { alert("Mật khẩu không được chứa khoảng trắng!"); return; }
                 if (pass !== confirm) { alert("Mật khẩu nhập lại không khớp!"); return; }
 
-                const vluEmailRegex = /^[a-z]+\.[0-9]+@vanlanguni\.vn$/;
-
-                if (!vluEmailRegex.test(emailInput)) {
-                    alert("🚫 Đăng ký thất bại!\nEmail sinh viên phải đúng định dạng: tên.mssv@vanlanguni.vn\nVí dụ: ten.mssv@vanlanguni.vn");
+                const accountRegex = /^[a-z]+\.[0-9]+$/;
+                if (!accountRegex.test(emailInput)) {
+                    alert("🚫 Đăng ký thất bại!\nTài khoản sinh viên phải đúng định dạng: tên.mssv\nVí dụ: a.247480***");
                     return;
                 }
 

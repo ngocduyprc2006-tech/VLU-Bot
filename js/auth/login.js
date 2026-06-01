@@ -37,10 +37,10 @@ window.vluLogin = {
                     return;
                 }
 
-                const vluEmailRegex = /^[a-z]+\.[0-9]+@vanlanguni\.vn$/;
+                const accountRegex = /^[a-z]+\.[0-9]+$/;
 
-                if (!vluEmailRegex.test(emailInput)) {
-                    alert("🚫 Đăng nhập thất bại!\nTài khoản phải đúng định dạng email sinh viên: tên.mssv@vanlanguni.vn");
+                if (!accountRegex.test(emailInput)) {
+                    alert("🚫 Đăng nhập thất bại!\nTài khoản đăng nhập phải đúng định dạng sinh viên: tên.mssv\nVí dụ: ten.mssv");
                     return;
                 }
 
@@ -64,6 +64,46 @@ window.vluLogin = {
             } catch (err) {
                 console.error("Lỗi xử lý đăng nhập:", err);
                 alert("Hệ thống gặp lỗi cấu trúc form đăng nhập.");
+            }
+        };
+    },
+
+    initMicrosoftAuth: function() {
+        const msBtn = document.getElementById('microsoftLoginBtn');
+        if (!msBtn) return;
+
+        msBtn.onclick = async(e) => {
+            e.preventDefault();
+            const provider = new firebase.auth.OAuthProvider('microsoft.com');
+
+            provider.setCustomParameters({
+                prompt: 'select_account',
+                tenant: 'common'
+            });
+
+            try {
+                const result = await firebase.auth().signInWithPopup(provider);
+                const user = result.user;
+
+                if (!user.email.endsWith('@vanlanguni.vn')) {
+                    await firebase.auth().signOut();
+                    alert("❌ Truy cập bị từ chối! Hệ thống chỉ cho phép tài khoản Microsoft Mail trường Văn Lang đăng nhập.");
+                    return;
+                }
+
+                console.log("Đăng nhập thành công bằng Microsoft:", user.email);
+
+                const authModal = document.getElementById('authModal');
+                if (authModal) {
+                    authModal.style.display = "none";
+                    authModal.classList.remove("show");
+                } else {
+                    window.location.href = "index.html";
+                }
+
+            } catch (error) {
+                console.error("Lỗi xác thực Microsoft:", error);
+                alert("❌ Đăng nhập bằng Microsoft thất bại: " + error.message);
             }
         };
     }

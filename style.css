@@ -176,7 +176,8 @@ body.dark-mode .history-label {
     white-space: nowrap;
     transition: all 0.2s;
     position: relative;
-    overflow: visible; /* allow context menu to overflow outside the item */
+    overflow: visible;
+    /* allow context menu to overflow outside the item */
 }
 
 .history-item:hover {
@@ -224,7 +225,9 @@ body.dark-mode .chat-history-list .history-item i {
     opacity: 1 !important;
 }
 
+
 /* three-dot menu */
+
 .dot-menu-button {
     background: transparent;
     border: none;
@@ -233,8 +236,13 @@ body.dark-mode .chat-history-list .history-item i {
     cursor: pointer;
     color: inherit;
 }
-.dot-menu-button i { font-size: 14px; }
-.dot-menu-button, .dot-menu-button i {
+
+.dot-menu-button i {
+    font-size: 14px;
+}
+
+.dot-menu-button,
+.dot-menu-button i {
     transform: none !important;
     display: inline-flex;
     align-items: center;
@@ -242,17 +250,20 @@ body.dark-mode .chat-history-list .history-item i {
     vertical-align: middle;
     line-height: 1;
 }
+
 .history-item-menu {
     position: absolute;
     right: 8px;
     top: 36px;
     background: #fff;
     border: 1px solid var(--border-color);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
     border-radius: 8px;
     overflow: hidden;
-    z-index: 300; /* ensure menu appears above sidebar content */
+    z-index: 300;
+    /* ensure menu appears above sidebar content */
 }
+
 .history-item-menu .menu-item {
     display: flex;
     align-items: center;
@@ -262,19 +273,37 @@ body.dark-mode .chat-history-list .history-item i {
     font-size: 13px;
     color: #333;
 }
-.history-item-menu .menu-item:hover { background: #f5f5f5; }
-.history-item-menu .menu-item i { width: 16px; text-align: center; }
 
-body.dark-mode .history-item-menu { background: #222; border-color: #333; }
-body.dark-mode .history-item-menu .menu-item { color: #ddd; }
+.history-item-menu .menu-item:hover {
+    background: #f5f5f5;
+}
+
+.history-item-menu .menu-item i {
+    width: 16px;
+    text-align: center;
+}
+
+body.dark-mode .history-item-menu {
+    background: #222;
+    border-color: #333;
+}
+
+body.dark-mode .history-item-menu .menu-item {
+    color: #ddd;
+}
+
 
 /* Make delete item use the same VLU red as pin */
+
 .history-item-menu .menu-delete {
-    color: var(--text-main); /* same tone as pin */
+    color: var(--text-main);
+    /* same tone as pin */
 }
+
 .history-item-menu .menu-delete i {
     color: var(--text-main);
 }
+
 .history-item-menu .menu-delete:hover {
     background: var(--attach-hover);
 }
@@ -883,7 +912,9 @@ body.dark-mode [class*="copy-button"]:hover {
     box-shadow: 0 4px 16px rgba(191, 30, 46, 0.15);
 }
 
+
 /* Image preview badge near the input area */
+
 #imagePreviewContainer {
     position: relative;
     display: block;
@@ -892,15 +923,20 @@ body.dark-mode [class*="copy-button"]:hover {
     margin-bottom: 8px;
     z-index: 80;
 }
+
 .preview-badge {
     display: inline-block;
     background: transparent;
     border-radius: 10px;
     overflow: hidden;
     border: 1px solid var(--border-color);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 }
-.preview-badge { margin-left: 8px; }
+
+.preview-badge {
+    margin-left: 8px;
+}
+
 .preview-badge img {
     display: block;
     max-width: 260px;
@@ -908,11 +944,12 @@ body.dark-mode [class*="copy-button"]:hover {
     width: auto;
     height: auto;
 }
+
 #closePreview {
     position: absolute;
     top: 6px;
     right: 6px;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5);
     color: white;
     border-radius: 50%;
     width: 22px;
@@ -923,23 +960,30 @@ body.dark-mode [class*="copy-button"]:hover {
     cursor: pointer;
     font-weight: 700;
 }
-#imagePreviewContainer .bounce-in { animation: none; }
+
+#imagePreviewContainer .bounce-in {
+    animation: none;
+}
+
 
 /* Multi-preview list */
+
 .preview-list {
     display: flex;
     gap: 12px;
     align-items: flex-start;
     flex-wrap: wrap;
 }
+
 .preview-item {
     position: relative;
     border-radius: 10px;
     overflow: hidden;
     background: var(--input-bg);
     padding: 6px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
 }
+
 .preview-item img {
     display: block;
     width: 180px;
@@ -947,11 +991,12 @@ body.dark-mode [class*="copy-button"]:hover {
     border-radius: 8px;
     object-fit: cover;
 }
+
 .preview-item .preview-close {
     position: absolute;
     top: 6px;
     right: 6px;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0, 0, 0, 0.6);
     color: #fff;
     border: none;
     width: 26px;
@@ -963,7 +1008,10 @@ body.dark-mode [class*="copy-button"]:hover {
     cursor: pointer;
     font-weight: 700;
 }
-.preview-item .preview-close:hover { background: rgba(0,0,0,0.8); }
+
+.preview-item .preview-close:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
 
 body.dark-mode .main-content .bottom-container .input-wrapper {
     background-color: #161925;
@@ -1085,7 +1133,6 @@ body.dark-mode .main-content .bottom-container .input-wrapper textarea {
         opacity: 0;
         transform: scale(0.9) translateY(10px);
     }
-
     to {
         opacity: 1;
         transform: scale(1) translateY(0);
@@ -1278,7 +1325,6 @@ body.dark-mode #userDropdown .dropdown-item:hover i {
         opacity: 0;
         transform: translateY(10px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
@@ -1300,12 +1346,10 @@ body.dark-mode #userDropdown .dropdown-item:hover i {
 }
 
 @keyframes redGlow {
-
     0%,
     100% {
         box-shadow: 0 0 5px rgba(237, 28, 36, 0.2);
     }
-
     50% {
         box-shadow: 0 0 20px rgba(237, 28, 36, 0.6);
     }
@@ -1328,13 +1372,11 @@ body.dark-mode #userDropdown .dropdown-item:hover i {
 }
 
 @keyframes waveAnimate {
-
     0%,
     60%,
     100% {
         transform: translateY(0);
     }
-
     30% {
         transform: translateY(-6px);
     }
@@ -1349,12 +1391,10 @@ body.dark-mode #userDropdown .dropdown-item:hover i {
 }
 
 @keyframes pulseRedAnimate {
-
     0%,
     100% {
         transform: scale(1);
     }
-
     50% {
         transform: scale(1.2);
         box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
@@ -1378,7 +1418,6 @@ body.dark-mode #userDropdown .dropdown-item:hover i {
         transform: translateY(-50px) rotate(0deg);
         opacity: 1;
     }
-
     100% {
         transform: translateY(100vh) rotate(360deg);
         opacity: 0;
@@ -2187,7 +2226,6 @@ body.dark-mode .main-content .top-header .dropdown-item-custom:hover {
         opacity: 0;
         transform: scale(0.95);
     }
-
     to {
         opacity: 1;
         transform: scale(1);
@@ -3643,7 +3681,6 @@ body.dark-mode #userDropdown.dropdown-menu {
         opacity: 0;
         transform: translateY(10px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
@@ -3673,13 +3710,11 @@ body.dark-mode #userDropdown.dropdown-menu {
 }
 
 @keyframes waveAnimate {
-
     0%,
     60%,
     100% {
         transform: translateY(0);
     }
-
     30% {
         transform: translateY(-6px);
     }
@@ -3699,7 +3734,6 @@ body.dark-mode #userDropdown.dropdown-menu {
         transform: translateY(-50px) rotate(0deg);
         opacity: 1;
     }
-
     100% {
         transform: translateY(100vh) rotate(360deg);
         opacity: 0;
@@ -3890,13 +3924,64 @@ body.dark-mode .help-step-item p {
     margin-top: 8px;
 }
 
+
 /* Ẩn thanh cuộn dọc (scrollbar) toàn bộ trang web nhưng vẫn cuộn bình thường */
+
 * {
-    -ms-overflow-style: none;  /* IE và Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;
+    /* IE và Edge */
+    scrollbar-width: none;
+    /* Firefox */
 }
 
 *::-webkit-scrollbar {
-    display: none;             /* Chrome, Safari, Edge và Opera */
+    display: none;
+    /* Chrome, Safari, Edge và Opera */
 }
-.history-item .dot-menu-button { transform: none; }
+
+.history-item .dot-menu-button {
+    transform: none;
+}
+
+#microsoftLoginBtn {
+    background-color: #f25022;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    border: 1px solid #e0461b;
+    font-size: 14px;
+    font-weight: 500;
+    height: 45px;
+    padding: 0 16px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease-in-out;
+}
+
+#microsoftLoginBtn:hover {
+    background-color: #e0461b;
+    border-color: #cc3f18;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+#microsoftLoginBtn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+#microsoftLoginBtn i {
+    font-size: 18px;
+    color: #ffffff;
+}
+
+.error-text {
+    color: #ff4d4d;
+    font-size: 13px;
+    margin: 8px 0;
+    text-align: left;
+    display: none;
+    line-height: 1.4;
+}
