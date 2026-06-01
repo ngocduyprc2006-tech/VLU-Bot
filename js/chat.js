@@ -110,6 +110,8 @@ async function sendMessage() {
 
     let contentPayload = [];
     let combinedText = text;
+    let systemPrompt = "";
+    let currentTemperature = 0.5;
 
     const isVLUQuery = textLower.includes('ngành') ||
         textLower.includes('học phần') ||
@@ -125,18 +127,21 @@ async function sendMessage() {
         textLower.includes('k30') ||
         textLower.includes('k31') ||
         textLower.includes('k29') ||
-        textLower.includes('lập trình') ||
-        textLower.includes('toán rời rạc') ||
         textLower.includes('tiên quyết') ||
         textLower.includes('pháp luật') ||
         textLower.includes('đại số') ||
-        textLower.includes('cơ sở dữ liệu') ||
-        textLower.includes('cấu trúc dữ liệu');
+        textLower.includes('cơ sở dữ liệu');
 
     if (isVLUQuery && window.vluAllKnowledgeContent) {
-        combinedText = `Hệ thống cơ sở dữ liệu tri thức chính thức của Đại học Văn Lang:\n${window.vluAllKnowledgeContent}\n\nNHIỆM VỤ: Hãy dựa vào chính xác nội dung văn bản thô được cung cấp ở trên để trả lời câu hỏi. Trích xuất đúng mã học phần, số tín chỉ, học kỳ và điều kiện học trước/tiên quyết của học phần đó từ văn bản một cách nghiêm ngặt. Tuyệt đối không tự bịa đặt hoặc đưa thông tin nằm ngoài tệp tri thức chính thức ở trên.\n\nCâu hỏi sinh viên:\n${text}`;
+        currentTemperature = 0.0;
+        systemPrompt = "Bạn là Trợ lý học vụ chính thức và nghiêm túc của Khoa CNTT - Đại học Văn Lang. Nhiệm vụ của bạn là trích xuất chính xác thông tin từ tệp tri thức được cung cấp. Không tự bịa đặt thông tin ngoài file.";
+        combinedText = `Hệ thống cơ sở dữ liệu tri thức chính thức của Đại học Văn Lang:\n${window.vluAllKnowledgeContent}\n\nNHIỆM VỤ: Hãy dựa vào chính xác nội dung văn bản thô được cung cấp ở trên để trả lời câu hỏi. Trích xuất đúng mã học phần, số tín chỉ, học kỳ và điều kiện học trước/tiên quyết của học phần đó từ văn bản một cách nghiêm ngặt.\n\nCâu hỏi sinh viên:\n${text}`;
     } else if (docContent) {
+        systemPrompt = "Bạn là một trợ lý ảo hỗ trợ đọc tài liệu văn bản.";
         combinedText = `Nội dung tài liệu: ${docContent}\n\nCâu hỏi: ${text}`;
+    } else {
+        currentTemperature = 0.6;
+        systemPrompt = "Bạn là Trợ lý sinh viên toàn năng thân thiện của Khoa CNTT - Đại học Văn Lang. Hãy trò chuyện, trả lời câu hỏi một cách tự nhiên, thông minh, mượt mà và có tính người. Khi sinh viên hỏi về viết code, giải bài tập, làm đồ án hoặc kiến thức CNTT chung, hãy đóng vai trò chuyên gia công nghệ tận tâm, hướng dẫn chi tiết, viết code chuẩn chỉnh, rõ ràng bằng định dạng Markdown.";
     }
 
     if (combinedText) {
@@ -150,8 +155,6 @@ async function sendMessage() {
         });
         ui.preImg.src = '';
     }
-
-    const systemPrompt = "Bạn là một AI Core siêu trí tuệ, đóng vai trò là Trợ lý sinh viên toàn năng và nghiêm túc của Khoa CNTT - Đại học Văn Lang. Bạn KHÔNG ĐƯỢC PHÉP tự sáng tạo, KHÔNG ĐƯỢC PHÉP dùng kiến thức chung bên ngoài hệ thống để trả lời về môn học hoặc quy chế. Bạn phải trả lời cực kỳ ngắn gọn, thẳng thắn, đi ngay vào trọng tâm câu hỏi của sinh viên dựa theo tài liệu đính kèm. Sử dụng định dạng cấu trúc Markdown rõ ràng gồm bôi đậm (**), khối trích dẫn (>), bảng biểu để phân tách thông tin đẹp đẽ, dễ theo dõi.";
 
     try {
         const response = await fetch(GROQ_URL, {
@@ -167,7 +170,7 @@ async function sendMessage() {
                     { role: "user", content: contentPayload }
                 ],
                 max_tokens: 2048,
-                temperature: 0.0
+                temperature: currentTemperature
             })
         });
 
