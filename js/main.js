@@ -67,6 +67,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (typeof window.vluLogin.initMicrosoftAuth === 'function') window.vluLogin.initMicrosoftAuth();
         }
 
+        // KÍCH HOẠT ĐỒNG BỘ: Liên kết logic xử lý nút bấm Đăng ký tài khoản bằng Microsoft Mail trường
+        if (window.vluRegister && typeof window.vluRegister.initMicrosoftRegister === 'function') {
+            window.vluRegister.initMicrosoftRegister();
+        }
+
         const loginTabBtn = document.getElementById('loginTabBtn');
         const registerTabBtn = document.getElementById('registerTabBtn');
         const loginForm = document.getElementById('loginForm');

@@ -29,25 +29,27 @@ window.vluLogin = {
             e.preventDefault();
 
             try {
-                const emailInput = document.getElementById('loginUser').value.trim().toLowerCase();
+                const userInput = document.getElementById('loginUser').value.trim().toLowerCase();
                 const passInput = document.getElementById('loginPass').value;
 
-                if (!emailInput || !passInput) {
+                if (!userInput || !passInput) {
                     alert("Vui lòng điền đầy đủ tài khoản và mật khẩu!");
                     return;
                 }
 
-                const accountRegex = /^[a-z]+\.[0-9]+$/;
-
-                if (!accountRegex.test(emailInput)) {
-                    alert("🚫 Đăng nhập thất bại!\nTài khoản đăng nhập phải đúng định dạng sinh viên: tên.mssv\nVí dụ: ten.mssv");
-                    return;
+                let finalEmail = userInput;
+                // Nếu người dùng chỉ gõ mỗi tên.mssv thì tự động đính đuôi để xác thực với Firebase
+                if (!userInput.includes('@')) {
+                    if (!/^[a-z0-9]+\.[0-9]+$/.test(userInput)) {
+                        alert("🚫 Đăng nhập thất bại!\nTài khoản đăng nhập phải đúng định dạng sinh viên: tên.mssv\nVí dụ: duy.2474802010071");
+                        return;
+                    }
+                    finalEmail = `${userInput}@vanlanguni.vn`;
                 }
 
-                firebase.auth().signInWithEmailAndPassword(emailInput, passInput)
+                firebase.auth().signInWithEmailAndPassword(finalEmail, passInput)
                     .then((userCredential) => {
                         console.log("Đăng nhập thành công hệ thống nội bộ VLU:", userCredential.user.email);
-
                         const authModal = document.getElementById('authModal');
                         if (authModal) {
                             authModal.style.display = "none";
@@ -84,8 +86,9 @@ window.vluLogin = {
             try {
                 const result = await firebase.auth().signInWithPopup(provider);
                 const user = result.user;
+                const email = user.email.toLowerCase();
 
-                if (!user.email.endsWith('@vanlanguni.vn')) {
+                if (!email.endsWith('@vanlanguni.vn') && !email.endsWith('@vanlanguni.edu.vn')) {
                     await firebase.auth().signOut();
                     alert("❌ Truy cập bị từ chối! Hệ thống chỉ cho phép tài khoản Microsoft Mail trường Văn Lang đăng nhập.");
                     return;
