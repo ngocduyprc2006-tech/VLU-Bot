@@ -70,6 +70,46 @@ window.vluLogin = {
         };
     },
 
+    // THÊM VÀO ĐÂY: Hàm xử lý gửi Link reset khôi phục mật khẩu thông qua email trường
+    initForgotPassword: function() {
+        const forgotLink = document.getElementById('forgotPasswordLink');
+        if (!forgotLink) return;
+
+        forgotLink.onclick = (e) => {
+            e.preventDefault();
+
+            const userInput = document.getElementById('loginUser').value.trim().toLowerCase();
+
+            // Yêu cầu sinh viên điền tài khoản sinh viên trước để hệ thống biết gửi mail cho ai
+            if (!userInput) {
+                alert("Vui lòng nhập tài khoản định dạng (tên.mssv) vào ô Đăng nhập trước khi bấm Quên mật khẩu!");
+                document.getElementById('loginUser').focus();
+                return;
+            }
+
+            let finalEmail = userInput;
+            if (!userInput.includes('@')) {
+                if (!/^[a-z0-9]+\.[0-9]+$/.test(userInput)) {
+                    alert("Tài khoản sinh viên không đúng định dạng tên.mssv để hệ thống gửi mail khôi phục!");
+                    return;
+                }
+                finalEmail = `${userInput}@vanlanguni.vn`;
+            }
+
+            const confirmSend = confirm(`Hệ thống sẽ gửi một liên kết đặt lại mật khẩu đến Email trường của bạn:\n${finalEmail}\n\nBạn có muốn tiếp tục không?`);
+            if (!confirmSend) return;
+
+            firebase.auth().sendPasswordResetEmail(finalEmail)
+                .then(() => {
+                    alert(`🎉 Gửi thành công!\nHệ thống đã gửi một email chứa liên kết đặt lại mật khẩu. Vui lòng kiểm tra hộp thư Outlook (hoặc kiểm tra mục Spam/Thư rác nếu không thấy) của email: ${finalEmail} để đặt lại mật khẩu mới.`);
+                })
+                .catch((error) => {
+                    console.error("Lỗi gửi mail reset mật khẩu:", error);
+                    alert("Không thể gửi email khôi phục. Vui lòng kiểm tra lại sự tồn tại của tài khoản sinh viên này trên cơ sở dữ liệu!");
+                });
+        };
+    },
+
     initMicrosoftAuth: function() {
         const msBtn = document.getElementById('microsoftLoginBtn');
         if (!msBtn) return;

@@ -37,7 +37,27 @@ window.vluAuthState = {
         function handleAuthSuccess(user) {
             if (modal) modal.style.display = "none";
             if (guestBtn) {
-                guestBtn.innerHTML = `<i class="fas fa-user-check"></i> ${user.displayName || user.email.split('@')[0]}`;
+                // --- THUẬT TOÁN TỰ ĐỘNG TÁCH TÊN VÀ ĐỊNH DẠNG CHỮ CÁI ĐẦU ---
+                let displayNameToShow = "";
+
+                if (user.displayName) {
+                    displayNameToShow = user.displayName;
+                } else if (user.email) {
+                    let userRawString = user.email.split('@')[0]; // Lấy phần trước @ (ví dụ: "duy.2474802010071")
+
+                    if (userRawString.includes('.')) {
+                        // Bóc tách lấy đúng chuỗi kí tự chữ đứng trước dấu chấm (ví dụ: "duy")
+                        let firstName = userRawString.split('.')[0];
+                        // Tự động viết hoa chữ cái đầu (duy -> Duy)
+                        displayNameToShow = firstName.charAt(0).toUpperCase() + firstName.slice(1);
+                    } else {
+                        // Phương án dự phòng nếu chuỗi không chứa dấu chấm
+                        displayNameToShow = userRawString.charAt(0).toUpperCase() + userRawString.slice(1);
+                    }
+                }
+
+                // Đổ tên đã xử lý đẹp đẽ lên giao diện nút hiển thị của Sidebar
+                guestBtn.innerHTML = `<i class="fas fa-user-check"></i> Chào, ${displayNameToShow}`;
                 guestBtn.title = "Bấm vào đây để quản lý tài khoản";
             }
 

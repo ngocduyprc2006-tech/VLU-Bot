@@ -65,11 +65,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (typeof window.vluLogin.initTabs === 'function') window.vluLogin.initTabs();
             if (typeof window.vluLogin.initLoginFormSubmit === 'function') window.vluLogin.initLoginFormSubmit();
             if (typeof window.vluLogin.initMicrosoftAuth === 'function') window.vluLogin.initMicrosoftAuth();
-        }
 
-        // KÍCH HOẠT ĐỒNG BỘ: Liên kết logic xử lý nút bấm Đăng ký tài khoản bằng Microsoft Mail trường
-        if (window.vluRegister && typeof window.vluRegister.initMicrosoftRegister === 'function') {
-            window.vluRegister.initMicrosoftRegister();
+            // KÍCH HOẠT: Khởi chạy bộ kiểm soát lắng nghe sự kiện bấm nút Quên mật khẩu
+            if (typeof window.vluLogin.initForgotPassword === 'function') window.vluLogin.initForgotPassword();
         }
 
         const loginTabBtn = document.getElementById('loginTabBtn');
@@ -170,11 +168,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const btnGraduation = document.getElementById('btn-graduation');
         const btnFuture = document.getElementById('btn-future');
 
+        // CẬP NHẬT: Tách luồng chuyển hướng trực tiếp sang hẳn trang HTML lộ trình cá nhân
         if (btnRoadmap) {
             btnRoadmap.onclick = (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                if (window.ui && typeof window.ui.useSuggestion === 'function') window.ui.useSuggestion('Lộ trình cá nhân hóa');
+                window.location.href = "roadmap.html";
             };
         }
 

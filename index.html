@@ -28,26 +28,28 @@
             </div>
 
             <form id="loginForm" class="auth-form">
-                <input type="text" id="loginUser" placeholder="Nhập email" required>
+                <input type="text" id="loginUser" placeholder="Nhập tên.mssv" required>
                 <input type="password" id="loginPass" placeholder="Mật khẩu" required>
+
+                <div style="text-align: right; margin: -5px 0 15px 0;">
+                    <a href="#" id="forgotPasswordLink" style="color: #e05300; font-size: 13px; text-decoration: none; font-weight: 500;">Quên mật khẩu?</a>
+                </div>
+
                 <button type="submit" class="auth-submit vlu-red-btn">Đăng nhập</button>
+
                 <div style="text-align: center; margin: 10px 0; color: #aaa; font-size: 13px;">hoặc</div>
-                <button type="button" id="microsoftLoginBtn" class="auth-submit" style="background-color: #2f2f2f; color: #fff; display: flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid #444; width: 100%; border-radius: 8px; cursor: pointer;">
+                <button type="button" id="microsoftLoginBtn" class="auth-submit" style="background-color: #2f2f2f; color: #fff; display: flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid #444; width: 100%; border-radius: 8px; cursor: pointer; height: 42px;">
                     <i class="fab fa-windows"></i> Đăng nhập bằng Mail Trường (Microsoft)
                 </button>
             </form>
 
             <form id="registerForm" class="auth-form" style="display: none;">
                 <input type="text" placeholder="Họ và tên sinh viên" required>
-                <input type="text" id="regEmail" placeholder="Nhập tên.mssv  " required>
+                <input type="text" id="regEmail" placeholder="Nhập tên.mssv" required>
                 <input type="password" id="regPass" placeholder="Mật khẩu" required>
                 <input type="password" id="regPassConfirm" placeholder="Nhập lại mật khẩu" required>
                 <p id="registerError" class="error-text" style="display: none;"></p>
                 <button type="submit" class="auth-submit vlu-red-btn">Tạo tài khoản mới</button>
-                <div style="text-align: center; margin: 10px 0; color: #aaa; font-size: 13px;">hoặc</div>
-                <button type="button" id="microsoftRegisterBtn" class="auth-submit" style="background-color: #2f2f2f; color: #fff; display: flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid #444; width: 100%; border-radius: 8px; cursor: pointer;">
-                    <i class="fab fa-windows"></i> Đăng ký bằng Mail Trường (Microsoft)
-                </button>
             </form>
         </div>
     </div>
