@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../../img/logovanlang.png">
+    <title>Lộ Trình Cá Nhân Hóa - VLU</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <link rel="stylesheet" href="roadmap.css">
+</head>
+
+<body>
+    <div class="roadmap-page">
+        <div class="roadmap-header">
+            <a href="../../index.html" class="back-home-btn">
+                <i class="fas fa-arrow-left"></i> Quay về phòng Chat
+            </a>
+            <div>
+                <h1 style="color: #222; margin: 0; font-size: 26px;">Lộ Trình Học Tập Kế Hoạch Cá Nhân</h1>
+                <p style="color: #666; margin: 4px 0 0 0;">Khung chương trình đào tạo Khoa CNTT Văn Lang</p>
+            </div>
+        </div>
+
+        <div class="cohort-selector-container">
+            <label for="cohortSelect"><i class="fas fa-filter"></i> Chọn Khóa Đào Tạo của bạn:</label>
+            <select id="cohortSelect" class="vlu-select">
+                <option value="">-- Vui lòng chọn Khóa --</option>
+                <option value="k30" selected>Khóa 30 (Chương trình mới - 126 TC)</option>
+                <option value="k29">Khóa 29 trở về trước (Demo)</option>
+            </select>
+        </div>
+
+        <div class="summary-progress hidden" id="summaryProgressBox">
+            <div style="display: flex; justify-content: space-between; font-weight: bold; color: #333; font-size: 15px; margin-bottom: 8px;">
+                <span>Số tín chỉ đã tích lũy: <span id="creditCount" style="color: #e00000;">0</span> / <span id="targetCredits">126</span> TC</span>
+                <span>Tiến trình: <span id="percentText" style="color: #e00000;">0%</span></span>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+        </div>
+
+        <div class="grid-container" id="roadmapGrid">
+            <div class="empty-state">
+                <i class="fas fa-graduation-cap" style="font-size: 48px; color: #ccc; margin-bottom: 12px;"></i>
+                <p style="color: #888; margin: 0;">Vui lòng chọn khóa học để hiển thị lộ trình chi tiết phần mềm.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="VLU-Chatbot/knowledge.js"></script>
+    <script src="roadmap.js"></script>
+</body>
+
+</html>

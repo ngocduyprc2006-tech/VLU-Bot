@@ -65,8 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (typeof window.vluLogin.initTabs === 'function') window.vluLogin.initTabs();
             if (typeof window.vluLogin.initLoginFormSubmit === 'function') window.vluLogin.initLoginFormSubmit();
             if (typeof window.vluLogin.initMicrosoftAuth === 'function') window.vluLogin.initMicrosoftAuth();
-
-            // KÍCH HOẠT: Khởi chạy bộ kiểm soát lắng nghe sự kiện bấm nút Quên mật khẩu
             if (typeof window.vluLogin.initForgotPassword === 'function') window.vluLogin.initForgotPassword();
         }
 
@@ -168,12 +166,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const btnGraduation = document.getElementById('btn-graduation');
         const btnFuture = document.getElementById('btn-future');
 
-        // CẬP NHẬT: Tách luồng chuyển hướng trực tiếp sang hẳn trang HTML lộ trình cá nhân
+        // Định hướng đúng folder js/features/ cho tất cả tính năng
         if (btnRoadmap) {
             btnRoadmap.onclick = (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                window.location.href = "roadmap.html";
+                window.location.href = "js/features/roadmap.html";
             };
         }
 
@@ -181,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btnResults.onclick = (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                if (window.ui && typeof window.ui.useSuggestion === 'function') window.ui.useSuggestion('Kết quả học tập');
+                window.location.href = "js/features/gpa.html";
             };
         }
 
@@ -189,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btnGraduation.onclick = (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                if (window.ui && typeof window.ui.useSuggestion === 'function') window.ui.useSuggestion('Dự báo tốt nghiệp');
+                window.location.href = "js/features/graduation.html";
             };
         }
 
@@ -197,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btnFuture.onclick = (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                if (window.ui && typeof window.ui.useSuggestion === 'function') window.ui.useSuggestion('Định hướng tương lai');
+                window.location.href = "js/features/career.html";
             };
         }
 
