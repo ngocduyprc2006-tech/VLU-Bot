@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link class="vlu-icon" rel="icon" type="image/png" href="/img/logovanlang.png">
+    <title>Kết Quả Học Tập - VLU</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="gpa.css">
+</head>
+
+<body>
+    <div class="gpa-page">
+        <div class="gpa-header">
+            <a href="/index.html" class="back-home-btn">
+                <i class="fas fa-arrow-left"></i> Quay về phòng Chat
+            </a>
+            <div>
+                <h1 style="color: #222; margin: 0; font-size: 26px;">Tra Cứu & Phân Tích Kết Quả Học Tập</h1>
+                <p style="color: #666; margin: 4px 0 0 0;">Hệ thống quy đổi điểm GPA và quy chế học vụ chuẩn Văn Lang</p>
+            </div>
+        </div>
+
+        <div class="feature-layout">
+            <div class="knowledge-panel">
+                <h3><i class="fas fa-file-invoice"></i> Quy chế đổi điểm & Khung chương trình đào tạo</h3>
+                <div id="knowledgeContent" class="knowledge-scroll">Đang tải quy chế đào tạo...</div>
+            </div>
+
+            <div class="mini-bot-panel">
+                <h3><i class="fas fa-user-graduate"></i> Trợ lý Tra cứu & Tính điểm</h3>
+                <div class="mini-chatbox" id="miniChatbox">
+                    <div class="mini-messages" id="miniMessages">
+                        <div class="bot-msg">- Xin chào! Hãy nhập điểm hệ 10 hoặc tên môn học, mình sẽ đối chiếu quy chế để phân tích học vụ giúp bạn.</div>
+                    </div>
+                </div>
+                <div class="mini-input-group">
+                    <input type="text" id="miniInput" placeholder="Hỏi về điểm số, môn học...">
+                    <button id="miniSendBtn"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="/js/config.js"></script>
+    <script src="gpa.js"></script>
+</body>
+
+</html>

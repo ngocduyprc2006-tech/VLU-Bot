@@ -166,12 +166,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const btnGraduation = document.getElementById('btn-graduation');
         const btnFuture = document.getElementById('btn-future');
 
-        // Định hướng đúng folder js/features/ cho tất cả tính năng
+        // ĐÃ CẬP NHẬT: Định hướng đúng vào cấu trúc thư mục con tương ứng
         if (btnRoadmap) {
             btnRoadmap.onclick = (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                window.location.href = "js/features/roadmap.html";
+                window.location.href = "js/features/roadmap/roadmap.html";
             };
         }
 
@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btnResults.onclick = (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                window.location.href = "js/features/gpa.html";
+                window.location.href = "js/features/gpa/gpa.html";
             };
         }
 
@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btnGraduation.onclick = (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                window.location.href = "js/features/graduation.html";
+                window.location.href = "js/features/graduation/graduation.html";
             };
         }
 
@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btnFuture.onclick = (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                window.location.href = "js/features/career.html";
+                window.location.href = "js/features/career/career.html";
             };
         }
 

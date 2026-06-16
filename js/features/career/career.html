@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link class="vlu-icon" rel="icon" type="image/png" href="/img/logovanlang.png">
+    <title>Định Hướng Tương Lai - VLU</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="career.css">
+</head>
+
+<body>
+    <div class="career-page">
+        <div class="career-header">
+            <a href="/index.html" class="back-home-btn">
+                <i class="fas fa-arrow-left"></i> Quay về phòng Chat
+            </a>
+            <div>
+                <h1 style="color: #222; margin: 0; font-size: 26px;">Định Hướng Nghề Nghiệp & Tương Lai</h1>
+                <p style="color: #666; margin: 4px 0 0 0;">Cố vấn xu hướng công nghệ và Stack doanh nghiệp</p>
+            </div>
+        </div>
+
+        <div class="feature-layout">
+            <div class="knowledge-panel">
+                <h3><i class="fas fa-book-open"></i> Cẩm nang định hướng nghề nghiệp</h3>
+                <div id="knowledgeContent" class="knowledge-scroll">Đang tải tài liệu học vụ...</div>
+            </div>
+
+            <div class="mini-bot-panel">
+                <h3><i class="fas fa-robot"></i> Trợ lý Định hướng chuyên sâu</h3>
+                <div class="mini-chatbox" id="miniChatbox">
+                    <div class="mini-messages" id="miniMessages">
+                        <div class="bot-msg">- Xin chào! Mình là cố vấn định hướng nghề nghiệp. Bạn có thể hỏi sâu về các Stack công nghệ dựa trên cẩm nang bên cạnh nhé.</div>
+                    </div>
+                </div>
+                <div class="mini-input-group">
+                    <input type="text" id="miniInput" placeholder="Hỏi trợ lý định hướng...">
+                    <button id="miniSendBtn"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="/js/config.js"></script>
+    <script src="career.js"></script>
+</body>
+
+</html>

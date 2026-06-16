@@ -264,3 +264,110 @@ body {
 div.roadmap-page div.hidden {
     display: none;
 }
+
+
+/* Thêm đoạn này vào cuối tất cả các file CSS tính năng */
+
+.feature-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 20px;
+    height: calc(100vh - 160px);
+}
+
+.knowledge-panel,
+.mini-bot-panel {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+.knowledge-panel h3,
+.mini-bot-panel h3 {
+    margin-top: 0;
+    color: #222;
+    border-bottom: 2px solid #f1f3f4;
+    padding-bottom: 12px;
+}
+
+.knowledge-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 8px;
+    line-height: 1.6;
+    color: #444;
+    white-space: pre-line;
+    /* Đảm bảo text từ file txt giữ nguyên xuống dòng */
+}
+
+
+/* Khung mini bot */
+
+.mini-chatbox {
+    flex: 1;
+    overflow-y: auto;
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 1px solid #e1e4e6;
+}
+
+.mini-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.user-msg,
+.bot-msg {
+    padding: 10px 14px;
+    border-radius: 8px;
+    max-width: 85%;
+    font-size: 14px;
+    word-wrap: break-word;
+}
+
+.user-msg {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    align-self: flex-end;
+}
+
+.bot-msg {
+    background-color: #ffffff;
+    color: #333;
+    align-self: flex-start;
+    border: 1px solid #e1e4e6;
+}
+
+.mini-input-group {
+    display: flex;
+    gap: 8px;
+}
+
+.mini-input-group input {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    outline: none;
+}
+
+.mini-input-group button {
+    background-color: #e00000;
+    color: white;
+    border: none;
+    padding: 0 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.mini-input-group button:hover {
+    background-color: #c00000;
+}
