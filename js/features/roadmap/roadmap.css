@@ -1,29 +1,29 @@
-/* FILE: js/features/roadmap.css */
-
 body {
-    background-color: #f9f9f9;
+    background-color: #f8fafc;
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #222;
+    color: #1e293b;
 }
 
 .roadmap-page {
-    padding: 30px;
-    max-width: 1200px;
+    padding: 24px;
+    max-width: 1600px;
     margin: 0 auto;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
 }
 
 .roadmap-header {
     display: flex;
     align-items: center;
     gap: 20px;
-    margin-bottom: 25px;
-    border-bottom: 2px solid #f0f0f0;
-    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 16px;
+    flex-shrink: 0;
 }
-
-
-/* Nút quay về phòng chat phối tone màu đỏ cờ Văn Lang chuẩn chỉnh */
 
 .back-home-btn {
     background: #e00000;
@@ -45,30 +45,27 @@ body {
     transform: translateY(-1px);
 }
 
-
-/* Bộ chọn khóa đào tạo K30 thiết kế gọn gàng sạch sẽ */
-
 .cohort-selector-container {
     background: #fff;
-    border: 1px solid #e0e0e0;
+    border: 1px solid #e2e8f0;
     border-radius: 12px;
-    padding: 15px 20px;
-    margin-bottom: 20px;
+    padding: 12px 20px;
+    margin-bottom: 16px;
     display: flex;
     align-items: center;
     gap: 15px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.01);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .cohort-selector-container label {
     font-weight: 600;
-    color: #333;
+    color: #334155;
 }
 
 .vlu-select {
     padding: 8px 14px;
     border-radius: 8px;
-    border: 1px solid #ddd;
+    border: 1px solid #cbd5e1;
     outline: none;
     font-size: 14px;
     cursor: pointer;
@@ -80,52 +77,69 @@ body {
     border-color: #e00000;
 }
 
-
-/* Thanh tiến trình tích lũy tín chỉ tổng quan */
-
 .summary-progress {
     background: #fff;
-    border: 1px solid #e0e0e0;
+    border: 1px solid #e2e8f0;
     border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.01);
-    margin-bottom: 25px;
+    padding: 16px 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
 }
 
 .progress-bar-container {
-    background: #f0f0f0;
+    background: #f1f5f9;
     border-radius: 10px;
     height: 12px;
     width: 100%;
     overflow: hidden;
 }
 
-
-/* Hiệu ứng chạy dải màu gradient từ đỏ cờ sang đỏ cam sáng rực rỡ */
-
 .progress-fill {
     background: linear-gradient(90deg, #e00000, #ff4d4d);
     height: 100%;
     width: 0%;
-    transition: width 0.4s ease;
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.feature-layout {
+    display: flex;
+    gap: 24px;
+    flex: 1;
+    overflow: hidden;
+    min-height: 0;
+}
 
-/* Layout danh sách các thẻ học kỳ */
+.knowledge-panel {
+    flex: 2;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+}
 
-.grid-container {
+.knowledge-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+.semester-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 20px;
-    margin-top: 15px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+    margin-top: 4px;
 }
 
 .semester-card {
     background: #fff;
-    border: 1px solid #e5e5e5;
+    border: 1px solid #e2e8f0;
     border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.01);
+    padding: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
     display: flex;
     flex-direction: column;
     transition: transform 0.2s, box-shadow 0.2s;
@@ -133,67 +147,73 @@ body {
 
 .semester-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.03);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
 }
-
-
-/* Tiêu đề Học kỳ dùng màu đỏ cờ Văn Lang đồng bộ hệ thống */
 
 .semester-title {
     color: #e00000;
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 700;
     margin-bottom: 12px;
     display: flex;
     align-items: center;
     gap: 8px;
-    border-bottom: 1px solid #f5f5f5;
-    padding-bottom: 10px;
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 8px;
 }
 
 .course-list {
     list-style: none;
     padding: 0;
     margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .course-item {
-    padding: 12px 0;
+    padding: 10px 12px;
     font-size: 14px;
-    border-bottom: 1px dashed #eee;
-    color: #222;
+    border: 1px solid #f1f5f9;
+    border-radius: 8px;
+    color: #1e293b;
     display: flex;
     align-items: flex-start;
     gap: 12px;
-    transition: opacity 0.2s ease;
+    background: #f8fafc;
+    transition: all 0.2s ease;
 }
 
-.course-item:last-child {
-    border: none;
+.course-item:hover {
+    background: #fff5f5;
+    border-color: #fee2e2;
 }
 
 .course-item input[type="checkbox"] {
-    width: 17px;
-    height: 17px;
+    width: 18px;
+    height: 18px;
     accent-color: #e00000;
     cursor: pointer;
     margin-top: 2px;
+    flex-shrink: 0;
 }
 
-
-/* Trạng thái làm mờ môn học sau khi sinh viên đã tích chọn hoàn thành */
-
 .course-item.completed {
-    opacity: 0.4;
+    background: #f1f5f9;
+    border-color: #e2e8f0;
+    opacity: 0.6;
+}
+
+.course-item.completed .course-info-row span {
     text-decoration: line-through;
-    color: #777;
+    color: #64748b;
 }
 
 .course-label {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 6px;
 }
 
 .course-info-row {
@@ -206,156 +226,133 @@ body {
     display: flex;
     gap: 6px;
     flex-wrap: wrap;
-    margin-top: 2px;
 }
-
-
-/* Badge số tín chỉ cấu hình gọn gàng */
 
 .badge-credit {
-    background: #f1f3f5;
-    color: #495057;
+    background: #e2e8f0;
+    color: #334155;
     padding: 2px 6px;
     border-radius: 4px;
     font-size: 11px;
     font-weight: 600;
 }
-
-
-/* Badge môn học trước / tiên quyết mang màu đỏ cờ dịu cảnh báo tinh tế */
 
 .badge-prereq {
-    background: #fff5f5;
-    color: #d93735;
+    background: #fff1f2;
+    color: #e11d48;
     padding: 2px 6px;
     border-radius: 4px;
     font-size: 11px;
     font-weight: 600;
-    border: 1px solid #ffcccc;
+    border: 1px solid #ffe4e6;
 }
 
-
-/* Badge mã môn học chuẩn quy chế Văn Lang */
-
 .badge-code {
-    background: #e8f5e9;
-    color: #2e7d32;
+    background: #f0fdf4;
+    color: #16a34a;
     padding: 2px 6px;
     border-radius: 4px;
     font-size: 11px;
-    font-weight: 500;
+    font-weight: 600;
+    border: 1px solid #dcfce7;
 }
-
-
-/* Quản lý trạng thái trống */
 
 .empty-state {
     grid-column: 1 / -1;
     text-align: center;
-    padding: 50px;
+    padding: 40px;
     background: #fff;
-    border: 1px dashed #ccc;
+    border: 2px dashed #cbd5e1;
     border-radius: 12px;
 }
-
-
-/* Thay thế thuộc tính !important bằng cách định nghĩa class cô lập có độ ưu tiên cao hơn */
 
 div.roadmap-page div.hidden {
     display: none;
 }
 
-
-/* Thêm đoạn này vào cuối tất cả các file CSS tính năng */
-
-.feature-layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    margin-top: 20px;
-    height: calc(100vh - 160px);
-}
-
-.knowledge-panel,
 .mini-bot-panel {
+    flex: 1;
     background: #ffffff;
     padding: 20px;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     display: flex;
     flex-direction: column;
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
 }
 
-.knowledge-panel h3,
 .mini-bot-panel h3 {
     margin-top: 0;
-    color: #222;
-    border-bottom: 2px solid #f1f3f4;
+    color: #0f172a;
+    border-bottom: 2px solid #f1f5f9;
     padding-bottom: 12px;
+    font-size: 16px;
+    margin-bottom: 12px;
+    flex-shrink: 0;
 }
-
-.knowledge-scroll {
-    flex: 1;
-    overflow-y: auto;
-    padding-right: 8px;
-    line-height: 1.6;
-    color: #444;
-    white-space: pre-line;
-    /* Đảm bảo text từ file txt giữ nguyên xuống dòng */
-}
-
-
-/* Khung mini bot */
 
 .mini-chatbox {
     flex: 1;
     overflow-y: auto;
-    background: #f8f9fa;
+    background: #f8fafc;
     border-radius: 8px;
     padding: 12px;
     margin-bottom: 12px;
-    border: 1px solid #e1e4e6;
+    border: 1px solid #e2e8f0;
 }
 
 .mini-messages {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
 }
 
 .user-msg,
 .bot-msg {
     padding: 10px 14px;
-    border-radius: 8px;
+    border-radius: 12px;
     max-width: 85%;
-    font-size: 14px;
+    font-size: 13px;
+    line-height: 1.5;
     word-wrap: break-word;
 }
 
 .user-msg {
-    background-color: #e3f2fd;
-    color: #0d47a1;
+    background-color: #e00000;
+    color: #ffffff;
     align-self: flex-end;
+    border-bottom-right-radius: 2px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .bot-msg {
     background-color: #ffffff;
-    color: #333;
+    color: #334155;
     align-self: flex-start;
-    border: 1px solid #e1e4e6;
+    border: 1px solid #e2e8f0;
+    border-bottom-left-radius: 2px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
 }
 
 .mini-input-group {
     display: flex;
     gap: 8px;
+    flex-shrink: 0;
 }
 
 .mini-input-group input {
     flex: 1;
-    padding: 12px;
+    padding: 10px 14px;
     border: 1px solid #cbd5e1;
-    border-radius: 6px;
+    border-radius: 8px;
     outline: none;
+    font-size: 13px;
+    transition: border-color 0.2s;
+}
+
+.mini-input-group input:focus {
+    border-color: #e00000;
 }
 
 .mini-input-group button {
@@ -363,11 +360,68 @@ div.roadmap-page div.hidden {
     color: white;
     border: none;
     padding: 0 16px;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
     transition: background 0.2s;
 }
 
 .mini-input-group button:hover {
-    background-color: #c00000;
+    background-color: #b30000;
+}
+
+.course-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.course-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.course-item:hover {
+    background: #fff5f5;
+    border-color: #fee2e2;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.course-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #e00000;
+    cursor: pointer;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.course-item.completed {
+    background: #f1f5f9;
+    border-color: #e2e8f0;
+    opacity: 0.6;
+}
+
+.course-item.completed .course-info-row span {
+    text-decoration: line-through;
+    color: #64748b;
+}
+
+.course-label {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    pointer-events: none;
 }
