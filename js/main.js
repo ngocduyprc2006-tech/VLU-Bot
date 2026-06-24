@@ -48,6 +48,44 @@ window.currentSystemPrompt = window.featurePrompts['default'];
 document.addEventListener('DOMContentLoaded', () => {
     console.log("%c🚀 VLU AI Core: Booting...", "color: #ff9900; font-weight: bold;");
 
+    // --- HIỆU ỨNG NỔ BONG BÓNG VỠ (BẢN TƯNG BỪNG) ---
+    document.addEventListener('click', (e) => {
+        // Áp dụng cho mọi vị trí click, hoặc chỉ định rõ các vùng nếu bạn muốn
+        const x = e.clientX;
+        const y = e.clientY;
+        const colors = ['#e00000', '#ff4d4d', '#ffffff', '#ff9999'];
+
+        // Tăng số lượng hạt từ 8 lên 25 để tạo hiệu ứng nổ mạnh
+        // Hiệu ứng "hạt bụi ánh sáng" thơ mộng khi di chuột hoặc click
+        document.addEventListener('mousemove', (e) => {
+            if (Math.random() < 0.1) { // Chỉ tạo hạt khi di chuột 10% cơ hội để không bị lag
+                createSoftParticle(e.clientX, e.clientY);
+            }
+        });
+
+        function createSoftParticle(x, y) {
+            const p = document.createElement('div');
+            p.style.position = 'fixed';
+            p.style.left = x + 'px';
+            p.style.top = y + 'px';
+            p.style.width = '4px';
+            p.style.height = '4px';
+            p.style.background = '#d32f2f';
+            p.style.borderRadius = '50%';
+            p.style.opacity = '0.3';
+            p.style.pointerEvents = 'none';
+            p.style.transition = 'all 2s ease-out';
+            document.body.appendChild(p);
+
+            setTimeout(() => {
+                p.style.transform = `translateY(-100px) scale(0)`;
+                p.style.opacity = '0';
+            }, 50);
+            setTimeout(() => p.remove(), 2000);
+        }
+    });
+    // --- KẾT THÚC HIỆU ỨNG ---
+
     const startApp = () => {
         if (window.ui) {
             if (typeof ui.initSidebar === 'function') ui.initSidebar();
@@ -166,12 +204,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const btnGraduation = document.getElementById('btn-graduation');
         const btnFuture = document.getElementById('btn-future');
 
-        // ĐÃ CẬP NHẬT: Định hướng đúng vào cấu trúc thư mục con tương ứng
         if (btnRoadmap) {
             btnRoadmap.onclick = (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                window.location.href = "js/features/roadmap/roadmap.html";
+                window.location.href = "js/features/roadmap.html";
             };
         }
 
@@ -179,7 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btnResults.onclick = (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                window.location.href = "js/features/gpa/gpa.html";
+                window.location.href = "js/features/gpa.html";
             };
         }
 
@@ -187,7 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btnGraduation.onclick = (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                window.location.href = "js/features/graduation/graduation.html";
+                window.location.href = "js/features/graduation.html";
             };
         }
 
@@ -195,7 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btnFuture.onclick = (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                window.location.href = "js/features/career/career.html";
+                window.location.href = "js/features/career.html";
             };
         }
 
