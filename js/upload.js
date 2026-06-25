@@ -65,8 +65,47 @@ function initDragAndDrop() {
     });
 
     dropZone.addEventListener('drop', (e) => {
-        const file = e.dataTransfer.files[0];
-        processFile(file);
+        const files = Array.from(e.dataTransfer.files || []);
+        files.forEach(file => processFile(file));
+    });
+}
+
+
+function initPasteImages() {
+    // Tránh gắn nhiều listener nếu main.js gọi init lại nhiều lần
+    if (window.__vluPasteImageListenerAttached) return;
+    window.__vluPasteImageListenerAttached = true;
+
+    document.addEventListener('paste', (e) => {
+        const clipboard = e.clipboardData || window.clipboardData;
+        if (!clipboard) return;
+
+        const files = [];
+
+        // Cách 1: Chrome/Safari thường đưa ảnh trong clipboardData.items
+        const items = Array.from(clipboard.items || []);
+        items.forEach((item) => {
+            if (item.type && item.type.startsWith('image/')) {
+                const file = item.getAsFile();
+                if (file) files.push(file);
+            }
+        });
+
+        // Cách 2: một số trình duyệt đưa ảnh trong clipboardData.files
+        if (files.length === 0 && clipboard.files) {
+            Array.from(clipboard.files).forEach((file) => {
+                if (file.type && file.type.startsWith('image/')) files.push(file);
+            });
+        }
+
+        if (files.length === 0) return;
+
+        e.preventDefault();
+        files.forEach((file, index) => {
+            const pastedName = file.name || `pasted-image-${Date.now()}-${index}.png`;
+            const fixedFile = file.name ? file : new File([file], pastedName, { type: file.type || 'image/png' });
+            processFile(fixedFile);
+        });
     });
 }
 
@@ -94,10 +133,13 @@ function initFilePreview() {
             window.lastUploadedDocContent = "";
         };
     }
+
+    initPasteImages();
 }
 
 window.upload = {
     initFilePreview,
     initDragAndDrop,
+    initPasteImages,
     processExternalFile: processFile
 };

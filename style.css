@@ -4036,27 +4036,42 @@ body.dark-mode .help-step-item p {
     font-weight: normal;
 }
 
-
-/* Hiệu ứng bong bóng vỡ */
-
-.particle {
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    background: #e00000;
-    /* Màu đỏ cờ VLU */
-    border-radius: 50%;
-    pointer-events: none;
-    animation: pop 0.6s ease-out forwards;
+/* Giữ đúng xuống dòng khi người dùng dán câu hỏi/trắc nghiệm nhiều dòng */
+.user-message .content {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
 }
 
-@keyframes pop {
-    0% {
-        transform: scale(1);
-        opacity: 1;
-    }
-    100% {
-        transform: scale(0) translate(var(--x), var(--y));
-        opacity: 0;
-    }
+
+/* Làm phần trả lời của bot rõ ràng hơn: nhãn quan trọng in đậm, đoạn văn và bullet dễ đọc */
+.bot-message .content {
+    white-space: normal;
+}
+
+.bot-message .content p {
+    margin: 0 0 10px;
+}
+
+.bot-message .content p:last-child {
+    margin-bottom: 0;
+}
+
+.bot-message .content strong {
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.bot-message .content ul,
+.bot-message .content ol {
+    margin: 8px 0 12px 22px;
+    padding-left: 18px;
+}
+
+.bot-message .content li {
+    margin-bottom: 6px;
+    line-height: 1.65;
+}
+
+body.dark-mode .bot-message .content strong {
+    color: #ffffff;
 }

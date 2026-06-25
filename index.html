@@ -136,16 +136,12 @@
 
             <div class="sidebar-footer" style="padding: 16px; border-top: 1px solid rgba(0, 0, 0, 0.05); margin-top: auto;">
                 <div class="system-menu-group" style="display: flex; flex-direction: column; gap: 4px;">
-                    <button id="clearAllChatsBtn" class="menu-item-btn" style="color: #bf1e2e; font-weight: 500;">
-                        <i class="fas fa-trash-alt" style="color: #bf1e2e;"></i>
-                        <span>Xóa toàn bộ lịch sử</span>
-                    </button>
-                    <button id="helpBtn" class="menu-item-btn" onclick="if(window.ui && typeof window.ui.showToast === 'function') window.ui.showToast('Hệ thống Trợ giúp đang được cập nhật!')">
-                        <i class="far fa-question-circle"></i>
+                    <button id="helpBtn" class="menu-item-btn" onclick="if(window.ui && typeof window.ui.showToast === 'function') window.ui.showToast('Hệ thống Trợ giúp đang được cập nhật!')" style="display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 14px; background: none; border: none; border-radius: 8px; color: #555; font-size: 14px; text-align: left; cursor: pointer; transition: background 0.2s;">
+                        <i class="far fa-question-circle" style="font-size: 16px; width: 20px; color: #666;"></i>
                         <span>Trợ giúp & Phản hồi</span>
                     </button>
-                    <button id="settingsBtn" class="menu-item-btn">
-                        <i class="fas fa-cog"></i>
+                    <button id="settingsBtn" class="menu-item-btn" style="display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 14px; background: none; border: none; border-radius: 8px; color: #555; font-size: 14px; text-align: left; cursor: pointer; transition: background 0.2s;">
+                        <i class="fas fa-cog" style="font-size: 16px; width: 20px; color: #666;"></i>
                         <span>Cài đặt hệ thống</span>
                     </button>
                 </div>
@@ -280,16 +276,20 @@
     </script>
 
     <script src="/js/config.js"></script>
+
     <script src="/js/auth/authutils.js"></script>
     <script src="/js/auth/login.js"></script>
     <script src="/js/auth/register.js"></script>
     <script src="/js/auth/state.js"></script>
+
     <script src="/js/ui.js"></script>
     <script src="/js/upload.js"></script>
+
     <script src="/js/features/career/career.js"></script>
     <script src="/js/features/gpa/gpa.js"></script>
     <script src="/js/features/graduation/graduation.js"></script>
     <script src="/js/features/roadmap/roadmap.js"></script>
+
     <script src="/js/features/help.js"></script>
     <script src="/js/features/image-gen.js"></script>
     <script src="/js/features/learning.js"></script>
@@ -300,8 +300,13 @@
     <script src="/js/features/theme.js"></script>
     <script src="/js/features/vision.js"></script>
     <script src="/js/features/writing.js"></script>
+
     <script src="/js/chat.js"></script>
     <script src="/js/main.js"></script>
+    <div id="hiddenGcseContainer" style="display: none !important; visibility: hidden !important; opacity: 0 !important; width: 0 !important; height: 0 !important; overflow: hidden !important;">
+        <script async src="https://cse.google.com/cse.js?cx=45b8e74d1ffd34e0f"></script>
+        <div class="gcse-searchresults-only" data-gstyle="theme"></div>
+    </div>
 </body>
 
 </html>
