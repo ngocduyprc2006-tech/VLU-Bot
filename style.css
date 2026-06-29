@@ -4075,3 +4075,71 @@ body.dark-mode .help-step-item p {
 body.dark-mode .bot-message .content strong {
     color: #ffffff;
 }
+
+
+/* Hiển thị nhiều ảnh người dùng gửi theo dạng lưới: 3 ảnh mỗi dòng */
+.user-image-grid-message {
+    justify-content: flex-end;
+}
+
+.user-image-grid-message .content {
+    background: transparent !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    max-width: min(390px, 70%);
+    white-space: normal;
+}
+
+.user-image-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 7px;
+    justify-items: end;
+    align-items: start;
+}
+
+.user-image-grid img {
+    width: 100%;
+    max-width: 115px;
+    aspect-ratio: 4 / 3;
+    height: auto;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.95);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.16);
+    margin-top: 0;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.user-image-grid img:hover {
+    opacity: 0.95;
+    transform: translateY(-1px);
+}
+
+.user-image-grid.single-image {
+    grid-template-columns: 1fr;
+}
+
+.user-image-grid.single-image img {
+    width: auto;
+    max-width: 190px;
+    max-height: 190px;
+    aspect-ratio: auto;
+    object-fit: contain;
+}
+
+@media (max-width: 640px) {
+    .user-image-grid-message .content {
+        max-width: 92%;
+    }
+
+    .user-image-grid {
+        gap: 7px;
+    }
+
+    .user-image-grid img {
+        max-width: 88px;
+        border-radius: 9px;
+    }
+}

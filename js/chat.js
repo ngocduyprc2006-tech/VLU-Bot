@@ -70,7 +70,7 @@ async function sendMessage() {
 
     // Hiển thị tin nhắn người dùng
     if (hasImage) {
-        imagePayloads.forEach(url => renderUserImageMessage(url));
+        renderUserImageGridMessage(imagePayloads);
         if (text) renderUserMessage(text);
         saveChatToLocal('user', text ? `[Hình ảnh] ${text}` : "[Hình ảnh] Đọc ảnh và trả lời");
 
@@ -229,17 +229,36 @@ function renderUserMessage(text) {
     scrollToBottom();
 }
 
-function renderUserImageMessage(url) {
-    const c = document.getElementById('messagesContainer');
-    if (!c) return;
-    const d = document.createElement('div');
-    d.className = "message user-message fade-in";
-    d.innerHTML = `
-        <div class="content" style="background:none; padding:0;">
-            <img src="${url}" style="max-width:200px; border-radius:12px; border:2px solid #fff; box-shadow:0 4px 10px rgba(0,0,0,0.2);">
-        </div>`;
-    c.appendChild(d);
+function renderUserImageGridMessage(urls) {
+    const container = document.getElementById('messagesContainer');
+    if (!container || !Array.isArray(urls) || urls.length === 0) return;
+
+    const msgDiv = document.createElement('div');
+    msgDiv.className = "message user-message user-image-grid-message fade-in";
+
+    const contentDiv = document.createElement('div');
+    contentDiv.className = "content";
+
+    const gridDiv = document.createElement('div');
+    gridDiv.className = "user-image-grid";
+    if (urls.length === 1) gridDiv.classList.add('single-image');
+
+    urls.forEach((url, index) => {
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = `Ảnh đã gửi ${index + 1}`;
+        img.loading = 'lazy';
+        gridDiv.appendChild(img);
+    });
+
+    contentDiv.appendChild(gridDiv);
+    msgDiv.appendChild(contentDiv);
+    container.appendChild(msgDiv);
     scrollToBottom();
+}
+
+function renderUserImageMessage(url) {
+    renderUserImageGridMessage([url]);
 }
 
 function formatBotAnswerText(text) {
