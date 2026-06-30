@@ -1,4 +1,7 @@
 [
-    "curriculum-IT.txt",
-    "khungK30.txt"
+  {
+    "id": "khungK30",
+    "title": "Khung CTĐT K30 CNTT",
+    "path": "khungK30.txt"
+  }
 ]

@@ -4143,3 +4143,66 @@ body.dark-mode .bot-message .content strong {
         border-radius: 9px;
     }
 }
+
+/* Bảng thống kê trong câu trả lời AI khi đọc bảng điểm */
+.bot-message .content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0 18px;
+    font-size: 14px;
+    line-height: 1.5;
+    background: #ffffff;
+    border: 1px solid var(--border-color, #e5e7eb);
+    border-radius: 14px;
+    overflow: hidden;
+    display: table;
+}
+
+.bot-message .content thead {
+    background: #fff1f3;
+}
+
+.bot-message .content th,
+.bot-message .content td {
+    border: 1px solid var(--border-color, #e5e7eb);
+    padding: 10px 12px;
+    text-align: left;
+    vertical-align: top;
+}
+
+.bot-message .content th {
+    color: #be123c;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.bot-message .content td {
+    color: var(--text-main, #1f2937);
+}
+
+.bot-message .content table + p {
+    margin-top: 8px;
+}
+
+body.dark-mode .bot-message .content table {
+    background: #111827;
+    border-color: #374151;
+}
+
+body.dark-mode .bot-message .content thead {
+    background: #1f2937;
+}
+
+body.dark-mode .bot-message .content th,
+body.dark-mode .bot-message .content td {
+    border-color: #374151;
+}
+
+@media (max-width: 768px) {
+    .bot-message .content table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+        font-size: 13px;
+    }
+}

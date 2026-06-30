@@ -66,7 +66,7 @@ body {
     text-decoration: none;
     padding: 13px 20px;
     border-radius: 12px;
-    font-weight: 700;
+    font-weight: 800;
     box-shadow: 0 12px 24px rgba(201, 21, 47, 0.22);
     white-space: nowrap;
 }
@@ -92,7 +92,7 @@ body {
 .muted-label {
     margin: 0;
     font-size: 12px;
-    font-weight: 800;
+    font-weight: 850;
     text-transform: uppercase;
     letter-spacing: 0.08em;
 }
@@ -110,13 +110,18 @@ body {
     background: var(--vlu-red-soft);
     color: var(--vlu-red);
     font-size: 13px;
-    font-weight: 800;
+    font-weight: 850;
     white-space: nowrap;
+}
+
+.demo-badge.is-ready {
+    color: var(--green);
+    background: var(--green-soft);
 }
 
 .student-hero {
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr minmax(360px, 410px);
     gap: 18px;
     align-items: stretch;
     margin: 26px 0 18px;
@@ -149,7 +154,7 @@ body {
     background: linear-gradient(135deg, var(--vlu-red), #ef5b6a);
     color: #fff;
     font-size: 24px;
-    font-weight: 900;
+    font-weight: 950;
     box-shadow: 0 16px 30px rgba(201, 21, 47, 0.25);
 }
 
@@ -173,11 +178,10 @@ body {
     background: #f7f8fb;
     color: #4b5563;
     font-size: 13px;
-    font-weight: 650;
+    font-weight: 700;
 }
 
 .hero-controls {
-    min-width: 270px;
     display: grid;
     gap: 10px;
     padding: 18px;
@@ -187,9 +191,16 @@ body {
 .hero-controls label {
     color: var(--muted);
     font-size: 13px;
-    font-weight: 800;
+    font-weight: 850;
 }
 
+.lookup-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+}
+
+.hero-controls input,
 .hero-controls select,
 .search-box input,
 .converter-box input,
@@ -203,19 +214,29 @@ body {
     transition: 0.2s ease;
 }
 
+.hero-controls input,
 .hero-controls select {
     height: 42px;
     border-radius: 12px;
     padding: 0 12px;
-    font-weight: 650;
+    font-weight: 700;
 }
 
 .hero-controls button {
     height: 42px;
     border-radius: 12px;
+    padding: 0 14px;
     background: #1f2937;
     color: #fff;
-    font-weight: 800;
+    font-weight: 850;
+    white-space: nowrap;
+}
+
+.lookup-note {
+    margin: 0 0 4px;
+    color: #667085;
+    font-size: 12.5px;
+    line-height: 1.45;
 }
 
 .summary-grid {
@@ -259,7 +280,7 @@ body {
     margin: 0;
     color: var(--muted);
     font-size: 13px;
-    font-weight: 750;
+    font-weight: 800;
 }
 
 .summary-card strong {
@@ -653,69 +674,6 @@ body {
     display: none;
 }
 
-@media (max-width: 1080px) {
-    .summary-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .gpa-layout,
-    .student-hero {
-        grid-template-columns: 1fr;
-    }
-
-    .hero-controls {
-        min-width: 0;
-    }
-}
-
-@media (max-width: 720px) {
-    .gpa-page {
-        width: min(100% - 22px, 1320px);
-        padding: 18px 0 32px;
-    }
-
-    .gpa-topbar {
-        grid-template-columns: 1fr;
-    }
-
-    .back-home-btn {
-        width: fit-content;
-    }
-
-    .summary-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .student-card {
-        align-items: flex-start;
-    }
-
-    .student-avatar {
-        width: 58px;
-        height: 58px;
-        border-radius: 18px;
-        font-size: 18px;
-    }
-
-    .semester-bar-row {
-        grid-template-columns: 110px 1fr 45px;
-    }
-
-    .converter-box,
-    .mini-input-group,
-    .transcript-heading {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .table-tools {
-        min-width: 0;
-        width: 100%;
-    }
-}
-
-
-/* Empty state khi chưa kết nối dữ liệu điểm thật */
 .empty-state {
     display: grid;
     place-items: center;
@@ -758,4 +716,139 @@ body {
 .empty-table-cell {
     text-align: center !important;
     padding: 0 !important;
+}
+
+@media (max-width: 1080px) {
+    .summary-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .gpa-layout,
+    .student-hero {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 720px) {
+    .gpa-page {
+        width: min(100% - 22px, 1320px);
+        padding: 18px 0 32px;
+    }
+
+    .gpa-topbar {
+        grid-template-columns: 1fr;
+    }
+
+    .back-home-btn {
+        width: fit-content;
+    }
+
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .student-card {
+        align-items: flex-start;
+    }
+
+    .student-avatar {
+        width: 58px;
+        height: 58px;
+        border-radius: 18px;
+        font-size: 18px;
+    }
+
+    .semester-bar-row {
+        grid-template-columns: 110px 1fr 45px;
+    }
+
+    .lookup-row,
+    .converter-box,
+    .mini-input-group,
+    .transcript-heading {
+        grid-template-columns: 1fr;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .table-tools {
+        min-width: 0;
+        width: 100%;
+    }
+}
+
+.status-neutral {
+    background: #eef2ff;
+    color: #4338ca;
+}
+
+/* Semester separators inside transcript table */
+.semester-section-row td {
+    padding: 0 !important;
+    background: #fff7f8;
+    border-bottom: 1px solid #f4c7d0;
+    text-align: left !important;
+}
+
+.semester-section-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 14px 18px;
+    background: linear-gradient(90deg, #fff1f3 0%, #ffffff 100%);
+    border-left: 5px solid var(--vlu-red);
+}
+
+.semester-section-card strong {
+    display: block;
+    margin-top: 3px;
+    color: var(--vlu-red);
+    font-size: 16px;
+    letter-spacing: -0.01em;
+}
+
+.semester-label {
+    display: block;
+    color: #98a2b3;
+    font-size: 11px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.semester-stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.semester-stats span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: #ffffff;
+    border: 1px solid #f4c7d0;
+    color: #4b5563;
+    font-size: 12px;
+    font-weight: 850;
+    white-space: nowrap;
+}
+
+.course-row td:first-child small {
+    display: none;
+}
+
+@media (max-width: 720px) {
+    .semester-section-card {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .semester-stats {
+        justify-content: flex-start;
+    }
 }
