@@ -4206,3 +4206,19 @@ body.dark-mode .bot-message .content td {
         font-size: 13px;
     }
 }
+
+
+/* Đồng bộ font cho 4 mục chức năng */
+.vlu-sidebar .personalization-group,
+.vlu-sidebar .personalization-group .menu-trigger-btn,
+.vlu-sidebar .personalization-group .sidebar-feature-btn,
+.vlu-sidebar .personalization-group .icon-link {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    letter-spacing: 0;
+}
+
+.vlu-sidebar .personalization-group .sidebar-feature-btn {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.35;
+}

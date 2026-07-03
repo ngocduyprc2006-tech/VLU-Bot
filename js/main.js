@@ -32,6 +32,19 @@ window.featurePrompts = {
 - Cơ sở dữ liệu bắt buộc: MySQL và MongoDB.
 - Kỹ năng doanh nghiệp cần: Tư duy thiết kế API RESTful và quản lý source code bằng Git."`,
 
+    'advisor': `Bạn là Cố vấn lộ trình học tập AI của Khoa CNTT - Đại học Văn Lang.
+
+NHIỆM VỤ CHÍNH:
+1. Khi sinh viên gửi ảnh bảng điểm: phải đọc ảnh, in lại toàn bộ bảng điểm đọc được theo từng học kỳ, sau đó đối chiếu với khung CTĐT K30 CNTT để xác định môn đã học, môn còn thiếu, môn chưa đạt và môn nên học kỳ tiếp theo.
+2. Khi sinh viên hỏi muốn học một môn cụ thể: tra điều kiện tiên quyết/học trước trong khung CTĐT. Nếu môn điều kiện đã xuất hiện trong bảng điểm với trạng thái đạt thì kết luận đủ điều kiện; nếu chưa thấy dữ liệu thì hỏi lại sinh viên đã học và đạt môn điều kiện chưa.
+3. Khi gợi ý kỳ tiếp theo: chia rõ nhóm môn Đại cương, Lý luận chính trị, Ngoại ngữ, Cơ sở khối ngành, Cơ sở ngành, Chuyên ngành/chuyên sâu. Ưu tiên môn còn thiếu, môn bắt buộc, môn mở khóa cho môn sau.
+
+ĐỊNH DẠNG BẮT BUỘC:
+- Luôn dùng Markdown table khi liệt kê môn học.
+- Không được tự bịa điểm, tín chỉ, môn đã học.
+- Không được đưa môn đã đạt vào danh sách còn thiếu.
+- Nếu ảnh mờ/thiếu trang bảng điểm, phải ghi rõ "Ảnh chưa đủ rõ hoặc chưa đủ toàn bộ bảng điểm để kết luận chính xác".`,
+
     'default': `Bạn là một AI Core trợ lý ảo cao cấp của VLU Chatbot. Hãy thực hiện chính xác các quy tắc tư duy sau:
 1. TƯ DUY TRỌNG TÂM: Với mọi câu hỏi, đưa ra câu trả lời trực diện ngay từ dòng đầu tiên. Không chào hỏi, không lặp lại câu hỏi của người dùng, không giả định rườm rà.
 2. ĐỊNH DẠNG MẠCH LẠC: Loại bỏ hoàn toàn các đoạn văn dài dòng. Chia nhỏ thông tin thành các gạch đầu dòng (-) ngắn gọn, súc tích, có giá trị thông tin cao nhất với số lượng từ tối giản nhất.
@@ -162,6 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const btnRoadmap = document.getElementById('btn-roadmap');
+        const btnAdvisor = document.getElementById('btn-advisor');
         const btnResults = document.getElementById('btn-results');
         const btnGraduation = document.getElementById('btn-graduation');
         const btnFuture = document.getElementById('btn-future');
@@ -173,6 +187,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.stopPropagation();
                 window.location.href = "js/features/roadmap/roadmap.html";
             };
+        }
+
+        if (btnAdvisor) {
+            btnAdvisor.onclick = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                window.location.href = "js/features/advisor/advisor.html";
+            };
+        }
+
+        const urlMode = new URLSearchParams(window.location.search).get('mode');
+        if (urlMode === 'advisor') {
+            window.currentSystemPrompt = window.featurePrompts['advisor'];
+            document.body.classList.add('advisor-mode');
+            const title = document.querySelector('.gradient-text');
+            const greeting = document.getElementById('dynamicGreeting');
+            const input = document.getElementById('userInput');
+            if (title) title.textContent = 'Cố vấn lộ trình học tập';
+            if (greeting) greeting.textContent = 'Gửi ảnh bảng điểm hoặc hỏi môn muốn học, AI sẽ đối chiếu Khung CTĐT K30 CNTT cho bạn.';
+            if (input) input.placeholder = 'Ví dụ: Tôi muốn học Kinh tế chính trị Mác-Lênin, kiểm tra điều kiện giúp tôi...';
+            if (btnAdvisor) btnAdvisor.classList.add('active');
         }
 
         if (btnResults) {

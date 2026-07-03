@@ -20,7 +20,7 @@
 
 body {
     margin: 0;
-    font-family: Inter, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(180deg, #f4f7fb 0%, #eef2f7 100%);
     color: var(--text);
 }
@@ -797,7 +797,7 @@ body {
 
 /* Fix chữ trong khung chat trợ lý: tránh chữ quá to / bị tách dòng xấu khi khung chat thu nhỏ */
 .mini-bot-panel {
-    font-family: Inter, 'Segoe UI', Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .mini-bot-panel .panel-title-row.compact {
@@ -877,4 +877,10 @@ body {
 #failedCourses {
     -moz-appearance: textfield;
     appearance: textfield;
+}
+
+
+/* Font đồng bộ với giao diện chính */
+button, input, select, textarea, a {
+    font-family: inherit;
 }

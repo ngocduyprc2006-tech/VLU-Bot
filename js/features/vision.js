@@ -4,7 +4,7 @@
 
 window.featureVision = {
     // Nhận hàm nén ảnh từ chat.js bốc sang để quản lý tách biệt
-    compressImage: async function(base64Str, maxWidth = 800) {
+    compressImage: async function(base64Str, maxWidth = 1300) {
         return new Promise((resolve) => {
             const img = new Image();
             img.src = base64Str;
@@ -16,11 +16,11 @@ window.featureVision = {
                     height = (maxWidth / width) * height;
                     width = maxWidth;
                 }
-                canvas.width = width;
-                canvas.height = height;
+                canvas.width = Math.round(width);
+                canvas.height = Math.round(height);
                 const ctx = canvas.getContext('2d');
                 ctx.drawImage(img, 0, 0, width, height);
-                resolve(canvas.toDataURL('image/jpeg', 0.6));
+                resolve(canvas.toDataURL('image/jpeg', 0.82));
             };
         });
     },

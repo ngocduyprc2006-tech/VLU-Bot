@@ -19,7 +19,7 @@
 
 body {
     margin: 0;
-    font-family: Inter, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(180deg, #f4f7fb 0%, #eef2f7 100%);
     color: var(--text);
 }
@@ -1054,7 +1054,7 @@ body {
 /* Fix assistant welcome alignment and chat font */
 .mini-chatbox,
 .mini-chatbox * {
-    font-family: Inter, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
 }
 
 .bot-msg {
@@ -1084,4 +1084,10 @@ body {
     color: var(--text) !important;
     font-size: 12.5px !important;
     line-height: 1.5 !important;
+}
+
+
+/* Font đồng bộ với giao diện chính */
+button, input, select, textarea, a {
+    font-family: inherit;
 }

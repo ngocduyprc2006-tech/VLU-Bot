@@ -4,6 +4,19 @@ window.currentChatId = null;
 window.vluAllKnowledgeContent = "";
 window.vluCurriculumK30Content = "";
 
+function compactText(text, maxChars) {
+    if (!text) return "";
+    if (text.length <= maxChars) return text;
+    return text.slice(0, maxChars) + "\n\n...[Đã rút gọn dữ liệu tri thức để tránh vượt giới hạn token]";
+}
+
+function extractCreditCorrection(text) {
+    const m = (text || "").match(/(?:đã\s*)?(?:tích\s*l[uũ]y|h[oọ]c|đ[aạ]t)?\s*(\d{1,3})\s*(?:tc|t[ií]n\s*ch[iỉ])/i);
+    if (!m) return null;
+    const value = parseInt(m[1], 10);
+    return Number.isFinite(value) && value >= 0 && value <= 126 ? value : null;
+}
+
 function getApiKey() {
     return (typeof window.CONFIG !== "undefined" && window.CONFIG.GROQ_API_KEY) ? window.CONFIG.GROQ_API_KEY : "";
 }
@@ -99,13 +112,13 @@ async function sendMessage() {
             const src = img.src;
             let dataToSend = src;
             if (window.featureVision && typeof window.featureVision.compressImage === 'function') {
-                dataToSend = await window.featureVision.compressImage(src);
+                dataToSend = await window.featureVision.compressImage(src, 1300);
             }
             imagePayloads.push(dataToSend);
         }
     }
 
-    const imageDefaultPrompt = "Hãy đọc nội dung trong ảnh và trả lời rõ ràng bằng tiếng Việt. Nếu ảnh là câu hỏi trắc nghiệm, hãy chọn đáp án đúng và giải thích ngắn gọn. Nếu ảnh là bảng điểm/kết quả học tập, KHÔNG được tính tổng ngay. Trước tiên phải in ra bảng tất cả môn đã đọc được từ ảnh theo từng học kỳ: Mã môn, tên môn, tín chỉ, điểm hệ 10, điểm hệ 4, điểm chữ, kết quả. Sau khi đã liệt kê dữ liệu đọc được, mới lập các bảng tổng hợp: tổng tín chỉ đã đạt, môn không tính tín chỉ, môn chưa đạt, môn còn thiếu khi đối chiếu khung CTĐT K30 CNTT. Chỉ tính theo dữ liệu nhìn thấy rõ trong ảnh; nếu ảnh nhỏ/mờ/không thấy hết, phải nói rõ chưa đủ dữ liệu, không được tự suy đoán. Tuyệt đối không dùng tổng 126 TC của chương trình làm tín chỉ đã học. Tuyệt đối không liệt kê một môn là còn thiếu nếu môn đó đã xuất hiện trong ảnh bảng điểm với trạng thái đạt hoặc điểm chữ đạt.";
+    const imageDefaultPrompt = `Hãy đọc nội dung trong ảnh và trả lời rõ ràng bằng tiếng Việt. Nếu ảnh là câu hỏi trắc nghiệm, hãy chọn đáp án đúng và giải thích ngắn gọn. Nếu ảnh là bảng điểm/kết quả học tập, KHÔNG được tính tổng ngay. Trước tiên phải in ra bảng tất cả môn đã đọc được từ ảnh theo từng học kỳ: Mã môn, tên môn, tín chỉ, điểm hệ 10, điểm hệ 4, điểm chữ, kết quả. Sau khi đã liệt kê dữ liệu đọc được, mới lập các bảng tổng hợp: tổng tín chỉ đã đạt, môn không tính tín chỉ, môn chưa đạt, môn còn thiếu khi đối chiếu khung CTĐT K30 CNTT. Nếu trong ảnh có nhiều dòng tổng theo học kỳ, phải lấy dòng tổng ở học kỳ mới nhất/lớn nhất như "Tổng số tín chỉ tích lũy" hoặc "Tổng số tín chỉ đã đạt"; không được lấy nhầm tổng của học kỳ cũ. Chỉ tính theo dữ liệu nhìn thấy rõ trong ảnh; nếu ảnh nhỏ/mờ/không thấy hết, phải nói rõ chưa đủ dữ liệu, không được tự suy đoán. Tuyệt đối không dùng tổng 126 TC của chương trình làm tín chỉ đã học. Không được lấy nhầm "Số tín chỉ đạt học kỳ" thành "Tổng tín chỉ đã đạt"; phải ưu tiên số "Tổng số tín chỉ tích lũy" của học kỳ cuối cùng nhìn thấy trong ảnh. Tuyệt đối không liệt kê một môn là còn thiếu nếu môn đó đã xuất hiện trong ảnh bảng điểm với trạng thái đạt hoặc điểm chữ đạt.`;
     const userQuestion = text || (hasImage ? imageDefaultPrompt : "");
 
     // Hiển thị tin nhắn người dùng
@@ -139,6 +152,7 @@ async function sendMessage() {
 
     // --- KIỂM TRA TỪ KHÓA BẰNG HÀM CÓ SẴN (NẾU CÓ) ---
     const textLower = userQuestion.toLowerCase();
+    const userCreditCorrection = extractCreditCorrection(userQuestion);
     const isVLUKeywords = textLower.includes('văn lang') || textLower.includes('vlu') || (textLower.includes('học phần') && textLower.includes('đăng ký')) || (textLower.includes('tốt nghiệp') && textLower.includes('điều kiện')) || (textLower.includes('lịch thi') || textLower.includes('phòng thi'));
 
     if (isVLUKeywords && !hasImage && !docContent && window.ui && typeof window.ui.fetchVLUData === 'function') {
@@ -181,8 +195,9 @@ QUY TẮC ĐỌC ẢNH BẢNG ĐIỂM / KẾT QUẢ HỌC TẬP:
   **Bước 3:** Cuối cùng mới đối chiếu khung CTĐT K30 CNTT để liệt kê môn còn thiếu/cần học tiếp.
 - Tuyệt đối KHÔNG dùng tổng 126 TC của chương trình làm tín chỉ đã học. 126 TC chỉ là mốc yêu cầu để tốt nghiệp.
 - Tổng tín chỉ đã đạt phải lấy theo một trong hai cách sau:
-  1) Ưu tiên dùng dòng "Tổng số tín chỉ tích lũy" hoặc "Tổng số tín chỉ đã đạt" nhìn thấy rõ trong ảnh.
+  1) Ưu tiên dùng dòng "Tổng số tín chỉ tích lũy" hoặc "Tổng số tín chỉ đã đạt" ở học kỳ mới nhất/cuối cùng nhìn thấy rõ trong ảnh. Nếu người dùng đã sửa lại con số tín chỉ, phải ưu tiên con số người dùng xác nhận.
   2) Nếu không thấy dòng tổng, tự cộng từ các môn đọc được rõ ràng và đã đạt.
+- Khi tính tín chỉ, phải tự kiểm tra lại phép trừ: Tín chỉ còn thiếu = 126 - Tổng tín chỉ đã đạt. Ví dụ đã đạt 42 TC thì còn thiếu 84 TC; đã đạt 59 TC thì còn thiếu 67 TC. Không được ghi mâu thuẫn giữa tổng đã đạt và còn thiếu.
 - Nếu ảnh nhỏ/mờ, chỉ thấy thumbnail, thiếu cột hoặc không đọc chắc số tín chỉ/điểm, hãy nói: "Ảnh chưa đủ rõ để tính chính xác" và KHÔNG được tự suy đoán thành số lớn.
 - Tín chỉ đã học chỉ tính các môn có trạng thái Đạt/Passed/dấu tick xanh hoặc điểm chữ đạt: A+, A, B+, B, C+, C, D+, D, P. Không tính môn Rớt, F, Học lại, Chưa đạt, Vắng thi, MT, điểm bảo lưu 0 tín chỉ.
 - Các môn Giáo dục quốc phòng, Giáo dục thể chất, kiểm tra tiếng Anh đầu khóa, chứng chỉ/điều kiện đầu ra có thể hiển thị trong bảng đã đọc được nhưng nếu cột tín chỉ là 0 hoặc là điều kiện riêng thì ghi "Không tính TC".
@@ -191,7 +206,7 @@ QUY TẮC ĐỌC ẢNH BẢNG ĐIỂM / KẾT QUẢ HỌC TẬP:
   2) Nếu mã khác hoặc ảnh mờ, so tên môn gần giống không phân biệt hoa thường/dấu câu/dấu tiếng Việt.
 - TUYỆT ĐỐI KHÔNG được đưa một môn vào danh sách "còn thiếu" nếu môn đó đã xuất hiện trong bảng điểm với trạng thái đạt. Ví dụ nếu ảnh đã có "Lập trình hướng đối tượng", "Các nền tảng phát triển phần mềm", "Lập trình ứng dụng Web", "Cấu trúc dữ liệu và giải thuật", "Toán rời rạc" thì các môn này phải được xếp vào nhóm ĐÃ ĐẠT, không được liệt kê lại là thiếu.
 - Nếu chưa chắc môn đã đạt hay chưa do ảnh mờ, hãy đặt vào mục "Cần kiểm tra lại" thay vì kết luận thiếu.
-- Khi người dùng hỏi đã học bao nhiêu tín chỉ/còn thiếu gì, phải trình bày bằng Markdown table, không viết một đoạn dài. Cấu trúc bắt buộc:
+- Khi người dùng hỏi đã học bao nhiêu tín chỉ/còn thiếu gì, phải trình bày bằng Markdown table, không viết một đoạn dài. Tuyệt đối không bọc bảng trong dấu backtick/code block, không ghi dòng "Code", không thụt đầu dòng trước bảng. Cấu trúc bắt buộc:
 
   **1. Dữ liệu bảng điểm đọc được**
   | Học kỳ | Mã môn | Tên môn | TC | Điểm 10 | Điểm 4 | Điểm chữ | Kết quả | Tính TC? |
@@ -234,6 +249,12 @@ QUY TẮC TƯƠNG TÁC QUAN TRỌNG:
    - Nếu sinh viên trả lời "Chưa/Chưa học": Hãy lịch sự nhắc nhở sinh viên phải hoàn thành môn học trước đó rồi mới được đăng ký môn hiện tại.
    - Nếu sinh viên trả lời "Có/Rồi" hoặc môn học không hề có điều kiện: Hãy tiến hành phân tích chi tiết môn học (Mã HP, số tín chỉ, học kỳ phân bổ từ dữ liệu tri thức).`;
 
+    if (userCreditCorrection !== null) {
+        systemPrompt += `
+
+NGƯỜI DÙNG ĐÃ XÁC NHẬN / SỬA SỐ TÍN CHỈ: ${userCreditCorrection} TC. Khi trả lời phải dùng đúng ${userCreditCorrection} TC là tín chỉ đã đạt và tính tín chỉ còn thiếu = 126 - ${userCreditCorrection} = ${126 - userCreditCorrection} TC. Nếu câu trả lời trước đó khác số này, hãy nhận lỗi và sửa lại.`;
+    }
+
     // Nạp kho tri thức chính thức vào System Prompt nếu phát hiện câu hỏi liên quan đến VLU hoặc bảng điểm.
     const isTranscriptQuery = hasImage || (
         textLower.includes('bảng điểm') ||
@@ -258,21 +279,21 @@ QUY TẮC TƯƠNG TÁC QUAN TRỌNG:
         systemPrompt += `
 
 KHUNG CHƯƠNG TRÌNH K30 CNTT ĐỂ ĐỐI CHIẾU BẢNG ĐIỂM:
-${window.vluCurriculumK30Content}
+${compactText(window.vluCurriculumK30Content, hasImage ? 5500 : 9000)}
 
 LƯU Ý BẮT BUỘC: Chỉ dùng khung chương trình trên để đối chiếu môn còn thiếu, KHÔNG dùng khung chương trình để suy ra sinh viên đã học đủ tín chỉ. Không tự bịa môn học, mã môn, số tín chỉ hoặc điều kiện tiên quyết. Khi phân tích bảng điểm, ưu tiên các nhóm Công nghệ thông tin: Kiến thức cơ sở khối ngành, Kiến thức cơ sở ngành, Kiến thức chuyên ngành/chuyên sâu. Phải đối chiếu cả mã môn và tên môn; môn nào đã xuất hiện trong ảnh bảng điểm với trạng thái đạt thì không được liệt kê là còn thiếu. Nếu ảnh bảng điểm không đủ dữ liệu, hãy nói rõ phạm vi tính toán. Bắt buộc in bảng "Dữ liệu bảng điểm đọc được" trước, sau đó mới lập bảng tổng hợp và đối chiếu môn thiếu.`;
     } else if (isVLUQuery && window.vluAllKnowledgeContent) {
         systemPrompt += `
 
 CƠ SỞ DỮ LIỆU TRI THỨC CHÍNH THỨC CỦA ĐẠI HỌC VĂN LANG:
-${window.vluAllKnowledgeContent}
+${compactText(window.vluAllKnowledgeContent, 9000)}
 
 LƯU Ý: Tuyệt đối không tự bịa đặt môn học hoặc điều kiện nằm ngoài dữ liệu trên. Định dạng câu trả lời bằng Markdown đẹp đẽ, rõ ràng.`;
     } else if (docContent) {
         systemPrompt += `
 
 NỘI DUNG TÀI LIỆU ĐÍNH KÈM:
-${docContent}`;
+${compactText(docContent, 9000)}`;
     }
 
     // Bốc lịch sử trò chuyện thực tế từ LocalStorage để gửi lên API (Giúp bot nhớ mạch Có/Chưa)
@@ -291,7 +312,7 @@ ${docContent}`;
     }
 
     let combinedText = userQuestion;
-    if (docContent) combinedText = `Nội dung tài liệu: ${docContent}\n\nCâu hỏi: ${userQuestion || "Hãy tóm tắt tài liệu."}`;
+    if (docContent) combinedText = `Nội dung tài liệu: ${compactText(docContent, 9000)}\n\nCâu hỏi: ${userQuestion || "Hãy tóm tắt tài liệu."}`;
 
     if (hasImage) {
         const contentPayload = [{ type: "text", text: combinedText || imageDefaultPrompt }];
@@ -318,8 +339,8 @@ ${docContent}`;
             body: JSON.stringify({
                 model,
                 messages: apiMessages,
-                max_tokens: 6000,
-                temperature: 0.2
+                max_tokens: hasImage ? 1800 : 2500,
+                temperature: 0.1
             })
         });
         const data = await response.json();
@@ -390,8 +411,34 @@ function renderUserImageMessage(url) {
 
 function formatBotAnswerText(text) {
     let formatted = String(text || "").trim();
-
     if (!formatted) return "";
+
+    const isAdvisorMode = document.body && document.body.classList.contains('advisor-mode');
+
+    // Cố vấn lộ trình thường trả về bảng Markdown. Nếu model lỡ bọc bảng trong code block
+    // hoặc sinh ra dòng "Code"/dòng thụt đầu dòng trước bảng, Marked sẽ hiểu nhầm thành khối code.
+    // Chuẩn hóa mạnh trước khi parse để bảng điểm không bị hiện thành khung Code.
+    if (isAdvisorMode) {
+        formatted = formatted
+            .replace(/```(?:markdown|md|text|txt|table|csv|html|json|javascript|js|code)?\s*/gi, "")
+            .replace(/```/g, "")
+            .replace(/^\s*[-*•]?\s*(?:<\/?[^>]+>\s*)?Code(?:\s*\[[^\]]*\])?\s*$/gim, "")
+            .replace(/^\s*[-*•]?\s*(?:<\/?[^>]+>\s*)?Mã nguồn\s*$/gim, "")
+            .replace(/^\s{2,}(\|.*)$/gm, "$1")
+            .replace(/^\s{2,}([^\n]*\|[^\n]*)$/gm, "$1")
+            .replace(/\n\s*\|\s*\n/g, "\n")
+            .replace(/^\s*\|\s*$/gm, "");
+    }
+
+    // Chuẩn hóa xuống dòng quanh bảng Markdown để không bị dính thành một đoạn dài.
+    formatted = formatted
+        .replace(/\s+(\|\s*Học kỳ\s*\|)/gi, "\n\n$1")
+        .replace(/\s+(\|\s*Hạng mục\s*\|)/gi, "\n\n$1")
+        .replace(/\s+(\|\s*Nhóm môn\s*\|)/gi, "\n\n$1")
+        .replace(/\s+(\|\s*Ưu tiên\s*\|)/gi, "\n\n$1")
+        .replace(/\s+(\|\s*Mã môn\s*\|)/gi, "\n\n$1")
+        .replace(/\s+(\|\s*Thứ tự\s*\|)/gi, "\n\n$1")
+        .replace(/\|\s*(\d+\.\s+)/g, "|\n\n$1");
 
     // Chuẩn hóa các nhãn thường gặp để khi render bằng Markdown sẽ tự in đậm và xuống dòng đẹp hơn.
     const labelRules = [
@@ -401,6 +448,7 @@ function formatBotAnswerText(text) {
         { regex: /(^|\n|\.\s+)(Đáp án\s*:)/gi, label: "Đáp án:" },
         { regex: /(^|\n|\.\s+)(Trả lời\s*:)/gi, label: "Trả lời:" },
         { regex: /(^|\n|\.\s+)(Giải thích\s*:)/gi, label: "Giải thích:" },
+        { regex: /(^|\n|\.\s+)(Dữ liệu bảng điểm đọc được\s*:)/gi, label: "Dữ liệu bảng điểm đọc được:" },
         { regex: /(^|\n|\.\s+)(Tổng quan\s*:)/gi, label: "Tổng quan:" },
         { regex: /(^|\n|\.\s+)(Tổng quan tín chỉ\s*:)/gi, label: "Tổng quan tín chỉ:" },
         { regex: /(^|\n|\.\s+)(Thống kê theo nhóm môn\s*:)/gi, label: "Thống kê theo nhóm môn:" },
@@ -408,6 +456,7 @@ function formatBotAnswerText(text) {
         { regex: /(^|\n|\.\s+)(Môn còn thiếu\s*\/\s*cần học tiếp\s*:)/gi, label: "Môn còn thiếu / cần học tiếp:" },
         { regex: /(^|\n|\.\s+)(Môn chưa đạt\s*\/\s*cần học lại\s*:)/gi, label: "Môn chưa đạt / cần học lại:" },
         { regex: /(^|\n|\.\s+)(Gợi ý học kỳ tiếp theo\s*:)/gi, label: "Gợi ý học kỳ tiếp theo:" },
+        { regex: /(^|\n|\.\s+)(Phân tích và đề xuất\s*:)/gi, label: "Phân tích và đề xuất:" },
         { regex: /(^|\n|\.\s+)(Kết luận\s*:)/gi, label: "Kết luận:" },
         { regex: /(^|\n|\.\s+)(Lưu ý\s*:)/gi, label: "Lưu ý:" }
     ];
@@ -419,17 +468,43 @@ function formatBotAnswerText(text) {
         });
     });
 
-    // Nếu bot trả lời kiểu "b. Nội dung" sau nhãn đáp án thì giữ nó cùng dòng, nhưng tách phần giải thích ra đoạn mới.
-    formatted = formatted.replace(/\s+\*\*((Giải thích|Tổng quan|Tổng quan tín chỉ|Thống kê theo nhóm môn|Môn đã đạt quan trọng|Môn còn thiếu \/ cần học tiếp|Môn chưa đạt \/ cần học lại|Gợi ý học kỳ tiếp theo|Kết luận|Lưu ý)):\*\*/g, "\n\n**$1:**");
+    formatted = formatted.replace(/\s+\*\*((Giải thích|Dữ liệu bảng điểm đọc được|Tổng quan|Tổng quan tín chỉ|Thống kê theo nhóm môn|Môn đã đạt quan trọng|Môn còn thiếu \/ cần học tiếp|Môn chưa đạt \/ cần học lại|Gợi ý học kỳ tiếp theo|Phân tích và đề xuất|Kết luận|Lưu ý)):\*\*/g, "\n\n**$1:**");
 
     // Tách các mục đánh số / gạch đầu dòng nếu API trả về dính liền.
-    formatted = formatted.replace(/([^\n])\s+(\d+\.\s)/g, "$1\n$2");
+    formatted = formatted.replace(/([^\n])\s+(\d+\.\s)/g, "$1\n\n$2");
     formatted = formatted.replace(/([^\n])\s+(-\s)/g, "$1\n$2");
 
-    // Dọn bớt khoảng trắng thừa nhưng vẫn giữ đoạn văn dễ đọc.
-    formatted = formatted.replace(/\n{3,}/g, "\n\n");
+    // Dọn lỗi model hay sinh ra: hàng bảng rỗng, ký tự code fence thừa.
+    if (isAdvisorMode) {
+        formatted = formatted
+            .replace(/^\s*\|\s*\|\s*$/gm, "")
+            .replace(/^\s*\|\s*---[^\n]*$/gm, m => m.replace(/\s+/g, ' '))
+            .replace(/•\s*<\/?>?\s*Code\s*/gi, "")
+            .replace(/<\/?>\s*Code/gi, "")
+            .replace(/\n\s*\|\s*\n/g, "\n");
+    }
 
+    formatted = formatted.replace(/\n{3,}/g, "\n\n");
     return formatted;
+}
+
+
+function looksLikeAdvisorTableCode(codeText) {
+    const text = String(codeText || '').trim();
+    if (!text) return false;
+    const pipeCount = (text.match(/\|/g) || []).length;
+    return pipeCount >= 4 && !/(function\s+|const\s+|let\s+|var\s+|=>|class\s+|<script|import\s+)/i.test(text);
+}
+
+function codeTextToPlainTableBlock(codeText) {
+    let text = String(codeText || '').trim();
+    text = text
+        .replace(/^\s*[-*•]?\s*(?:<\/?[^>]+>\s*)?Code\s*$/gim, '')
+        .replace(/^\s{2,}(\|.*)$/gm, '$1')
+        .replace(/^\s*\|\s*$/gm, '')
+        .replace(/\n{3,}/g, '\n\n')
+        .trim();
+    return text;
 }
 
 function renderBotMessage(text) {
@@ -440,17 +515,30 @@ function renderBotMessage(text) {
 
 
     const formattedText = formatBotAnswerText(text);
+    if (typeof marked !== 'undefined' && marked.setOptions) { marked.setOptions({ gfm: true, breaks: false }); }
     let htmlContent = (typeof marked !== 'undefined') ? marked.parse(formattedText) : formattedText;
     var tempDiv = document.createElement('div');
     tempDiv.innerHTML = htmlContent;
 
 
     tempDiv.querySelectorAll('pre').forEach(pre => {
+        const codeElement = pre.querySelector('code');
+        const codeText = codeElement ? codeElement.textContent : pre.textContent;
+
+        // Riêng màn Cố vấn lộ trình: nếu khối code thực chất là bảng Markdown bị parse lỗi,
+        // bỏ khung Code và hiển thị lại như nội dung thường để tránh UI vỡ.
+        if (document.body && document.body.classList.contains('advisor-mode') && looksLikeAdvisorTableCode(codeText)) {
+            const plain = document.createElement('div');
+            plain.className = 'advisor-table-plain';
+            plain.textContent = codeTextToPlainTableBlock(codeText);
+            pre.replaceWith(plain);
+            return;
+        }
+
         let wrapper = document.createElement('div');
         wrapper.className = 'code-block-wrapper';
 
 
-        const codeElement = pre.querySelector('code');
         let lang = 'Code';
         if (codeElement) { const langClass = Array.from(codeElement.classList).find(c => c.startsWith('language-')); if (langClass) lang = langClass.replace('language-', '').toUpperCase(); }
 
