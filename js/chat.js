@@ -74,6 +74,25 @@ ${fileText}
                 }
             } catch (err) { console.warn(`Không thể nạp trực tiếp khungK30 từ ${root}:`, err); }
         }
+
+        // Fallback bổ sung từ file Word người dùng cung cấp.
+        for (const root of knowledgeRoots) {
+            try {
+                const wordResponse = await fetch(`${root}/khungK30_word.txt`);
+                if (wordResponse.ok) {
+                    const fileText = await wordResponse.text();
+                    curriculumK30 += `--- KHUNG CHƯƠNG TRÌNH K30 TỪ FILE WORD: khungK30_word.txt ---
+${fileText}
+
+`;
+                    combinedData += `--- NỘI DUNG TỆP TRI THỨC CHÍNH THỨC: khungK30_word.txt ---
+${fileText}
+
+`;
+                    break;
+                }
+            } catch (err) { console.warn(`Không thể nạp trực tiếp khungK30_word từ ${root}:`, err); }
+        }
     }
 
     window.vluAllKnowledgeContent = combinedData;
@@ -195,11 +214,13 @@ QUY TẮC ĐỌC ẢNH BẢNG ĐIỂM / KẾT QUẢ HỌC TẬP:
   **Bước 3:** Cuối cùng mới đối chiếu khung CTĐT K30 CNTT để liệt kê môn còn thiếu/cần học tiếp.
 - Tuyệt đối KHÔNG dùng tổng 126 TC của chương trình làm tín chỉ đã học. 126 TC chỉ là mốc yêu cầu để tốt nghiệp.
 - Tổng tín chỉ đã đạt phải lấy theo một trong hai cách sau:
-  1) Ưu tiên dùng dòng "Tổng số tín chỉ tích lũy" hoặc "Tổng số tín chỉ đã đạt" ở học kỳ mới nhất/cuối cùng nhìn thấy rõ trong ảnh. Nếu người dùng đã sửa lại con số tín chỉ, phải ưu tiên con số người dùng xác nhận.
+  1) Ưu tiên dùng dòng "Tổng số tín chỉ tích lũy" hoặc "Tổng số tín chỉ đã đạt" ở học kỳ mới nhất/cuối cùng nhìn thấy rõ trong ảnh, đặc biệt là khối tổng kết màu be ở bên phải cuối mỗi học kỳ. Nếu ảnh mới nhất nhìn thấy "Tổng số tín chỉ tích lũy: 65" thì tổng đã đạt là 65 TC. Nếu người dùng đã sửa lại con số tín chỉ, phải ưu tiên con số người dùng xác nhận.
   2) Nếu không thấy dòng tổng, tự cộng từ các môn đọc được rõ ràng và đã đạt.
-- Khi tính tín chỉ, phải tự kiểm tra lại phép trừ: Tín chỉ còn thiếu = 126 - Tổng tín chỉ đã đạt. Ví dụ đã đạt 42 TC thì còn thiếu 84 TC; đã đạt 59 TC thì còn thiếu 67 TC. Không được ghi mâu thuẫn giữa tổng đã đạt và còn thiếu.
+- Khi tính tín chỉ, phải tự kiểm tra lại phép trừ: Tín chỉ còn thiếu = 126 - Tổng tín chỉ đã đạt. Ví dụ đã đạt 42 TC thì còn thiếu 84 TC; đã đạt 59 TC thì còn thiếu 67 TC; đã đạt 65 TC thì còn thiếu 61 TC. Không được ghi mâu thuẫn giữa tổng đã đạt và còn thiếu.
 - Nếu ảnh nhỏ/mờ, chỉ thấy thumbnail, thiếu cột hoặc không đọc chắc số tín chỉ/điểm, hãy nói: "Ảnh chưa đủ rõ để tính chính xác" và KHÔNG được tự suy đoán thành số lớn.
-- Tín chỉ đã học chỉ tính các môn có trạng thái Đạt/Passed/dấu tick xanh hoặc điểm chữ đạt: A+, A, B+, B, C+, C, D+, D, P. Không tính môn Rớt, F, Học lại, Chưa đạt, Vắng thi, MT, điểm bảo lưu 0 tín chỉ.
+- Tín chỉ đã học chỉ tính các môn có trạng thái Đạt/Passed/dấu tick xanh hoặc điểm chữ đạt: A+, A, B+, B, C+, C, D+, D, P và TC > 0. Không tính môn Rớt, F, Học lại, Chưa đạt, Vắng thi, MT, điểm bảo lưu 0 tín chỉ.
+- Không được tự loại môn chính trị, giáo dục thể chất, giáo dục quốc phòng ra khỏi tổng tín chỉ nếu bảng điểm ghi TC > 0 và kết quả đạt. Ví dụ Kinh tế chính trị Mác-Lênin 2 TC điểm B, GDQP, Bơi lội, Bóng rổ, Chủ nghĩa xã hội khoa học đều phải tính TC nếu đã đạt.
+- Chỉ loại Anh văn dự bị/AV0 hoặc Kiểm tra tiếng Anh đầu khóa nếu TC = 0, điểm chữ MT hoặc bảng ghi rõ không tính tín chỉ.
 - Các môn Giáo dục quốc phòng, Giáo dục thể chất, kiểm tra tiếng Anh đầu khóa, chứng chỉ/điều kiện đầu ra có thể hiển thị trong bảng đã đọc được nhưng nếu cột tín chỉ là 0 hoặc là điều kiện riêng thì ghi "Không tính TC".
 - Khi đối chiếu với khung CTĐT K30 CNTT, bắt buộc dùng thuật toán đối chiếu hai lớp:
   1) Ưu tiên so mã môn/mã học phần.
@@ -228,11 +249,27 @@ QUY TẮC ĐỌC ẢNH BẢNG ĐIỂM / KẾT QUẢ HỌC TẬP:
   | Cơ sở ngành | ... | ... | ... |
   | Chuyên ngành/chuyên sâu | ... | ... | ... |
 
-  **4. Môn còn thiếu / cần học tiếp**
-  | Ưu tiên | Nhóm | Mã môn | Tên môn | TC | Lý do |
-  |---:|---|---|---|---:|---|
+  **
+4. Khi sinh viên hỏi muốn học một môn cụ thể, phải kiểm tra điều kiện học trước/tiên quyết bằng khung CTĐT:
 
-  **5. Môn chưa đạt / cần học lại**
+   - Nếu ĐÃ ĐỦ điều kiện:
+     → Chỉ được trả lời: "Bạn đã đủ điều kiện để đăng ký môn này."
+
+   - Nếu CHƯA ĐỦ điều kiện:
+     → KHÔNG được dùng câu chung chung như "nếu đủ điều kiện tiên quyết".
+     → PHẢI chỉ rõ:
+        1. Môn đang thiếu
+        2. Mã môn điều kiện tiên quyết (nếu có)
+        3. Câu bắt buộc: "Bạn cần học và đạt môn [Tên môn điều kiện] trước khi học môn này."
+
+   - Nếu không tìm thấy dữ liệu điều kiện:
+     → Trả lời: "Không xác định được điều kiện tiên quyết từ dữ liệu hiện tại."
+
+   - TUYỆT ĐỐI không dùng câu mơ hồ kiểu:
+     "nếu đủ điều kiện tiên quyết thì học được"
+
+
+5. Môn chưa đạt / cần học lại**
   | Mã môn | Tên môn | Điểm chữ | Ghi chú |
   |---|---|---|---|
 
@@ -242,12 +279,34 @@ QUY TẮC ĐỌC ẢNH BẢNG ĐIỂM / KẾT QUẢ HỌC TẬP:
 - Nếu ảnh bảng điểm không đủ toàn bộ học kỳ hoặc không đọc được hết, hãy mở đầu bằng câu: "Mình chỉ tính theo phần bảng điểm đọc được trong ảnh." và yêu cầu gửi thêm ảnh/phần còn thiếu.
 - Không tự bịa điểm, tín chỉ hoặc môn đã học nếu không đọc được trong ảnh.
 
-QUY TẮC TƯƠNG TÁC QUAN TRỌNG:
-1. KHÔNG xả hết tất cả thông tin môn học cùng lúc nếu môn học đó có điều kiện.
-2. Khi sinh viên bảo muốn học hoặc hỏi về một môn nào đó, hãy tra cứu hệ thống dữ liệu được cung cấp phía dưới:
-   - Nếu môn đó CÓ "Điều kiện học trước" hoặc "Tiên quyết": Bạn PHẢI hỏi ngược lại sinh viên bằng câu hỏi dạng: "Bạn đã học và đạt môn điều kiện là [Tên môn điều kiện] của môn này chưa?" và DỪNG LẠI chờ sinh viên trả lời Có/Chưa.
-   - Nếu sinh viên trả lời "Chưa/Chưa học": Hãy lịch sự nhắc nhở sinh viên phải hoàn thành môn học trước đó rồi mới được đăng ký môn hiện tại.
-   - Nếu sinh viên trả lời "Có/Rồi" hoặc môn học không hề có điều kiện: Hãy tiến hành phân tích chi tiết môn học (Mã HP, số tín chỉ, học kỳ phân bổ từ dữ liệu tri thức).`;
+QUY TẮC TƯƠNG TÁC QUAN TRỌNG CHO CỐ VẤN LỘ TRÌNH:
+1. Khi sinh viên gửi bảng điểm/ảnh điểm, BẮT BUỘC in lại toàn bộ dữ liệu đọc được trước; sau đó mới rà soát tổng số môn đã đạt và tổng tín chỉ đã đạt.
+2. Sau khi phân tích bảng điểm, BẮT BUỘC hỏi sinh viên đang theo chuyên ngành nào: Công nghệ Phần mềm, Công nghệ Dữ liệu hay Trí tuệ Nhân tạo. Chỉ khi sinh viên trả lời chuyên ngành thì mới đề xuất môn chuyên ngành kỳ tới.
+3. Khi sinh viên trả lời chuyên ngành, gợi ý môn kỳ tới theo quy tắc:
+   - Ưu tiên môn chưa học/chưa đạt trong khung CTĐT.
+   - Chỉ gợi ý môn mà điều kiện học trước đã đạt hoặc không có điều kiện.
+   - Nếu môn có điều kiện chưa đạt, đưa vào mục "Chưa nên đăng ký vì thiếu điều kiện".
+
+4. Khi sinh viên hỏi muốn học một môn cụ thể, phải kiểm tra điều kiện học trước/tiên quyết bằng khung CTĐT:
+
+   - Nếu ĐÃ ĐỦ điều kiện:
+     → Chỉ được trả lời: "Bạn đã đủ điều kiện để đăng ký môn này."
+
+   - Nếu CHƯA ĐỦ điều kiện:
+     → KHÔNG được dùng câu chung chung như "nếu đủ điều kiện tiên quyết".
+     → PHẢI chỉ rõ:
+        1. Môn đang thiếu
+        2. Mã môn điều kiện tiên quyết (nếu có)
+        3. Câu bắt buộc: "Bạn cần học và đạt môn [Tên môn điều kiện] trước khi học môn này."
+
+   - Nếu không tìm thấy dữ liệu điều kiện:
+     → Trả lời: "Không xác định được điều kiện tiên quyết từ dữ liệu hiện tại."
+
+   - TUYỆT ĐỐI không dùng câu mơ hồ kiểu:
+     "nếu đủ điều kiện tiên quyết thì học được"
+
+
+5. Trường hợp đặc biệt bắt buộc: "Các nền tảng phát triển phần mềm" / "71ITDS30103" có điều kiện học trước là "71ITBS10103 - Nhập môn Công nghệ thông tin". Nếu bảng điểm chưa có hoặc chưa rõ đã đạt môn Nhập môn Công nghệ thông tin, phải nhắc: "Bạn cần học và đạt Nhập môn Công nghệ thông tin trước rồi mới nên đăng ký Các nền tảng phát triển phần mềm."`;
 
     if (userCreditCorrection !== null) {
         systemPrompt += `
@@ -339,7 +398,7 @@ ${compactText(docContent, 9000)}`;
             body: JSON.stringify({
                 model,
                 messages: apiMessages,
-                max_tokens: hasImage ? 1800 : 2500,
+                max_tokens: hasImage ? 4200 : 3000,
                 temperature: 0.1
             })
         });
