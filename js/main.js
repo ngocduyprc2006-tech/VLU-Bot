@@ -177,8 +177,23 @@ document.addEventListener('DOMContentLoaded', () => {
         const btnRoadmap = document.getElementById('btn-roadmap');
         const btnAdvisor = document.getElementById('btn-advisor');
         const btnResults = document.getElementById('btn-results');
+        const btnProfile = document.getElementById('btn-profile');
         const btnGraduation = document.getElementById('btn-graduation');
         const btnFuture = document.getElementById('btn-future');
+
+        const updateProfileAccess = (user) => {
+            if (!btnProfile) return;
+            btnProfile.style.display = user ? '' : 'none';
+        };
+
+        if (typeof firebase !== 'undefined' && firebase.auth) {
+            updateProfileAccess(firebase.auth().currentUser);
+            firebase.auth().onAuthStateChanged((user) => {
+                updateProfileAccess(user);
+            });
+        } else {
+            updateProfileAccess(null);
+        }
 
         // ĐÃ CẬP NHẬT: Định hướng đúng vào cấu trúc thư mục con tương ứng
         if (btnRoadmap) {
@@ -215,6 +230,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
                 e.stopPropagation();
                 window.location.href = "js/features/gpa/gpa.html";
+            };
+        }
+
+        if (btnProfile) {
+            btnProfile.onclick = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const currentUser = typeof firebase !== 'undefined' && firebase.auth ? firebase.auth().currentUser : null;
+                if (!currentUser) {
+                    alert('Bạn phải đăng nhập trước khi mở hồ sơ sinh viên.');
+                    if (authModal) {
+                        authModal.style.display = 'block';
+                        authModal.classList.add('show');
+                    }
+                    return;
+                }
+                window.location.href = "js/features/profile/profile.html";
             };
         }
 
