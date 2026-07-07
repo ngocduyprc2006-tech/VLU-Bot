@@ -17,6 +17,243 @@ function extractCreditCorrection(text) {
     return Number.isFinite(value) && value >= 0 && value <= 126 ? value : null;
 }
 
+function normalizeVietnameseText(text) {
+    return String(text || "")
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/đ/g, 'd');
+}
+
+function isGraduationOptionQuery(text) {
+    const normalized = normalizeVietnameseText(text);
+    if (!normalized) return false;
+
+    const asksGraduation =
+        normalized.includes('tot nghiep') ||
+        normalized.includes('ra truong') ||
+        normalized.includes('khoa luan') ||
+        normalized.includes('do an tot nghiep') ||
+        normalized.includes('thay the khoa luan');
+
+    if (!asksGraduation) return false;
+
+    // Nếu người dùng đang gửi bảng điểm hoặc hỏi phân tích cá nhân,
+    // để luồng cố vấn AI xử lý thay vì trả lời khối tốt nghiệp cố định.
+    const needsTranscriptAnalysis = [
+        'bang diem', 'ket qua hoc tap', 'anh diem', 'hinh diem',
+        'da hoc bao nhieu', 'bao nhieu tin chi', 'con thieu bao nhieu',
+        'con thieu gi', 'kiem tra giup', 'phan tich', 'mssv', 'gpa'
+    ].some(keyword => normalized.includes(keyword));
+
+    return !needsTranscriptAnalysis;
+}
+
+
+
+// ===== DETERMINISTIC COURSE LOOKUP FROM K30 CURRICULUM =====
+// Xử lý trực tiếp các câu hỏi kiểu "tôi muốn học [tên môn]" để tránh AI suy đoán sai điều kiện học trước.
+function getCurriculumCoursesFromLoadedText() {
+    if (window.vluCurriculumCourseCache && window.vluCurriculumCourseCache.length) {
+        return window.vluCurriculumCourseCache;
+    }
+
+    const source = window.vluCurriculumK30Content || window.vluAllKnowledgeContent || "";
+    const courses = [];
+    const seen = new Set();
+
+    source.split(/\r?\n/).forEach(line => {
+        const trimmed = line.trim();
+        if (!/^\d{2}[A-Z0-9]{6,}\s*\|/.test(trimmed)) return;
+
+        const parts = trimmed.split('|').map(part => part.trim());
+        if (parts.length < 4) return;
+
+        const code = parts[0];
+        if (seen.has(code)) return;
+
+        const getField = (prefix) => {
+            const normalizedPrefix = normalizeVietnameseText(prefix);
+            const field = parts.find(part => normalizeVietnameseText(part).startsWith(normalizedPrefix));
+            if (!field) return "";
+            const colonIndex = field.indexOf(':');
+            return colonIndex >= 0 ? field.slice(colonIndex + 1).trim() : field.trim();
+        };
+
+        const creditsMatch = (parts[3] || "").match(/\d+/);
+        const course = {
+            code,
+            name: parts[1] || "",
+            englishName: parts[2] || "",
+            credits: creditsMatch ? Number(creditsMatch[0]) : null,
+            curriculumCode: parts[4] || "",
+            group: getField('Nhóm'),
+            major: getField('Chuyên ngành'),
+            year: getField('Năm') || (parts.find(part => normalizeVietnameseText(part).startsWith('nam ')) || ""),
+            semester: getField('HK') || (parts.find(part => normalizeVietnameseText(part).startsWith('hk ')) || ""),
+            prerequisiteText: getField('Tiên quyết'),
+            priorText: getField('Học trước')
+        };
+
+        course.prerequisites = parseCurriculumRequirement(course.prerequisiteText);
+        course.priorCourses = parseCurriculumRequirement(course.priorText);
+
+        seen.add(code);
+        courses.push(course);
+    });
+
+    window.vluCurriculumCourseCache = courses;
+    return courses;
+}
+
+function parseCurriculumRequirement(rawText) {
+    const raw = String(rawText || "").replace(/^[:\s]+/, '').trim();
+    if (!raw || normalizeVietnameseText(raw) === 'khong') return [];
+
+    const requirements = [];
+    const regex = /\[?([0-9]{2}[A-Z0-9]{6,})\]?\s*(?:[-–—])?\s*([^,;|]*)/gi;
+    let match;
+
+    while ((match = regex.exec(raw)) !== null) {
+        requirements.push({
+            code: match[1].trim(),
+            name: String(match[2] || "").replace(/^[-–—\s]+/, '').trim()
+        });
+    }
+
+    return requirements.length ? requirements : [{ code: "", name: raw }];
+}
+
+function findCourseByQuestion(question) {
+    const courses = getCurriculumCoursesFromLoadedText();
+    if (!courses.length) return null;
+
+    const original = String(question || "");
+    const normalized = normalizeVietnameseText(original);
+    const codeMatch = original.match(/\b\d{2}[A-Z0-9]{6,}\b/i);
+
+    if (codeMatch) {
+        const code = codeMatch[0].toUpperCase();
+        const byCode = courses.find(course => course.code.toUpperCase() === code);
+        if (byCode) return byCode;
+    }
+
+    const aliases = [
+        { keys: ['java nang cao', 'advanced java'], code: '71ITSE30803' },
+        { keys: ['lap trinh ung dung java', 'java application programming'], code: '71ITSE30403' },
+        { keys: ['toi uu hoa may tim kiem', 'search engine optimization', ' seo '], code: '71ITIS30603' },
+        { keys: ['thuong mai dien tu', 'e-commerce', 'e commerce'], code: '71ITIS30503' },
+        { keys: ['do an tot nghiep', 'graduation project'], code: '71ITGR40206' }
+    ];
+
+    for (const alias of aliases) {
+        if (alias.keys.some(key => normalized.includes(key.trim()) || ` ${normalized} `.includes(key))) {
+            const byAlias = courses.find(course => course.code === alias.code);
+            if (byAlias) return byAlias;
+        }
+    }
+
+    const matched = courses
+        .filter(course => {
+            const name = normalizeVietnameseText(course.name);
+            const english = normalizeVietnameseText(course.englishName);
+            return (name && normalized.includes(name)) || (english && normalized.includes(english));
+        })
+        .sort((a, b) => normalizeVietnameseText(b.name).length - normalizeVietnameseText(a.name).length);
+
+    return matched[0] || null;
+}
+
+function isSpecificCourseQuestion(question) {
+    const normalized = normalizeVietnameseText(question);
+    if (!normalized) return false;
+
+    const intentWords = [
+        'toi muon hoc', 'muon hoc', 'hoc mon', 'dang ky', 'dang ki',
+        'mon nay', 'hoc phan', 'tien quyet', 'hoc truoc', 'dieu kien',
+        'co hoc duoc', 'duoc hoc', 'nen hoc', 'can hoc', 'thong tin mon'
+    ];
+
+    return intentWords.some(word => normalized.includes(word));
+}
+
+function resolveRequirementLabel(requirement, courses) {
+    if (!requirement) return "Không";
+
+    const knownCourse = requirement.code
+        ? courses.find(course => course.code.toUpperCase() === requirement.code.toUpperCase())
+        : null;
+
+    const name = (knownCourse && knownCourse.name) || requirement.name || "";
+    if (requirement.code && name) return `${requirement.code} – ${name}`;
+    if (requirement.code) return requirement.code;
+    return name || "Không";
+}
+
+function formatRequirementCell(requirements, courses) {
+    if (!requirements || !requirements.length) return "Không";
+    return requirements.map(req => resolveRequirementLabel(req, courses)).join('<br>');
+}
+
+function safeTableText(value) {
+    return String(value || "Không").replace(/\|/g, '/');
+}
+
+function formatCourseLookupResponse(course) {
+    const courses = getCurriculumCoursesFromLoadedText();
+    const prerequisiteCell = formatRequirementCell(course.prerequisites, courses);
+    const priorCell = formatRequirementCell(course.priorCourses, courses);
+    const firstRequirement = (course.priorCourses && course.priorCourses[0]) || (course.prerequisites && course.prerequisites[0]);
+    const requirementLabel = firstRequirement ? resolveRequirementLabel(firstRequirement, courses) : "";
+    // Chỉ hiển thị năm học gợi ý. Không hiển thị HK để tránh UI sinh dòng thừa kiểu "HK 2 |".
+    const timeHint = course.year || "Không rõ";
+
+    let conclusion;
+    if (firstRequirement) {
+        conclusion = `Bạn có thể đăng ký học phần này khi đã học và đạt **${requirementLabel}**. Nếu chưa đạt học phần này, bạn nên hoàn thành trước rồi mới đăng ký **${course.name}**.`;
+    } else {
+        conclusion = `Học phần này không có điều kiện tiên quyết/học trước trong khung K30. Bạn có thể cân nhắc đăng ký nếu phù hợp học kỳ, chuyên ngành và kế hoạch tín chỉ của mình.`;
+    }
+
+    return `
+📘 **Tra cứu học phần theo Khung CTĐT K30 CNTT**
+
+| Nội dung | Thông tin |
+|---|---|
+| **Mã học phần** | **${safeTableText(course.code)}** |
+| **Tên học phần** | **${safeTableText(course.name)}** |
+| **Tên tiếng Anh** | ${safeTableText(course.englishName)} |
+| **Số tín chỉ** | **${course.credits || "Không rõ"} tín chỉ** |
+| **Nhóm kiến thức** | ${safeTableText(course.group)} |
+| **Chuyên ngành** | ${safeTableText(course.major)} |
+| **Thời điểm gợi ý** | ${safeTableText(timeHint)} |
+
+**Điều kiện học phần**
+
+| Loại điều kiện | Kết quả |
+|---|---|
+| **Tiên quyết** | ${prerequisiteCell} |
+| **Học trước** | ${priorCell} |
+
+✅ **Kết luận:** ${conclusion}
+
+📌 **Lưu ý:** Nếu bạn gửi thêm bảng điểm, bot sẽ kiểm tra trực tiếp xem bạn đã đủ điều kiện đăng ký học phần này chưa.
+`.trim();
+}
+
+function getDeterministicCurriculumReply(question) {
+    if (isGraduationOptionQuery(question)) {
+        return formatGraduationResponse();
+    }
+
+    const course = findCourseByQuestion(question);
+    if (course && isSpecificCourseQuestion(question)) {
+        return formatCourseLookupResponse(course);
+    }
+
+    return null;
+}
+
 function getApiKey() {
     return (typeof window.CONFIG !== "undefined" && window.CONFIG.GROQ_API_KEY) ? window.CONFIG.GROQ_API_KEY : "";
 }
@@ -38,16 +275,10 @@ async function loadKnowledgeBase() {
                     const fileResponse = await fetch(`${root}/${fileName}`);
                     if (fileResponse.ok) {
                         const fileText = await fileResponse.text();
-                        combinedData += `--- NỘI DUNG TỆP TRI THỨC CHÍNH THỨC: ${fileName} ---
-${fileText}
-
-`;
+                        combinedData += `--- NỘI DUNG TỆP TRI THỨC CHÍNH THỨC: ${fileName} ---\n${fileText}\n\n`;
 
                         if (fileName.toLowerCase().includes('khungk30') || fileName.toLowerCase().includes('curriculum')) {
-                            curriculumK30 += `--- KHUNG CHƯƠNG TRÌNH K30: ${fileName} ---
-${fileText}
-
-`;
+                            curriculumK30 += `--- KHUNG CHƯƠNG TRÌNH K30: ${fileName} ---\n${fileText}\n\n`;
                         }
                     }
                 } catch (fileErr) { console.error(`Không thể nạp tệp ${root}/${fileName}:`, fileErr); }
@@ -62,14 +293,8 @@ ${fileText}
                 const directResponse = await fetch(`${root}/khungK30.txt`);
                 if (directResponse.ok) {
                     const fileText = await directResponse.text();
-                    curriculumK30 += `--- KHUNG CHƯƠNG TRÌNH K30: khungK30.txt ---
-${fileText}
-
-`;
-                    combinedData += `--- NỘI DUNG TỆP TRI THỨC CHÍNH THỨC: khungK30.txt ---
-${fileText}
-
-`;
+                    curriculumK30 += `--- KHUNG CHƯƠNG TRÌNH K30: khungK30.txt ---\n${fileText}\n\n`;
+                    combinedData += `--- NỘI DUNG TỆP TRI THỨC CHÍNH THỨC: khungK30.txt ---\n${fileText}\n\n`;
                     break;
                 }
             } catch (err) { console.warn(`Không thể nạp trực tiếp khungK30 từ ${root}:`, err); }
@@ -81,14 +306,8 @@ ${fileText}
                 const wordResponse = await fetch(`${root}/khungK30_word.txt`);
                 if (wordResponse.ok) {
                     const fileText = await wordResponse.text();
-                    curriculumK30 += `--- KHUNG CHƯƠNG TRÌNH K30 TỪ FILE WORD: khungK30_word.txt ---
-${fileText}
-
-`;
-                    combinedData += `--- NỘI DUNG TỆP TRI THỨC CHÍNH THỨC: khungK30_word.txt ---
-${fileText}
-
-`;
+                    curriculumK30 += `--- KHUNG CHƯƠNG TRÌNH K30 TỪ FILE WORD: khungK30_word.txt ---\n${fileText}\n\n`;
+                    combinedData += `--- NỘI DUNG TỆP TRI THỨC CHÍNH THỨC: khungK30_word.txt ---\n${fileText}\n\n`;
                     break;
                 }
             } catch (err) { console.warn(`Không thể nạp trực tiếp khungK30_word từ ${root}:`, err); }
@@ -159,6 +378,17 @@ async function sendMessage() {
     ui.input.style.height = 'auto';
 
     const typingMsg = showTypingIndicator();
+
+    if (!hasImage && !docContent) {
+        const deterministicReply = getDeterministicCurriculumReply(userQuestion);
+        if (deterministicReply) {
+            removeTypingIndicator(typingMsg);
+            renderBotMessage(deterministicReply, true);
+            saveChatToLocal('bot', deterministicReply);
+            return;
+        }
+    }
+
     const apiKey = getApiKey();
 
     if (!apiKey) {
@@ -211,7 +441,7 @@ QUY TẮC ĐỌC ẢNH BẢNG ĐIỂM / KẾT QUẢ HỌC TẬP:
 - BẮT BUỘC LÀM THEO THỨ TỰ NÀY, KHÔNG ĐƯỢC NHẢY THẲNG VÀO TỔNG HỢP:
   **Bước 1:** In ra toàn bộ dữ liệu môn học đọc được từ ảnh, chia theo từng học kỳ bằng bảng Markdown. Bảng phải có cột: Học kỳ | Mã môn | Tên môn | TC | Điểm 10 | Điểm 4 | Điểm chữ | Kết quả | Tính TC?
   **Bước 2:** Sau khi đã liệt kê dữ liệu đọc được, mới cộng tín chỉ và lập bảng tổng quan.
-  **Bước 3:** Cuối cùng mới đối chiếu khung CTĐT K30 CNTT để liệt kê môn còn thiếu/cần học tiếp.
+  **Bước 3:** Cuối cùng mới đối chiếu khung CTĐT K30 CNTT ĐỂ LIỆT KÊ MÔN CÒN THIẾU/CẦN HỌC TIẾP.
 - Tuyệt đối KHÔNG dùng tổng 126 TC của chương trình làm tín chỉ đã học. 126 TC chỉ là mốc yêu cầu để tốt nghiệp.
 - Tổng tín chỉ đã đạt phải lấy theo một trong hai cách sau:
   1) Ưu tiên dùng dòng "Tổng số tín chỉ tích lũy" hoặc "Tổng số tín chỉ đã đạt" ở học kỳ mới nhất/cuối cùng nhìn thấy rõ trong ảnh, đặc biệt là khối tổng kết màu be ở bên phải cuối mỗi học kỳ. Nếu ảnh mới nhất nhìn thấy "Tổng số tín chỉ tích lũy: 65" thì tổng đã đạt là 65 TC. Nếu người dùng đã sửa lại con số tín chỉ, phải ưu tiên con số người dùng xác nhận.
@@ -249,31 +479,11 @@ QUY TẮC ĐỌC ẢNH BẢNG ĐIỂM / KẾT QUẢ HỌC TẬP:
   | Cơ sở ngành | ... | ... | ... |
   | Chuyên ngành/chuyên sâu | ... | ... | ... |
 
-  **
-4. Khi sinh viên hỏi muốn học một môn cụ thể, phải kiểm tra điều kiện học trước/tiên quyết bằng khung CTĐT:
-
-   - Nếu ĐÃ ĐỦ điều kiện:
-     → Chỉ được trả lời: "Bạn đã đủ điều kiện để đăng ký môn này."
-
-   - Nếu CHƯA ĐỦ điều kiện:
-     → KHÔNG được dùng câu chung chung như "nếu đủ điều kiện tiên quyết".
-     → PHẢI chỉ rõ:
-        1. Môn đang thiếu
-        2. Mã môn điều kiện tiên quyết (nếu có)
-        3. Câu bắt buộc: "Bạn cần học và đạt môn [Tên môn điều kiện] trước khi học môn này."
-
-   - Nếu không tìm thấy dữ liệu điều kiện:
-     → Trả lời: "Không xác định được điều kiện tiên quyết từ dữ liệu hiện tại."
-
-   - TUYỆT ĐỐI không dùng câu mơ hồ kiểu:
-     "nếu đủ điều kiện tiên quyết thì học được"
-
-
-5. Môn chưa đạt / cần học lại**
+  **4. Môn chưa đạt / cần học lại**
   | Mã môn | Tên môn | Điểm chữ | Ghi chú |
   |---|---|---|---|
 
-  **6. Gợi ý học kỳ tiếp theo**
+  **5. Gợi ý học kỳ tiếp theo**
   | Thứ tự | Môn nên học | Lý do |
   |---:|---|---|
 - Nếu ảnh bảng điểm không đủ toàn bộ học kỳ hoặc không đọc được hết, hãy mở đầu bằng câu: "Mình chỉ tính theo phần bảng điểm đọc được trong ảnh." và yêu cầu gửi thêm ảnh/phần còn thiếu.
@@ -288,23 +498,17 @@ QUY TẮC TƯƠNG TÁC QUAN TRỌNG CHO CỐ VẤN LỘ TRÌNH:
    - Nếu môn có điều kiện chưa đạt, đưa vào mục "Chưa nên đăng ký vì thiếu điều kiện".
 
 4. Khi sinh viên hỏi muốn học một môn cụ thể, phải kiểm tra điều kiện học trước/tiên quyết bằng khung CTĐT:
-
    - Nếu ĐÃ ĐỦ điều kiện:
      → Chỉ được trả lời: "Bạn đã đủ điều kiện để đăng ký môn này."
-
    - Nếu CHƯA ĐỦ điều kiện:
      → KHÔNG được dùng câu chung chung như "nếu đủ điều kiện tiên quyết".
      → PHẢI chỉ rõ:
         1. Môn đang thiếu
         2. Mã môn điều kiện tiên quyết (nếu có)
         3. Câu bắt buộc: "Bạn cần học và đạt môn [Tên môn điều kiện] trước khi học môn này."
-
    - Nếu không tìm thấy dữ liệu điều kiện:
      → Trả lời: "Không xác định được điều kiện tiên quyết từ dữ liệu hiện tại."
-
-   - TUYỆT ĐỐI không dùng câu mơ hồ kiểu:
-     "nếu đủ điều kiện tiên quyết thì học được"
-
+   - TUYỆT ĐỐI không dùng câu mơ hồ kiểu: "nếu đủ điều kiện tiên quyết thì học được"
 
 5. Trường hợp đặc biệt bắt buộc: "Các nền tảng phát triển phần mềm" / "71ITDS30103" có điều kiện học trước là "71ITBS10103 - Nhập môn Công nghệ thông tin". Nếu bảng điểm chưa có hoặc chưa rõ đã đạt môn Nhập môn Công nghệ thông tin, phải nhắc: "Bạn cần học và đạt Nhập môn Công nghệ thông tin trước rồi mới nên đăng ký Các nền tảng phát triển phần mềm."`;
 
@@ -338,14 +542,14 @@ NGƯỜI DÙNG ĐÃ XÁC NHẬN / SỬA SỐ TÍN CHỈ: ${userCreditCorrection}
         systemPrompt += `
 
 KHUNG CHƯƠNG TRÌNH K30 CNTT ĐỂ ĐỐI CHIẾU BẢNG ĐIỂM:
-${compactText(window.vluCurriculumK30Content, hasImage ? 5500 : 9000)}
+${compactText(window.vluCurriculumK30Content, hasImage ? 7000 : 22000)}
 
 LƯU Ý BẮT BUỘC: Chỉ dùng khung chương trình trên để đối chiếu môn còn thiếu, KHÔNG dùng khung chương trình để suy ra sinh viên đã học đủ tín chỉ. Không tự bịa môn học, mã môn, số tín chỉ hoặc điều kiện tiên quyết. Khi phân tích bảng điểm, ưu tiên các nhóm Công nghệ thông tin: Kiến thức cơ sở khối ngành, Kiến thức cơ sở ngành, Kiến thức chuyên ngành/chuyên sâu. Phải đối chiếu cả mã môn và tên môn; môn nào đã xuất hiện trong ảnh bảng điểm với trạng thái đạt thì không được liệt kê là còn thiếu. Nếu ảnh bảng điểm không đủ dữ liệu, hãy nói rõ phạm vi tính toán. Bắt buộc in bảng "Dữ liệu bảng điểm đọc được" trước, sau đó mới lập bảng tổng hợp và đối chiếu môn thiếu.`;
     } else if (isVLUQuery && window.vluAllKnowledgeContent) {
         systemPrompt += `
 
 CƠ SỞ DỮ LIỆU TRI THỨC CHÍNH THỨC CỦA ĐẠI HỌC VĂN LANG:
-${compactText(window.vluAllKnowledgeContent, 9000)}
+${compactText(window.vluAllKnowledgeContent, 22000)}
 
 LƯU Ý: Tuyệt đối không tự bịa đặt môn học hoặc điều kiện nằm ngoài dữ liệu trên. Định dạng câu trả lời bằng Markdown đẹp đẽ, rõ ràng.`;
     } else if (docContent) {
@@ -385,9 +589,10 @@ ${compactText(docContent, 9000)}`;
 
     // --- GỌI API GROQ ---
     try {
-        const model = hasImage
-            ? ((window.CONFIG && window.CONFIG.GROQ_VISION_MODEL) || "meta-llama/llama-4-scout-17b-16e-instruct")
-            : ((window.CONFIG && window.CONFIG.GROQ_TEXT_MODEL) || "llama-3.3-70b-versatile");
+        // Đổi cả hai trường hợp text và image sang bản Scout 17B để dùng hạn mức 30K TPM cực rộng
+        const model = hasImage ?
+            ((window.CONFIG && window.CONFIG.GROQ_VISION_MODEL) || "meta-llama/llama-4-scout-17b-16e-instruct") :
+            ((window.CONFIG && window.CONFIG.GROQ_TEXT_MODEL) || "meta-llama/llama-4-scout-17b-16e-instruct");
 
         const response = await fetch(GROQ_URL, {
             method: "POST",
@@ -398,7 +603,8 @@ ${compactText(docContent, 9000)}`;
             body: JSON.stringify({
                 model,
                 messages: apiMessages,
-                max_tokens: hasImage ? 4200 : 3000,
+                // Hạ bớt max_tokens xuống để tiết kiệm hạn mức ngày và tránh lỗi overload
+                max_tokens: hasImage ? 2048 : 1024,
                 temperature: 0.1
             })
         });
@@ -531,7 +737,12 @@ function formatBotAnswerText(text) {
 
     // Tách các mục đánh số / gạch đầu dòng nếu API trả về dính liền.
     formatted = formatted.replace(/([^\n])\s+(\d+\.\s)/g, "$1\n\n$2");
-    formatted = formatted.replace(/([^\n])\s+(-\s)/g, "$1\n$2");
+    // Không tách dấu gạch ngang trong dòng bảng Markdown, vì các ô như "Năm 3 - HK 2"
+    // có thể bị render thành bullet thừa "HK 2 |".
+    formatted = formatted
+        .split('\n')
+        .map(line => line.includes('|') ? line : line.replace(/([^\n])\s+(-\s)/g, "$1\n$2"))
+        .join('\n');
 
     // Dọn lỗi model hay sinh ra: hàng bảng rỗng, ký tự code fence thừa.
     if (isAdvisorMode) {
@@ -546,7 +757,6 @@ function formatBotAnswerText(text) {
     formatted = formatted.replace(/\n{3,}/g, "\n\n");
     return formatted;
 }
-
 
 function looksLikeAdvisorTableCode(codeText) {
     const text = String(codeText || '').trim();
@@ -572,13 +782,11 @@ function renderBotMessage(text) {
     const msgDiv = document.createElement('div');
     msgDiv.className = "message bot-message fade-in";
 
-
     const formattedText = formatBotAnswerText(text);
     if (typeof marked !== 'undefined' && marked.setOptions) { marked.setOptions({ gfm: true, breaks: false }); }
     let htmlContent = (typeof marked !== 'undefined') ? marked.parse(formattedText) : formattedText;
     var tempDiv = document.createElement('div');
     tempDiv.innerHTML = htmlContent;
-
 
     tempDiv.querySelectorAll('pre').forEach(pre => {
         const codeElement = pre.querySelector('code');
@@ -597,10 +805,8 @@ function renderBotMessage(text) {
         let wrapper = document.createElement('div');
         wrapper.className = 'code-block-wrapper';
 
-
         let lang = 'Code';
         if (codeElement) { const langClass = Array.from(codeElement.classList).find(c => c.startsWith('language-')); if (langClass) lang = langClass.replace('language-', '').toUpperCase(); }
-
 
         const header = document.createElement('div');
         header.className = 'code-header';
@@ -611,18 +817,15 @@ function renderBotMessage(text) {
             </button>
         `;
 
-
         pre.parentNode.insertBefore(wrapper, pre);
         wrapper.appendChild(header);
         wrapper.appendChild(pre);
     });
 
-
     msgDiv.innerHTML = `
         <div class="bot-icon"><i class="fas fa-robot"></i></div>
         <div class="content">${tempDiv.innerHTML}</div>
     `;
-
 
     container.appendChild(msgDiv);
     if (window.Prism) window.Prism.highlightAllUnder(msgDiv);
@@ -657,7 +860,6 @@ function saveChatToLocal(role, text) {
     allChats[window.currentChatId].messages.push({ role, text });
     localStorage.setItem('vlu_chat_sessions', JSON.stringify(allChats));
 
-
     if (window.ui && typeof window.ui.renderHistory === 'function') { window.ui.renderHistory(); }
 }
 
@@ -667,11 +869,9 @@ function renderSession(id) {
     const allChats = JSON.parse(localStorage.getItem('vlu_chat_sessions')) || {};
     const chatData = allChats[id];
 
-
     if (chatData && container) {
         container.innerHTML = '';
         if (welcomeScreen) welcomeScreen.classList.add('hidden');
-
 
         chatData.messages.forEach(msg => { if (msg.role === 'user') { renderUserMessage(msg.text); } else { renderBotMessage(msg.text); } });
         scrollToBottom();
@@ -689,23 +889,56 @@ window.loadSession = function(id) {
 window.deleteSpecificChat = function(event, id) {
     if (event) event.stopPropagation();
 
-
     if (confirm('Bạn có muốn xóa cuộc trò chuyện này không?')) {
         let allChats = JSON.parse(localStorage.getItem('vlu_chat_sessions')) || {};
         delete allChats[id];
         localStorage.setItem('vlu_chat_sessions', JSON.stringify(allChats));
 
-
         let pins = JSON.parse(localStorage.getItem('vlu_pinned_chats')) || [];
         pins = pins.filter(p => p !== id);
         localStorage.setItem('vlu_pinned_chats', JSON.stringify(pins));
 
-
         if (id === window.currentChatId) { window.currentChatId = null; const container = document.getElementById('messagesContainer'); const welcomeScreen = document.getElementById('welcomeScreen'); if (container) container.innerHTML = ''; if (welcomeScreen) welcomeScreen.classList.remove('hidden'); }
-
 
         if (window.ui && typeof window.ui.renderHistory === 'function') { window.ui.renderHistory(); }
     }
 };
+
 window.loadKnowledgeBase = loadKnowledgeBase;
 document.addEventListener('DOMContentLoaded', loadKnowledgeBase);
+
+// ===== FIXED GRADUATION RESPONSE =====
+function formatGraduationResponse() {
+    return `
+🎓 **Khối kiến thức: I.4.2. Khóa luận / Đồ án tốt nghiệp**
+
+Để hoàn thành phần tốt nghiệp, sinh viên chọn **1 trong 2 phương án** sau:
+
+**Phương án 1: Học học phần thay thế khóa luận/đồ án**
+
+Sinh viên hoàn thành **02 học phần chuyên đề**, tổng cộng **6 tín chỉ**:
+
+- **71ITIS30603 – Chuyên đề Tối ưu hóa máy tìm kiếm** *(Search Engine Optimization)* – **3 tín chỉ**
+- **71ITIS30503 – Chuyên đề Thương mại điện tử** *(E-Commerce)* – **3 tín chỉ**
+
+📌 **Điều kiện:** Không yêu cầu học phần tiên quyết.
+
+**Phương án 2: Thực hiện Đồ án tốt nghiệp**
+
+Sinh viên hoàn thành học phần:
+
+- **71ITGR40206 – Đồ án tốt nghiệp** *(Graduation Project)* – **6 tín chỉ**
+
+📌 **Tính chất học phần:** Bắt buộc chuyên ngành / thuộc nhóm học phần tốt nghiệp.
+
+---
+
+✅ **Tóm tắt dễ hiểu**
+
+- Nếu **không làm đồ án tốt nghiệp**, sinh viên có thể chọn **02 học phần chuyên đề thay thế**.
+- Nếu **làm đồ án tốt nghiệp**, sinh viên chỉ cần hoàn thành **Đồ án tốt nghiệp 6 tín chỉ**.
+- Sinh viên chỉ cần hoàn thành **một trong hai phương án**, không bắt buộc làm cả hai.
+
+📌 Ngoài khối tốt nghiệp này, sinh viên vẫn cần đáp ứng các điều kiện chung như tổng tín chỉ chương trình, GPA và các chuẩn đầu ra theo thông báo chính thức của trường.
+`.trim();
+}

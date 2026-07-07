@@ -540,6 +540,93 @@
           "prerequisites": []
         }
       ]
+    },
+    {
+      "name": "II.3.2-5. Chuyên ngành Tự chọn",
+      "courses": [
+        {
+          "code": "71ITIS30203",
+          "name": "Hệ quản trị cơ sở dữ liệu",
+          "credits": 3,
+          "prerequisites": [
+            "71ITIS30103"
+          ]
+        },
+        {
+          "code": "71ITSE30603",
+          "name": "Lập trình ứng dụng di động",
+          "credits": 3,
+          "prerequisites": [
+            "71ITBS10203"
+          ]
+        },
+        {
+          "code": "71ITSE30703",
+          "name": "Lập trình di động nâng cao",
+          "credits": 3,
+          "prerequisites": [
+            "71ITSE30603"
+          ]
+        },
+        {
+          "code": "71ITSE31003",
+          "name": "Lập trình Python nâng cao",
+          "credits": 3,
+          "prerequisites": []
+        },
+        {
+          "code": "71ITNW30403",
+          "name": "Lập trình hệ thống nhúng và IoT",
+          "credits": 3,
+          "prerequisites": []
+        },
+        {
+          "code": "71ITAI51403",
+          "name": "Nhập môn tối ưu hóa",
+          "credits": 3,
+          "prerequisites": []
+        },
+        {
+          "code": "71ITSE30803",
+          "name": "Lập trình Java nâng cao",
+          "credits": 3,
+          "prerequisites": [
+            "71ITSE30403"
+          ]
+        },
+        {
+          "code": "71ITSE41603",
+          "name": "Kiểm thử tự động",
+          "credits": 3,
+          "prerequisites": [
+            "71ITSE41203"
+          ]
+        },
+        {
+          "code": "71ITIN40304",
+          "name": "Đồ án thực tập",
+          "credits": 4,
+          "prerequisites": []
+        },
+        {
+          "code": "71ITGR40206",
+          "name": "Đồ án tốt nghiệp",
+          "credits": 6,
+          "prerequisites": []
+        },
+        {
+          "code": "71ITIS30603",
+          "name": "Chuyên đề tối ưu hóa máy tìm kiếm",
+          "credits": 3,
+          "prerequisites": []
+        },
+        {
+          "code": "71ITIS30503",
+          "name": "Chuyên đề thương mại điện tử",
+          "credits": 3,
+          "prerequisites": []
+        }
+      ]
     }
   ]
 }
