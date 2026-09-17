@@ -591,8 +591,8 @@ ${compactText(docContent, 9000)}`;
     try {
         // Đổi cả hai trường hợp text và image sang bản Scout 17B để dùng hạn mức 30K TPM cực rộng
         const model = hasImage ?
-            ((window.CONFIG && window.CONFIG.GROQ_VISION_MODEL) || "meta-llama/llama-4-scout-17b-16e-instruct") :
-            ((window.CONFIG && window.CONFIG.GROQ_TEXT_MODEL) || "meta-llama/llama-4-scout-17b-16e-instruct");
+            ((window.CONFIG && window.CONFIG.GROQ_VISION_MODEL) || "openai/gpt-oss-120b") :
+            ((window.CONFIG && window.CONFIG.GROQ_TEXT_MODEL) || "openai/gpt-oss-120b");
 
         const response = await fetch(GROQ_URL, {
             method: "POST",
@@ -880,13 +880,13 @@ function renderSession(id) {
 
 window.sendMessage = sendMessage;
 
-window.loadSession = function(id) {
+window.loadSession = function (id) {
     window.currentChatId = id;
     renderSession(id);
     if (window.ui && typeof window.ui.renderHistory === 'function') window.ui.renderHistory();
 };
 
-window.deleteSpecificChat = function(event, id) {
+window.deleteSpecificChat = function (event, id) {
     if (event) event.stopPropagation();
 
     if (confirm('Bạn có muốn xóa cuộc trò chuyện này không?')) {
